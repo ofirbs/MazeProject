@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * <h1> The Abstract Maze3dGeneratorBase Class </h1>
  * This class implements Maze3dGenerator, and contains some of the common functions every maze generator class needs 
- * @author ofir
+ * @author ofir and rom
  *
  */
 public abstract class Maze3dGeneratorBase implements Maze3dGenerator {

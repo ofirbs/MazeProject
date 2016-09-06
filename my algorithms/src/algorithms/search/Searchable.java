@@ -9,7 +9,7 @@ import java.util.List;
  * <i> <T> State<T> getGoalState() </i>
  * <i> <T> List<State<T>> getAllPossibleStates(State<T> s) </i>
  * <i> <T> double getMoveCost(State<T> currState, State<T> neighbor) </i>
- * @author ofir
+ * @author ofir and rom
  *
  */
 public interface Searchable {

@@ -6,7 +6,7 @@ import java.util.List;
  * <h1> The Abstract CommonSearcher Class</h1>
  * This class implements Searcher<T> and overrides <i> getNumberOfNodesEvaluated() </i> and <i> getNumberOfNodesEvaluated() </i>
  * The CommonSearcher also generates the solution for the goal state.
- * @author ofir
+ * @author ofir and rom
  * @param <T>
  */
 

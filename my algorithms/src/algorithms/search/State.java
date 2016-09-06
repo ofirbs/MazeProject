@@ -3,7 +3,7 @@ package algorithms.search;
 /**
  * <h1>The State<T> Class</h1>
  * This class implements Comparable<State<T>> and represents the current search state. 
- * @author ofir
+ * @author ofir and rom
  *
  * @param <T>
  */

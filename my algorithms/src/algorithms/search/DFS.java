@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * <h1> DFS - Depth First Search Algorithm </h1>
  * The algorithm searches the goal state of the searchable object.
- * @author ofir
+ * @author ofir and rom
  *
  * @param <T>
  */

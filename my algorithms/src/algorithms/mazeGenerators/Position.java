@@ -3,7 +3,7 @@ package algorithms.mazeGenerators;
 /**
  * <h1> The Position Class</h1>
  * This class contains the position information and basic functions.
- * @author ofir
+ * @author ofir and rom
  *
  */
 public class Position {

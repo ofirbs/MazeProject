@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * This class tells the GrowingTreeGenerator how to choose the next position.
  * This class chooses the last neighbor in the position list.
- * @author ofir
+ * @author ofir and rom
  *
  */
 public class LastNeighborChooser implements NeighborChooser {

@@ -7,7 +7,7 @@ import java.util.List;
  * <h1> The Solution Class </h1>
  * This class represents the solution for the goal state.
  * It contains a List of states from the start untill the goal.
- * @author ofir
+ * @author ofir and rom
  *
  * @param <T>
  */

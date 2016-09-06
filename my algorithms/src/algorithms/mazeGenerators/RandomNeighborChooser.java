@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * This class tells the GrowingTreeGenerator how to choose the next position.
  * This class chooses a random neighbor from the position list.
- * @author ofir
+ * @author ofir and rom
  *
  */
 public class RandomNeighborChooser implements NeighborChooser {

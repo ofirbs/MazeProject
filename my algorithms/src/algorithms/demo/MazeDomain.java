@@ -13,7 +13,7 @@ import algorithms.search.State;
  * This class is an Object Adapter connection the Searchable object with a maze.
  * With this class no changes are needed for the maze class. This class can cooperate with the search algorithms easily.
  * This class implements all of the needed function in the Searchable interface.
- * @author ofir
+ * @author ofir and rom
  *
  */
 public class MazeDomain implements Searchable {
