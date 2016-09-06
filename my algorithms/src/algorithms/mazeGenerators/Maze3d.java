@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * <h1> the Maze3d Class</h1>
  * This class holds the actual maze information and basic maze functions.
- * @author ofir
+ * @author ofir and rom
  *
  */
 
@@ -32,6 +32,32 @@ public class Maze3d {
 		this.cols = cols;
 		maze = new int [floors][rows][cols];		
 	}
+	/**
+	 * This method is the second constructor. it creates a 3d array by array of bytes given. 
+	 * @param byte[] byte array
+	 */
+	public Maze3d(byte[] arr) {
+		int k = 0;
+		this.floors = arr[k++];
+		this.rows = arr[k++];
+		this.cols = arr[k++];
+		
+		maze = new int[floors][rows][cols];		
+		
+		Position startPos = new Position(arr[k++], arr[k++], arr[k++]);
+		this.setStartPosition(startPos);
+		Position goalPos = new Position(arr[k++], arr[k++], arr[k++]);
+		this.setGoalPosition(goalPos);
+		
+		for (int x = 0; x < floors; x++) {
+			for (int y = 0; y < rows; y++) {
+				for (int z = 0; z < cols ; z++) {
+					maze[x][y][z] = arr[k++];
+				}
+			}			
+		}
+	}
+	
 	public int[][][] getMaze() {
 		return maze;
 	}
@@ -212,5 +238,35 @@ public class Maze3d {
 			}
 		}
 		return maze2d;
+	}
+	
+	/**
+	 * This methods returns the byte array of the maze data 
+	 * @return byte[] the byte array of the maze data
+	 */
+	public byte[] toByteArray() {
+		ArrayList<Byte> arr = new ArrayList<Byte>();
+		arr.add((byte)floors);
+		arr.add((byte)rows);
+		arr.add((byte)cols);
+		arr.add((byte)startPosition.x);
+		arr.add((byte)startPosition.y);
+		arr.add((byte)startPosition.z);
+		arr.add((byte)goalPosition.x);
+		arr.add((byte)goalPosition.y);
+		arr.add((byte)goalPosition.z);
+		
+		for (int x = 0; x < floors; x++) {
+			for (int y = 0; y < rows; y++) {
+				for ( int z = 0; z < cols; z++)
+				arr.add((byte)maze[x][y][z]);
+			}			
+		}
+		
+		byte[] bytes = new byte[arr.size()];
+		for (int i = 0; i < bytes.length; i++) {
+			bytes[i] = (byte)arr.get(i);
+		}
+		return bytes;
 	}
 }
