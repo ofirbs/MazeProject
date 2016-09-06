@@ -11,7 +11,7 @@ import algorithms.search.Searcher;
 /**
  * <h1>The Demo Class</h1>
  *	This class creates a demo for the search algorithms for a 3d maze.
- * @author ofir
+ * @author ofir and rom
  *
  */
 public class Demo {
