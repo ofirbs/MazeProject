@@ -49,6 +49,7 @@ public class CLI extends Thread {
 						e.printStackTrace();
 					}
 				}
+				out.close(); //Close output file to save changes
 			}
 		});
 		thread.start();
