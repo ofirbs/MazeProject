@@ -3,3 +3,4 @@ one
 Choose a command: 
 No such command.
 Choose a command: 
+exited.
