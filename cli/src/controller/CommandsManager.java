@@ -21,6 +21,7 @@ public class CommandsManager {
 	public HashMap<String, Command> getCommandsMap() {
 		commands.put("generate_3d_maze", new GenerateMazeCommand());
 		commands.put("display", new DisplayMazeCommand());
+		commands.put("dir", new DirCommand());
 		
 		return commands;
 	}
@@ -47,5 +48,13 @@ public class CommandsManager {
 			view.displayMaze(maze);
 		}
 		
+	}
+	
+	public class DirCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			
+		}
 	}
 }
