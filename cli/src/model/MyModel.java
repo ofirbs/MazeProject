@@ -7,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +111,14 @@ public class MyModel implements Model {
 			e.printStackTrace();
 		}
 		try {
+			byte[] b = mazes.get(name).toByteArray();
+			for (int i = 0; i <b.length; i++) {
+				System.out.print(b[i]);
+			}
+			System.out.println();
+			
 			out.write(mazes.get(name).toByteArray());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,9 +135,19 @@ public class MyModel implements Model {
 		try {
 				InputStream in = new MyDecompressorInputStream(new FileInputStream(path));
 				File file = new File(path);
-				System.out.println((int) file.length());
-				byte b[] = new byte[52];
-				System.out.println(b.length);
+				byte[] b = new byte[(int)file.length()];
+				
+				for (int i = 0; i < (int)file.length(); i++) {
+					System.out.print(b[i]);
+				}
+				System.out.println();
+				
+				//byte b[] = new byte[52];
+				
+				//RandomAccessFile f = new RandomAccessFile(path, "r");
+				//byte[] b = new byte[(int)f.length()];
+				//byte[] b = Files.readAllBytes(new File(path).toPath());
+				
 				in.read(b);
 				in.close();
 						
