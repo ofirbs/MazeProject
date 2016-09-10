@@ -154,11 +154,7 @@ public class MyModel implements Model {
 					System.out.print((int)arr[i]);
 
 				}				
-				
-				
-				byte[] b = new byte[500];
-				int size = in.read(b);
-				
+								
 				
 				//in.close();
 						
