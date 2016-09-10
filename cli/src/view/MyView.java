@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.util.HashMap;
 
 import algorithms.mazeGenerators.Maze3d;
@@ -37,5 +38,9 @@ public class MyView implements View {
 	@Override
 	public void displayMaze(Maze3d maze) {
 		System.out.println(maze);
+	}
+	
+	public void printListOfFiles(File[] listOfFiles){
+		cli.getListOfFiles(listOfFiles); //Send File array to CLI
 	}
 }

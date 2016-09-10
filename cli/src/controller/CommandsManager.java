@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.HashMap;
 
 import algorithms.mazeGenerators.Maze3d;
@@ -54,7 +55,9 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
-			
+			File path = new File(args[0]);
+			File[] listOfFiles = path.listFiles();
+			view.printListOfFiles(listOfFiles); //send File array to the View
 		}
 	}
 }

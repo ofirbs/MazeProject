@@ -1,6 +1,7 @@
 package view;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -28,6 +29,12 @@ public class CLI extends Thread {
 		 out.flush();
 	 }
 
+	 public void getListOfFiles(File[] listOfFiles){
+		    for (int i = 0; i < listOfFiles.length; i++)
+		    	out.println("File: " + listOfFiles[i].getName());
+		 out.flush();
+	 }
+	 
 	public void start()
 	{
 		Thread thread = new Thread(new Runnable() {
