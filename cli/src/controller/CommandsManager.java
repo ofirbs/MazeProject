@@ -56,8 +56,12 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			File path = new File(args[0]);
-			File[] listOfFiles = path.listFiles();
-			view.printListOfFiles(listOfFiles); //send File array to the View
+			if(path.exists()!= true)
+				view.notifyDirNotFound();
+			else{
+				File[] listOfFiles = path.listFiles();
+				view.printListOfFiles(listOfFiles); //send File array to the View
+			}
 		}
 	}
 }

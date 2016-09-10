@@ -35,6 +35,11 @@ public class CLI extends Thread {
 		 out.flush();
 	 }
 	 
+	 public void notifyDirNotFound(){
+		 out.println("Directory not found");
+		 out.flush();
+	 }
+	 
 	public void start()
 	{
 		Thread thread = new Thread(new Runnable() {

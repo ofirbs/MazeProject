@@ -15,7 +15,6 @@ public class MyController implements Controller {
 		this.view = view;
 		this.model = model;
 		commandsManager = new CommandsManager(model, view);
-		view.setCommands(commandsManager.getCommandsMap());
 	}
 
 	@Override

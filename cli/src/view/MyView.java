@@ -39,6 +39,10 @@ public class MyView implements View {
 
 	@Override
 	public void printListOfFiles(File[] listOfFiles) {
-		// TODO Auto-generated method stub
+		cli.getListOfFiles(listOfFiles); //Send File array to CLI
+	}
+	
+	public void notifyDirNotFound(){
+		cli.notifyDirNotFound();
 	}
 }
