@@ -42,7 +42,7 @@ public class MyView implements View {
 		cli.getListOfFiles(listOfFiles); //Send File array to CLI
 	}
 	
-	public void notifyDirNotFound(){
-		cli.notifyDirNotFound();
+	public void notify(String type){
+		cli.notifyAboutError(type);
 	}
 }

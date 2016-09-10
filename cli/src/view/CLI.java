@@ -35,8 +35,13 @@ public class CLI extends Thread {
 		 out.flush();
 	 }
 	 
-	 public void notifyDirNotFound(){
-		 out.println("Directory not found");
+	 public void notifyAboutError(String type){
+		 switch (type){
+		 case "dir": out.println("Directory not found");
+	 				break;
+		 case "display_cross_section": out.println("Index not found");
+		 			break;
+		 }
 		 out.flush();
 	 }
 	 
