@@ -64,4 +64,30 @@ public class CommandsManager {
 			}
 		}
 	}
+	
+	public class DisplayCrossSectionCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			String index = args[0];
+			String section = args[1];
+			String name = args[2];
+			
+			int[][] maze2d;
+			switch (section) {
+			case "X" : maze2d = model.display_cross_section_byX(Integer.parseInt(index), name);
+					   break;
+					   
+			case "Y" : maze2d = model.display_cross_section_byY(Integer.parseInt(index), name);
+					   break;
+					   
+			case "Z" : maze2d = model.display_cross_section_byZ(Integer.parseInt(index), name);
+					   break;
+					   
+			default : view.notify("no such cross section");
+					   break;
+			}
+			view.displayMaze2e(maze2d);
+		}
+	}
 }

@@ -47,4 +47,22 @@ public class MyModel implements Model {
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
+
+	@Override
+	public int[][] display_cross_section_byX(int index, String name) {
+		int[][] maze2d =  mazes.get(name).getCrossSectionByX(index);
+		return maze2d;
+	}
+
+	@Override
+	public int[][] display_cross_section_byZ(int index, String name) {
+		int[][] maze2d =  mazes.get(name).getCrossSectionByZ(index);
+		return maze2d;
+	}
+
+	@Override
+	public int[][] display_cross_section_byY(int index, String name) {
+		int[][] maze2d =  mazes.get(name).getCrossSectionByY(index);
+		return maze2d;
+	}
 }
