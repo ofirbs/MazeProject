@@ -84,7 +84,7 @@ public class CommandsManager {
 			String name = args[2];
 			
 			if ( ! (model.isMazeExists(name)) ) {
-				view.notify("Maze" + name + " not found");
+				view.notify("Maze " + name + " not found");
 				return;
 			}
 			
@@ -129,12 +129,12 @@ public class CommandsManager {
 			String name = args[0];
 			
 			if ( ! (model.isMazeExists(name)) ) {
-				view.notify("Maze" + name + " not found");
+				view.notify("Maze " + name + " not found");
 				return;
 			}
 			String path = args[1];
 			model.saveMaze(name, path);
-			view.notify("maze" +name+" saved to " + path);
+			view.notify("maze " +name+" saved to " + path);
 			
 		}
 	}
@@ -152,7 +152,7 @@ public class CommandsManager {
 			
 			String name = args[1];
 			if ( model.isMazeExists(name) ) {
-				view.notify("Maze" + name + " already exists");
+				view.notify("Maze " + name + " already exists");
 				return;
 			}
 			model.loadMaze(path, name);
@@ -163,25 +163,18 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
-			Thread thread = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					String name = args[0];
-					
-					if ( ! (model.isMazeExists(name)) ) {
-						view.notify("Maze" + name + " not found");
-						return;
-					}
-					String alg = args[1];
-					if(alg != "BFS" || alg != "DFS"){
-						view.notify("Algorithm not found");
-						return;
-					}
-					model.solveMaze(name,alg);
-				}
-				
-			});
+			
+			String name = args[0];
+			if ( ! (model.isMazeExists(name)) ) {
+				view.notify("Maze " + name + " not found");
+				return;
+			}
+			String alg = args[1];
+			if ((alg.equals("BFS")) || ( alg.equals("DFS"))) {
+				model.solveMaze(name,alg);
+			}
+			else
+				view.notify("Algorithm not found");
 		}
 	}
 	
@@ -191,7 +184,7 @@ public class CommandsManager {
 		public void doCommand(String[] args) {
 			String name = args[0];
 			if ( ! (model.isMazeExists(name)) ) {
-				view.notify("Maze" + name + " not found");
+				view.notify("Maze " + name + " not found");
 				return;
 			}
 			model.displaySolution(name);

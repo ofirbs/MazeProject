@@ -16,17 +16,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
+import algorithms.search.BFS;
+import algorithms.search.DFS;
+import algorithms.search.Searchable;
+import algorithms.search.Solution;
 import controller.Controller;
 import controller.MyController;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
+
 public class MyModel implements Model {
 	private Controller controller;
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
+	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
 	private List<Thread> threads = new ArrayList<Thread>();
 
 	
@@ -159,5 +167,35 @@ public class MyModel implements Model {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
+	}
+
+	@Override
+	public void solveMaze(String name, String alg) {
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				switch (alg) {
+				case "DFS" : solutions.put(mazes.get(name), new BFS<Position>().search( new MazeDomain(mazes.get(name))));
+							controller.notify("solution for " + name + " is ready");
+							break;
+							
+				case "BFS" : solutions.put(mazes.get(name), new DFS<Position>().search( new MazeDomain(mazes.get(name))));
+							controller.notify("solution for " + name + " is ready");
+							break;
+				}	
+			}	
+		});
+		thread.start();
+		threads.add(thread);
+		
+	}
+
+	@Override
+	public void displaySolution(String name) {
+		if (solutions.get(mazes.get(name)) != null)
+			controller.notify(solutions.get(mazes.get(name)).toString());
+		else
+			controller.notify("no solution found");
 	}
 }
