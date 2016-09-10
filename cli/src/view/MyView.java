@@ -26,10 +26,6 @@ public class MyView implements View {
 		cli.receiveNotification("maze " + name + " is ready.");		
 	}
 
-	@Override
-	public void setCommands(HashMap<String, Command> commands) {
-		
-	}
 	
 	public void setController(Controller controller) {
 		this.controller = controller;
@@ -39,8 +35,10 @@ public class MyView implements View {
 	public void displayMaze(Maze3d maze) {
 		System.out.println(maze);
 	}
-	
-	public void printListOfFiles(File[] listOfFiles){
-		cli.getListOfFiles(listOfFiles); //Send File array to CLI
+
+
+	@Override
+	public void printListOfFiles(File[] listOfFiles) {
+		// TODO Auto-generated method stub
 	}
 }
