@@ -13,5 +13,7 @@ public interface Model {
 	int getCols(String name);
 	boolean isMazeExists(String name);
 	void saveMaze(String name, String path);
-	void loadMaze(String path, String name); 
+	void loadMaze(String path, String name);
+	void solveMaze(String name,String alg);
+	void displaySolution(String name); 
 }

@@ -26,6 +26,8 @@ public class CommandsManager {
 		commands.put("display_cross_section", new DisplayCrossSectionCommand());
 		commands.put("save_maze", new SaveMazeCommand());
 		commands.put("load_maze", new LoadMazeCommand());
+		commands.put("solve", new SolveCommand());
+		commands.put("display_solution", new DisplaySolutionCommand());
 		
 		return commands;
 	}
@@ -155,5 +157,44 @@ public class CommandsManager {
 			}
 			model.loadMaze(path, name);
 		}	
+	}
+	
+	public class SolveCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			Thread thread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					String name = args[0];
+					
+					if ( ! (model.isMazeExists(name)) ) {
+						view.notify("Maze" + name + " not found");
+						return;
+					}
+					String alg = args[1];
+					if(alg != "BFS" || alg != "DFS"){
+						view.notify("Algorithm not found");
+						return;
+					}
+					model.solveMaze(name,alg);
+				}
+				
+			});
+		}
+	}
+	
+	public class DisplaySolutionCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			String name = args[0];
+			if ( ! (model.isMazeExists(name)) ) {
+				view.notify("Maze" + name + " not found");
+				return;
+			}
+			model.displaySolution(name);
+		}
 	}
 }
