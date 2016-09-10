@@ -24,6 +24,8 @@ public class CommandsManager {
 		commands.put("display", new DisplayMazeCommand());
 		commands.put("dir", new DirCommand());
 		commands.put("display_cross_section", new DisplayCrossSectionCommand());
+		commands.put("save_maze", new SaveMazeCommand());
+		commands.put("load_maze", new LoadMazeCommand());
 		
 		return commands;
 	}
@@ -46,6 +48,11 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			String name = args[0];
+			if ( ! (model.isMazeExists(name)) ) {
+				view.notify("Maze " + name + " not found");
+				return;
+			}
+				
 			Maze3d maze = model.display(name);
 			view.displayMaze(maze);
 		}
@@ -74,6 +81,10 @@ public class CommandsManager {
 			String section = args[1];
 			String name = args[2];
 			
+			if ( ! (model.isMazeExists(name)) ) {
+				view.notify("Maze" + name + " not found");
+				return;
+			}
 			
 			int[][] maze2d=null;
 			switch (section) {
@@ -103,9 +114,46 @@ public class CommandsManager {
 					   	break;
 					   
 			default : 	view.notify("no such cross section" + section + ".");
-					   	break;
+						return;
 			}
 			view.displayMaze2d(maze2d);
 		}
+	}
+	
+	public class SaveMazeCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			String name = args[0];
+			
+			if ( ! (model.isMazeExists(name)) ) {
+				view.notify("Maze" + name + " not found");
+				return;
+			}
+			String path = args[1];
+			model.saveMaze(name, path);
+			view.notify("maze" +name+" saved to " + path);
+			
+		}
+	}
+	
+	public class LoadMazeCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			String path = args[0];
+			File file = new File(args[0]);
+			if(file.exists()!= true) {
+				view.notify("file not found.");
+				return;
+			}
+			
+			String name = args[1];
+			if ( model.isMazeExists(name) ) {
+				view.notify("Maze" + name + " already exists");
+				return;
+			}
+			model.loadMaze(path, name);
+		}	
 	}
 }

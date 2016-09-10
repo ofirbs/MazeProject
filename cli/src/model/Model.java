@@ -11,4 +11,7 @@ public interface Model {
 	int getFloors(String name);
 	int getRows(String name);
 	int getCols(String name);
+	boolean isMazeExists(String name);
+	void saveMaze(String name, String path);
+	void loadMaze(String path, String name); 
 }
