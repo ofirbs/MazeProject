@@ -35,13 +35,8 @@ public class CLI extends Thread {
 		 out.flush();
 	 }
 	 
-	 public void notifyAboutError(String type){
-		 switch (type){
-		 case "dir": out.println("Directory not found");
-	 				break;
-		 case "display_cross_section": out.println("Index not found");
-		 			break;
-		 }
+	 public void notify(String message){
+		 out.println(message);
 		 out.flush();
 	 }
 	 
@@ -87,5 +82,15 @@ public class CLI extends Thread {
 		});
 		thread.start();
 		thread.interrupt();
+	}
+
+	public void displayMaze2d(int[][] maze2d) {
+		for (int i = 0; i < maze2d.length; i++) {
+			for (int j = 0; j < maze2d[0].length; j++) {
+				out.print(maze2d[i][j]);
+			}
+			out.println("");
+		}
+		
 	}
 }

@@ -11,4 +11,5 @@ public interface View {
 	void displayMaze(Maze3d maze);
 	void printListOfFiles(File[] listOfFiles);
 	void notify(String type);
+	void displayMaze2d(int[][] maze2d);
 }

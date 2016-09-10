@@ -8,4 +8,7 @@ public interface Model {
 	int[][] display_cross_section_byX(int index, String name);
 	int[][] display_cross_section_byZ(int index, String name);
 	int[][] display_cross_section_byY(int index, String name);
+	int getFloors(String name);
+	int getRows(String name);
+	int getCols(String name);
 }

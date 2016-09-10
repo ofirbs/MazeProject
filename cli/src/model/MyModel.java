@@ -65,4 +65,19 @@ public class MyModel implements Model {
 		int[][] maze2d =  mazes.get(name).getCrossSectionByY(index);
 		return maze2d;
 	}
+
+	@Override
+	public int getFloors(String name) {
+		return mazes.get(name).getFloors();
+	}
+
+	@Override
+	public int getRows(String name) {
+		return mazes.get(name).getRows();
+	}
+
+	@Override
+	public int getCols(String name) {
+		return mazes.get(name).getCols();
+	}
 }

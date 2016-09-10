@@ -23,6 +23,7 @@ public class CommandsManager {
 		commands.put("generate_3d_maze", new GenerateMazeCommand());
 		commands.put("display", new DisplayMazeCommand());
 		commands.put("dir", new DirCommand());
+		commands.put("display_cross_section", new DisplayCrossSectionCommand());
 		
 		return commands;
 	}
@@ -57,7 +58,7 @@ public class CommandsManager {
 		public void doCommand(String[] args) {
 			File path = new File(args[0]);
 			if(path.exists()!= true)
-				view.notifyDirNotFound();
+				view.notify("Direcotry not found.");
 			else{
 				File[] listOfFiles = path.listFiles();
 				view.printListOfFiles(listOfFiles); //send File array to the View
@@ -73,21 +74,38 @@ public class CommandsManager {
 			String section = args[1];
 			String name = args[2];
 			
-			int[][] maze2d;
+			
+			int[][] maze2d=null;
 			switch (section) {
-			case "X" : maze2d = model.display_cross_section_byX(Integer.parseInt(index), name);
-					   break;
+			case "X" : 	if ( Integer.parseInt(index) > model.getFloors(name) || Integer.parseInt(index) < 0 ) {
+							view.notify("Out of bounds.");
+							return;
+						}
+							
+						else
+							maze2d = model.display_cross_section_byX(Integer.parseInt(index), name);
+						break;
 					   
-			case "Y" : maze2d = model.display_cross_section_byY(Integer.parseInt(index), name);
-					   break;
+			case "Y" : 	if ( Integer.parseInt(index) > model.getRows(name) || Integer.parseInt(index) < 0 ) {
+							view.notify("Out of bounds.");
+							return;
+						}
+						else
+							maze2d = model.display_cross_section_byY(Integer.parseInt(index), name);
+					   	break;
 					   
-			case "Z" : maze2d = model.display_cross_section_byZ(Integer.parseInt(index), name);
-					   break;
+			case "Z" : 	if ( Integer.parseInt(index) > model.getCols(name) || Integer.parseInt(index) < 0 ) {
+							view.notify("Out of bounds.");
+							return;
+						}
+						else
+							maze2d = model.display_cross_section_byZ(Integer.parseInt(index), name);
+					   	break;
 					   
-			default : view.notify("no such cross section");
-					   break;
+			default : 	view.notify("no such cross section" + section + ".");
+					   	break;
 			}
-			view.displayMaze2e(maze2d);
+			view.displayMaze2d(maze2d);
 		}
 	}
 }

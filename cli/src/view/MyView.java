@@ -42,7 +42,12 @@ public class MyView implements View {
 		cli.getListOfFiles(listOfFiles); //Send File array to CLI
 	}
 	
-	public void notify(String type){
-		cli.notifyAboutError(type);
+	public void notify(String message){
+		cli.notify(message);
+	}
+
+	@Override
+	public void displayMaze2d(int[][] maze2d) {
+		cli.displayMaze2d(maze2d);
 	}
 }
