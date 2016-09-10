@@ -141,26 +141,29 @@ public class MyModel implements Model {
 	@Override
 	public void loadMaze(String path, String name) {
 		try {
+				
+				
+				
 				InputStream in = new MyDecompressorInputStream(new FileInputStream(path));
 				File file = new File(path);
-				byte[] b = new byte[(int)file.length()];
 				
-				for (int i = 0; i < (int)file.length(); i++) {
-					System.out.print(b[i]);
-				}
-				System.out.println();
+				byte[] arr = new byte[(int) file.length()];
+				FileInputStream fis = new FileInputStream(file);
+				fis.read(arr);
+				for (int i = 0; i < arr.length; i++) {
+					System.out.print((int)arr[i]);
+
+				}				
 				
-				//byte b[] = new byte[52];
 				
-				//RandomAccessFile f = new RandomAccessFile(path, "r");
-				//byte[] b = new byte[(int)f.length()];
-				//byte[] b = Files.readAllBytes(new File(path).toPath());
+				byte[] b = new byte[500];
+				int size = in.read(b);
 				
-				in.read(b);
-				in.close();
+				
+				//in.close();
 						
-				Maze3d maze = new Maze3d(b);
-				mazes.put(name, maze);
+				//Maze3d maze = new Maze3d(b);
+				//mazes.put(name, maze);
 			 			
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -188,7 +191,6 @@ public class MyModel implements Model {
 		});
 		thread.start();
 		threads.add(thread);
-		
 	}
 
 	@Override
