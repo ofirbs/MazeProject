@@ -6,7 +6,6 @@ import view.View;
 public class MyController implements Controller {
 	private View view;
 	private Model model;
-	private CommandsManager commandsManager;
 	
 	
 	
@@ -14,7 +13,6 @@ public class MyController implements Controller {
 		super();
 		this.view = view;
 		this.model = model;
-		commandsManager = new CommandsManager(model, view);
 	}
 
 	@Override

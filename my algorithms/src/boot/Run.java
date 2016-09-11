@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import algorithms.demo.Demo;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
 import algorithms.mazeGenerators.LastNeighborChooser;
 import algorithms.mazeGenerators.Maze3d;

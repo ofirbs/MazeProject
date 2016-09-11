@@ -7,10 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +19,8 @@ import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
 import algorithms.search.BFS;
 import algorithms.search.DFS;
-import algorithms.search.Searchable;
 import algorithms.search.Solution;
 import controller.Controller;
-import controller.MyController;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
@@ -144,15 +138,38 @@ public class MyModel implements Model {
 			//first, get the maze size
 			File file = new File(path);
 			FileInputStream in = new FileInputStream(file);
+			byte floors=0,rows=0,cols = 0,rep = 0;
 			
-			byte floors = (byte) in.read();
-			floors = (byte) in.read();
+			rep = (byte) in.read();
+			if (rep==1)
+			{
+				floors = (byte) in.read();
+				rep = (byte) in.read();
+					if(rep == 1){
+						rows= (byte) in.read();
+						in.read();
+						cols = (byte) in.read();
+					}
+					else{
+						rows= (byte) in.read();
+						
+						cols = rows;
+					}
+			}
+			else if(rep == 2)
+			{
+				floors = (byte) in.read();
+				rows = floors;
+				in.read();
+				cols = (byte) in.read();
+			}
+			else{
+				floors = (byte) in.read();
+				rows = floors;
+				cols = floors;
+			}
 			
-			byte rows = (byte) in.read();
-			rows= (byte) in.read();
-			
-			byte cols = (byte) in.read();
-			cols = (byte) in.read();
+			in.close();
 			
 			//maze size + floors, rows, cols + startPos, GoalPos
 			byte[]arr = new byte[floors*rows*cols + 9];
