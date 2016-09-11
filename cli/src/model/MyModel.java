@@ -141,25 +141,29 @@ public class MyModel implements Model {
 	@Override
 	public void loadMaze(String path, String name) {
 		try {
-				
-				
-				
-				InputStream in = new MyDecompressorInputStream(new FileInputStream(path));
-				File file = new File(path);
-				
-				byte[] arr = new byte[(int) file.length()];
-				FileInputStream fis = new FileInputStream(file);
-				fis.read(arr);
-				for (int i = 0; i < arr.length; i++) {
-					System.out.print((int)arr[i]);
-
-				}				
-								
-				
-				//in.close();
-						
-				//Maze3d maze = new Maze3d(b);
-				//mazes.put(name, maze);
+			//first, get the maze size
+			File file = new File(path);
+			FileInputStream in = new FileInputStream(file);
+			
+			byte floors = (byte) in.read();
+			floors = (byte) in.read();
+			
+			byte rows = (byte) in.read();
+			rows= (byte) in.read();
+			
+			byte cols = (byte) in.read();
+			cols = (byte) in.read();
+			
+			//maze size + floors, rows, cols + startPos, GoalPos
+			byte[]arr = new byte[floors*rows*cols + 9];
+			
+			InputStream  mdi = new MyDecompressorInputStream(new FileInputStream(path));
+			
+			mdi.read(arr);
+			mdi.close();
+					
+			Maze3d maze = new Maze3d(arr);
+			mazes.put(name, maze);
 			 			
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
