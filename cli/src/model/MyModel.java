@@ -18,6 +18,7 @@ import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
 import algorithms.search.BFS;
+import algorithms.search.CommonSearcher;
 import algorithms.search.DFS;
 import algorithms.search.Solution;
 import controller.Controller;
@@ -37,7 +38,9 @@ public class MyModel implements Model {
 	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
 	private List<Thread> threads = new ArrayList<Thread>();
 	private List<GenerateMazeRunnable> generateMazeTasks = new ArrayList<GenerateMazeRunnable>();
+	private List<SolveMazeRunnable> solveMazeTasks = new ArrayList<SolveMazeRunnable>();
 
+	
 	/**
 	 * MyModel constructor, creates a model that interacts with the maze classes
 	 * @param controller
@@ -88,10 +91,6 @@ public class MyModel implements Model {
 
 			@Override
 			public void run() {
-				//GrowingTreeGenerator generator = new GrowingTreeGenerator(new RandomNeighborChooser());
-				//Maze3d maze = generator.generate(floors, rows, cols);
-				//mazes.put(name, maze);
-				//controller.notifyMazeIsReady(name);
 				
 				GenerateMazeRunnable generateMaze = new GenerateMazeRunnable(floors, rows, cols, name);
 				generateMazeTasks.add(generateMaze);
@@ -248,7 +247,39 @@ public class MyModel implements Model {
 				e.printStackTrace();
 			}	
 	}
+	
+	class SolveMazeRunnable implements Runnable {
 
+		private String name;
+		private String alg;
+		private CommonSearcher<Position> solver;
+		public SolveMazeRunnable(String name, String alg) {
+			this.name = name;
+			this.alg = alg;
+		}
+		
+		@Override
+		public void run() {
+			switch (alg) {
+			case "DFS" :
+				solver = new BFS<Position>(); 
+				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
+				controller.notify("solution for " + name + " is ready");
+				break;
+						
+			case "BFS" : 
+				solver = new DFS<Position>(); 
+				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
+				controller.notify("solution for " + name + " is ready");
+				break;
+			}
+		}
+		
+		public void terminate() {
+			solver.setDone(true);
+		}		
+	}
+	
 	/**
 	 * This method solves the selected maze with the selected solution method and pushes it into the Solution map
 	 * @param name
@@ -260,15 +291,12 @@ public class MyModel implements Model {
 
 			@Override
 			public void run() {
-				switch (alg) {
-				case "DFS" : solutions.put(mazes.get(name), new BFS<Position>().search( new MazeDomain(mazes.get(name))));
-							controller.notify("solution for " + name + " is ready");
-							break;
-							
-				case "BFS" : solutions.put(mazes.get(name), new DFS<Position>().search( new MazeDomain(mazes.get(name))));
-							controller.notify("solution for " + name + " is ready");
-							break;
-				}	
+				
+				SolveMazeRunnable solveMaze = new SolveMazeRunnable(name, alg);
+				solveMazeTasks.add(solveMaze);
+				Thread thread = new Thread(solveMaze);
+				thread.start();
+				threads.add(thread);
 			}	
 		});
 		thread.start();

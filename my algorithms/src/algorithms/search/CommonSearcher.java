@@ -13,6 +13,8 @@ import java.util.List;
 public abstract class CommonSearcher<T> implements Searcher<T> {
 	
 	protected int evaluateNodes;
+	protected boolean isDone = false;
+	
 	/**
 	 * This method only zeroes <i>evaluatedNodes</i> data member
 	 */
@@ -45,5 +47,12 @@ public abstract class CommonSearcher<T> implements Searcher<T> {
 			currState = currState.getCameFrom();
 		}
 		return sol;
+	}
+	
+	public boolean isDone() {
+		return isDone;
+	}
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
 	}
 }

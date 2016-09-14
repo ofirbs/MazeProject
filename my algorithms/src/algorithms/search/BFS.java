@@ -30,7 +30,7 @@ public class BFS<T> extends CommonSearcher<T> {
 
 		openList.add(s.getStartState());
 		
-		while (!openList.isEmpty()) {
+		while (!openList.isEmpty() && !isDone) {
 			State<T> currState = openList.poll();
 			evaluateNodes++;
 			closedList.add(currState);

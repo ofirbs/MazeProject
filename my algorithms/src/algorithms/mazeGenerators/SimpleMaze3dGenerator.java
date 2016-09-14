@@ -35,7 +35,8 @@ public class SimpleMaze3dGenerator extends Maze3dGeneratorBase {
 	 * @param currPos the current position to start the dfs algorithm.
 	 */
 	private void GenerateSimpleRoute(Position currPos){
-		
+		if (isDone)
+			return;
 		if ( currPos == maze3d.getGoalPosition())
 			return;
 		

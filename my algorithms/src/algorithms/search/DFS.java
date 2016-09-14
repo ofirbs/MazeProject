@@ -32,6 +32,8 @@ public class DFS<T> extends CommonSearcher<T> {
 	 * @return Solution<T> This returns the Solution for the searchable object using DFS algorithm.
 	 */
 	public Solution<T> searchHelper(State<T> state){
+		if (isDone)
+			return null;
 		evaluateNodes++;
 		if ( state.equals(searchable.getGoalState()))
 			return backTrace(state);
