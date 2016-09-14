@@ -40,10 +40,11 @@ public class MyModel implements Model {
 	
 	class GenerateMazeRunnable implements Runnable {
 
-		private int rows, cols;
+		private int floors, rows, cols;
 		private String name;
 		private GrowingTreeGenerator generator;
-		public GenerateMazeRunnable(int rows, int cols, String name) {
+		public GenerateMazeRunnable(int floors, int rows, int cols, String name) {
+			this.floors = floors;
 			this.rows = rows;
 			this.cols = cols;
 			this.name = name;
