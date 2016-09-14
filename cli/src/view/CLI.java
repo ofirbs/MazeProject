@@ -46,44 +46,39 @@ public class CLI extends Thread {
 
 			@Override
 			public void run() {
-				out.println("Choose a command: ");
-				out.flush();
-				String cmd="";
-				try {
-					cmd = in.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				while (true) {
-					
-					Command command = commandsManager.getCommandsMap().get(cmd.substring(0, cmd.indexOf(' ')));
-					if (command != null){
-						String[] args = cmd.split(" ", 2)[1].split(" ");
-						command.doCommand(args);
-					}
-					else
-					{
-						out.println("No such command.");
-						out.flush();
-					}
-					out.flush();
-					if (command.equals("exit"))
-						break;
+				
 					out.println("Choose a command: ");
 					out.flush();
 					try {
-						cmd = in.readLine();
+						String commandLine = in.readLine();
+						String arr[] = commandLine.split(" ");
+						String command = arr[0];			
+						
+						if(!commandsManager.getCommandsMap().containsKey(command)) {
+							out.println("Command doesn't exist");
+						}
+						else {
+							String[] args = null;
+							if (arr.length > 1) {
+								String commandArgs = commandLine.substring(
+										commandLine.indexOf(" ") + 1);
+								args = commandArgs.split(" ");							
+							}
+							Command cmd = commandsManager.getCommandsMap().get(command);
+							cmd.doCommand(args);				
+							
+							if (command.equals("exit"))
+								break;
+						}
 					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				out.println("exited.");
-				out.close(); //Close output file to save changes
-				
-			}
+			}			
 		});
 		thread.start();
-		thread.interrupt();
 	}
 
 	public void displayMaze2d(int[][] maze2d) {
