@@ -69,7 +69,11 @@ public class CLI extends Thread {
 							cmd.doCommand(args);				
 							
 							if (command.equals("exit"))
+							{
+								out.println("exited.");
+								out.flush();
 								break;
+							}
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
