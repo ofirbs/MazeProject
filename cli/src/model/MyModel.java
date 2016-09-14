@@ -113,12 +113,7 @@ public class MyModel implements Model {
 			e.printStackTrace();
 		}
 		try {
-			byte[] b = mazes.get(name).toByteArray();
-			for (int i = 0; i <b.length; i++) {
-				System.out.print(b[i]);
-			}
-			System.out.println();
-			
+			byte[] b = mazes.get(name).toByteArray();			
 			out.write(mazes.get(name).toByteArray());
 			
 		} catch (IOException e) {

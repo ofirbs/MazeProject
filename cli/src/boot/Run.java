@@ -14,21 +14,6 @@ import view.MyView;
 public class Run {
 
 	public static void main(String[] args) {
-		/*HashMap<String, Command> commands = new HashMap<String, Command>(); 
-		BufferedReader reader=null;
-		try {
-			reader = new BufferedReader(new FileReader("commands.txt"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		PrintWriter writer=null;
-		try {
-			writer = new PrintWriter(new FileWriter("output.txt"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		CLI cli = new CLI(reader,writer,commands);
-		cli.start();*/
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
