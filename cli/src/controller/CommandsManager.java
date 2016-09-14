@@ -28,6 +28,7 @@ public class CommandsManager {
 		commands.put("load_maze", new LoadMazeCommand());
 		commands.put("solve", new SolveCommand());
 		commands.put("display_solution", new DisplaySolutionCommand());
+		commands.put("exit", new ExitCommand());
 		
 		return commands;
 	}
@@ -188,6 +189,14 @@ public class CommandsManager {
 				return;
 			}
 			model.displaySolution(name);
+		}
+	}
+	
+	public class ExitCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			model.exit();
 		}
 	}
 }

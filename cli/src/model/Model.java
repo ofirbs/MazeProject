@@ -16,4 +16,5 @@ public interface Model {
 	void loadMaze(String path, String name);
 	void solveMaze(String name,String alg);
 	void displaySolution(String name); 
+	void exit();
 }

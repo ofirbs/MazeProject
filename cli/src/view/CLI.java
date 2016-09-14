@@ -54,8 +54,8 @@ public class CLI extends Thread {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				while (!(cmd.equals("exit"))) {
-					//System.out.println(cmd.substring(0, cmd.indexOf(' ')));
+				while (true) {
+					
 					Command command = commandsManager.getCommandsMap().get(cmd.substring(0, cmd.indexOf(' ')));
 					if (command != null){
 						String[] args = cmd.split(" ", 2)[1].split(" ");
@@ -67,6 +67,8 @@ public class CLI extends Thread {
 						out.flush();
 					}
 					out.flush();
+					if (command.equals("exit"))
+						break;
 					out.println("Choose a command: ");
 					out.flush();
 					try {

@@ -30,6 +30,7 @@ public class MyModel implements Model {
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
 	private List<Thread> threads = new ArrayList<Thread>();
+	private List<GenerateMazeRunnable> generateMazeTasks = new ArrayList<GenerateMazeRunnable>();
 
 	
 	public MyModel(Controller controller) {
@@ -70,11 +71,16 @@ public class MyModel implements Model {
 
 			@Override
 			public void run() {
-				GrowingTreeGenerator generator = new GrowingTreeGenerator(new RandomNeighborChooser());
-				Maze3d maze = generator.generate(floors, rows, cols);
-				mazes.put(name, maze);
+				//GrowingTreeGenerator generator = new GrowingTreeGenerator(new RandomNeighborChooser());
+				//Maze3d maze = generator.generate(floors, rows, cols);
+				//mazes.put(name, maze);
+				//controller.notifyMazeIsReady(name);
 				
-				controller.notifyMazeIsReady(name);				
+				GenerateMazeRunnable generateMaze = new GenerateMazeRunnable(floors, rows, cols, name);
+				generateMazeTasks.add(generateMaze);
+				Thread thread = new Thread(generateMaze);
+				thread.start();
+				threads.add(thread);
 			}	
 		});
 		thread.start();
@@ -238,5 +244,12 @@ public class MyModel implements Model {
 			controller.notify(solutions.get(mazes.get(name)).toString());
 		else
 			controller.notify("no solution found");
+	}
+	
+	@Override
+	public void exit() {
+		for (GenerateMazeRunnable task : generateMazeTasks) {
+			task.terminate();
+		}
 	}
 }
