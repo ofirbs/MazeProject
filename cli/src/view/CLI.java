@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import algorithms.mazeGenerators.Maze3d;
 import controller.Command;
 import controller.CommandsManager;
 
@@ -127,5 +128,13 @@ public class CLI extends Thread {
 			out.println("");
 		}
 		
+	}
+	
+	/**
+	 * This method receives a 3d maze and prints it
+	 * @param maze3d
+	 */
+	public void displayMaze3d(Maze3d maze3d){
+		out.println(maze3d);
 	}
 }

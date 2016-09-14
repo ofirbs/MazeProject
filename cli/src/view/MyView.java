@@ -58,9 +58,8 @@ public class MyView implements View {
 	 */
 	@Override
 	public void displayMaze(Maze3d maze) {
-		System.out.println(maze);
+		cli.displayMaze3d(maze);
 	}
-
 
 	/**
 	 * This method receives a File array with a list of files in a directory and sends it to the CLI
