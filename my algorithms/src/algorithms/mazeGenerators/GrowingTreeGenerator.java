@@ -51,7 +51,7 @@ public class GrowingTreeGenerator extends Maze3dGeneratorBase {
 		//start from the randomized start position
 		positionsList.add(maze3d.getStartPosition());
 		
-		while(! positionsList.isEmpty())
+		while(! positionsList.isEmpty() && !isDone)
 		{
 			//choose the next positions with the algorithm provided by the NeighborChooser injected
 			Position pos = nc.chooseNeighbor(positionsList);

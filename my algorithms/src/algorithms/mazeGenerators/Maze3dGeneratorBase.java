@@ -12,7 +12,16 @@ import java.util.Random;
 public abstract class Maze3dGeneratorBase implements Maze3dGenerator {
 
 	private Random rand = new Random();
-
+	
+	protected boolean isDone = false;
+	
+	public boolean isDone() {
+		return isDone;
+	}
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
+	}
+	
 	@Override
 	public String measureAlgorithmTime(int floors, int rows, int cols) {
 		long startTime = System.currentTimeMillis();

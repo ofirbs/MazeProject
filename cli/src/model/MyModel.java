@@ -36,7 +36,33 @@ public class MyModel implements Model {
 		super();
 		this.controller = controller;
 	}
+	
+	
+	class GenerateMazeRunnable implements Runnable {
 
+		private int rows, cols;
+		private String name;
+		private GrowingTreeGenerator generator;
+		public GenerateMazeRunnable(int rows, int cols, String name) {
+			this.rows = rows;
+			this.cols = cols;
+			this.name = name;
+		}
+		
+		@Override
+		public void run() {
+			generator = new GrowingTreeGenerator(new RandomNeighborChooser());
+			Maze3d maze = generator.generate(floors, rows, cols);
+			mazes.put(name, maze);
+			
+			controller.notifyMazeIsReady(name);			
+		}
+		
+		public void terminate() {
+			generator.setDone(true);
+		}		
+	}
+	
 	@Override
 	public void generate_3d_maze(String name, int floors, int rows, int cols) {
 		Thread thread = new Thread(new Runnable() {
