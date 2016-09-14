@@ -7,18 +7,33 @@ import algorithms.mazeGenerators.Maze3d;
 import model.Model;
 import view.View;
 
+/**
+ * <h1> The CommandsManager Class</h1>
+ * Uses the Command interface and manages all user commands for the maze 
+ * @author ofir and rom
+ *
+ */
 public class CommandsManager {
 
 	private Model model;
 	private View view;
 	HashMap<String, Command> commands = new HashMap<String, Command>();
 		
+	/**
+	 * CommandsManager constructor, creates a commandsManager with a command map of the currently available commands<br>
+	 * Requires instances of model and view
+	 * @param model
+	 * @param view
+	 */
 	public CommandsManager(Model model, View view) {
 		this.model = model;
 		this.view = view;	
 		commands = getCommandsMap();
 	}
 	
+	/**
+	 * This method returns a Hash Map of all available commands
+	 */
 	public HashMap<String, Command> getCommandsMap() {
 		commands.put("generate_3d_maze", new GenerateMazeCommand());
 		commands.put("display", new DisplayMazeCommand());
@@ -33,6 +48,9 @@ public class CommandsManager {
 		return commands;
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that generates the maze
+	 */
 	public class GenerateMazeCommand implements Command {
 
 		@Override
@@ -46,6 +64,9 @@ public class CommandsManager {
 		}		
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that displays the maze
+	 */
 	public class DisplayMazeCommand implements Command {
 
 		@Override
@@ -62,6 +83,9 @@ public class CommandsManager {
 		
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that displays a list of files in a folder
+	 */
 	public class DirCommand implements Command {
 
 		@Override
@@ -76,6 +100,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that displays a cross section based on user input
+	 */
 	public class DisplayCrossSectionCommand implements Command {
 
 		@Override
@@ -123,6 +150,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that saves a maze to a file
+	 */
 	public class SaveMazeCommand implements Command {
 
 		@Override
@@ -140,6 +170,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that loads a maze from a file
+	 */
 	public class LoadMazeCommand implements Command {
 
 		@Override
@@ -160,6 +193,9 @@ public class CommandsManager {
 		}	
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that solves the selected maze
+	 */
 	public class SolveCommand implements Command {
 
 		@Override
@@ -179,6 +215,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that displays a solution for the selected maze
+	 */
 	public class DisplaySolutionCommand implements Command {
 
 		@Override
@@ -192,6 +231,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that closes the CLI
+	 */
 	public class ExitCommand implements Command {
 
 		@Override

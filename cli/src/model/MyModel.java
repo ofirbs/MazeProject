@@ -24,7 +24,13 @@ import controller.Controller;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
-
+/**
+ * <h1> The MyModel Class</h1>
+ * Creates an instance of the Model interface <br>
+ * Includes a controller, Maze3d map, Solution map, Thread list and Maze tasks list
+ * @author ofir and rom
+ *
+ */
 public class MyModel implements Model {
 	private Controller controller;
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
@@ -32,7 +38,11 @@ public class MyModel implements Model {
 	private List<Thread> threads = new ArrayList<Thread>();
 	private List<GenerateMazeRunnable> generateMazeTasks = new ArrayList<GenerateMazeRunnable>();
 
-	
+	/**
+	 * MyModel constructor, creates a model that interacts with the maze classes
+	 * @param controller
+	 * @param cli
+	 */
 	public MyModel(Controller controller) {
 		super();
 		this.controller = controller;
@@ -65,6 +75,13 @@ public class MyModel implements Model {
 		}		
 	}
 	
+	/**
+	 * This method generates a 3d Maze with user input size
+	 * @param name
+	 * @param floors
+	 * @param rows
+	 * @param cols
+	 */
 	@Override
 	public void generate_3d_maze(String name, int floors, int rows, int cols) {
 		Thread thread = new Thread(new Runnable() {
@@ -87,6 +104,10 @@ public class MyModel implements Model {
 		threads.add(thread);
 	}
 
+	/**
+	 * This method returns the selected maze from the Maze map
+	 * @param name
+	 */
 	@Override
 	public Maze3d display(String name) {
 		return mazes.get(name);
@@ -136,6 +157,11 @@ public class MyModel implements Model {
 		return false;
 	}
 
+	/**
+	 * This method saves the selected maze into a file in the selected path
+	 * @param name
+	 * @param path
+	 */
 	@Override
 	public void saveMaze(String name, String path) {
 		
@@ -160,6 +186,11 @@ public class MyModel implements Model {
 		}
 	}
 
+	/**
+	 * This method loads a maze from the selected file and pushes it into the Maze map with the selected name
+	 * @param path
+	 * @param name
+	 */
 	@Override
 	public void loadMaze(String path, String name) {
 		try {
@@ -168,6 +199,7 @@ public class MyModel implements Model {
 			FileInputStream in = new FileInputStream(file);
 			byte floors=0,rows=0,cols = 0,rep = 0;
 			
+			//Checking for byte repetitions in the selected file
 			rep = (byte) in.read();
 			if (rep==1)
 			{
@@ -217,6 +249,11 @@ public class MyModel implements Model {
 			}	
 	}
 
+	/**
+	 * This method solves the selected maze with the selected solution method and pushes it into the Solution map
+	 * @param name
+	 * @param alg
+	 */
 	@Override
 	public void solveMaze(String name, String alg) {
 		Thread thread = new Thread(new Runnable() {
@@ -238,6 +275,10 @@ public class MyModel implements Model {
 		threads.add(thread);
 	}
 
+	/**
+	 * This method displays the solution for the selected maze from the Solution map
+	 * @param name
+	 */
 	@Override
 	public void displaySolution(String name) {
 		if (solutions.get(mazes.get(name)) != null)
@@ -246,6 +287,9 @@ public class MyModel implements Model {
 			controller.notify("no solution found");
 	}
 	
+	/**
+	 * This method closes all running threads in the model and terminates it.
+	 */
 	@Override
 	public void exit() {
 		for (GenerateMazeRunnable task : generateMazeTasks) {
