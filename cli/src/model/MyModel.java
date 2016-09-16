@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
@@ -37,8 +40,8 @@ public class MyModel extends Observable implements Model {
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
 	private List<Thread> threads = new ArrayList<Thread>();
-	private List<GenerateMazeRunnable> generateMazeTasks = new ArrayList<GenerateMazeRunnable>();
 	private List<SolveMazeRunnable> solveMazeTasks = new ArrayList<SolveMazeRunnable>();
+	private ExecutorService executor;
 
 	
 	/**
@@ -48,36 +51,7 @@ public class MyModel extends Observable implements Model {
 	 */
 	public MyModel() {
 		super();
-	}
-	
-	
-	class GenerateMazeRunnable implements Runnable {
-
-		private int floors, rows, cols;
-		private String name;
-		private GrowingTreeGenerator generator;
-		public GenerateMazeRunnable(int floors, int rows, int cols, String name) {
-			this.floors = floors;
-			this.rows = rows;
-			this.cols = cols;
-			this.name = name;
-		}
-		
-		@Override
-		public void run() {
-			generator = new GrowingTreeGenerator(new RandomNeighborChooser());
-			Maze3d maze = generator.generate(floors, rows, cols);
-			mazes.put(name, maze);
-			
-			setChanged();
-			notifyObservers("maze_ready " + name);
-			
-			displayMessage("maze " + name + " is ready.");			
-		}
-		
-		public void terminate() {
-			generator.setDone(true);
-		}		
+		executor = Executors.newFixedThreadPool(50);
 	}
 	
 	/**
@@ -89,20 +63,21 @@ public class MyModel extends Observable implements Model {
 	 */
 	@Override
 	public void generate_3d_maze(String name, int floors, int rows, int cols) {
-		Thread thread = new Thread(new Runnable() {
+		executor.submit(new Callable<Maze3d>() {
 
 			@Override
-			public void run() {
+			public Maze3d call() throws Exception {
+				GrowingTreeGenerator generator = new GrowingTreeGenerator(new RandomNeighborChooser());
+				Maze3d maze = generator.generate(floors, rows, cols);
+				mazes.put(name, maze);
 				
-				GenerateMazeRunnable generateMaze = new GenerateMazeRunnable(floors, rows, cols, name);
-				generateMazeTasks.add(generateMaze);
-				Thread thread = new Thread(generateMaze);
-				thread.start();
-				threads.add(thread);
+				setChanged();
+				notifyObservers("maze_ready " + name);
+				//check
+				displayMessage("maze " + name + " is ready.");	
+				return maze;
 			}	
 		});
-		thread.start();
-		threads.add(thread);
 	}
 
 	/**
@@ -322,8 +297,6 @@ public class MyModel extends Observable implements Model {
 	 */
 	@Override
 	public void exit() {
-		for (GenerateMazeRunnable task : generateMazeTasks) {
-			task.terminate();
-		}
+		executor.shutdownNow();
 	}
 }

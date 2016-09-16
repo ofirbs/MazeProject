@@ -104,6 +104,7 @@ public class CLI extends Observable {
 					
 					//mvp
 					out.println("Choose a command: ");
+					out.flush();
 					try {
 						String commandLine = in.readLine();
 						setChanged();
