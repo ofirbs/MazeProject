@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import model.MyModel;
 import presenter.Presenter;
+import view.MazeWindow;
 import view.MyView;
 
 public class Run {
@@ -50,7 +51,16 @@ public class Run {
 		Presenter presenter = new Presenter(model, view);
 		model.addObserver(presenter);
 		view.addObserver(presenter);
-				
-		view.start();
+		
+		switch (typeOfUI) {
+		case "GUI":
+			MazeWindow win = new MazeWindow();
+			win.start();
+			break;
+
+		case "console":
+			view.start();
+			break;
+		}
 	}
 }
