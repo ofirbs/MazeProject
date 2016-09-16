@@ -27,7 +27,7 @@ public class Presenter implements Observer {
 		String commandLine = (String)arg;
 		
 		String arr[] = commandLine.split(" ");
-		String command = arr[0];			
+		String command = arr[0];
 		
 		if(!commands.containsKey(command)) {
 			view.notify("Command doesn't exist");			

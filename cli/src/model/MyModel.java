@@ -45,9 +45,9 @@ public class MyModel extends Observable implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel() {
+	public MyModel(int numOfThreads) {
 		super();
-		executor = Executors.newFixedThreadPool(50);
+		executor = Executors.newFixedThreadPool(numOfThreads);
 	}
 	
 	/**
