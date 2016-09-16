@@ -3,14 +3,10 @@ package view;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import algorithms.mazeGenerators.Maze3d;
-import controller.Controller;
-import presenter.Command;
-
 /**
  * <h1> The MyView Class</h1>
  * Creates an instance of the View interface

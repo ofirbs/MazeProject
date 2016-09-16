@@ -7,8 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.Callable;
@@ -38,9 +36,7 @@ import io.MyDecompressorInputStream;
 public class MyModel extends Observable implements Model {
 
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
-	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
-	private List<Thread> threads = new ArrayList<Thread>();
-	private List<SolveMazeRunnable> solveMazeTasks = new ArrayList<SolveMazeRunnable>();
+	private Map<Maze3d, Solution<Position>> solutions = new ConcurrentHashMap<Maze3d, Solution<Position>>();
 	private ExecutorService executor;
 
 	
@@ -72,8 +68,6 @@ public class MyModel extends Observable implements Model {
 				mazes.put(name, maze);
 				
 				setChanged();
-				//notifyObservers("maze_ready " + name);
-				//check
 				displayMessage("maze " + name + " is ready.");	
 				return maze;
 			}	
@@ -220,7 +214,7 @@ public class MyModel extends Observable implements Model {
 			}	
 	}
 	
-	class SolveMazeRunnable implements Runnable {
+	/*class SolveMazeRunnable implements Runnable {
 
 		private String name;
 		private String alg;
@@ -250,7 +244,7 @@ public class MyModel extends Observable implements Model {
 		public void terminate() {
 			solver.setDone(true);
 		}		
-	}
+	}*/
 	
 	/**
 	 * This method solves the selected maze with the selected solution method and pushes it into the Solution map
@@ -259,20 +253,33 @@ public class MyModel extends Observable implements Model {
 	 */
 	@Override
 	public void solveMaze(String name, String alg) {
-		Thread thread = new Thread(new Runnable() {
+		executor.submit(new Callable<Solution<Position>>() {
 
 			@Override
-			public void run() {
+			public Solution<Position> call() throws Exception {
 				
-				SolveMazeRunnable solveMaze = new SolveMazeRunnable(name, alg);
-				solveMazeTasks.add(solveMaze);
-				Thread thread = new Thread(solveMaze);
-				thread.start();
-				threads.add(thread);
+				CommonSearcher<Position> solver;
+				Solution<Position> solution=null;
+				switch (alg) {
+				case "DFS" :
+					solver = new BFS<Position>();
+					solution = solver.search( new MazeDomain(mazes.get(name)));
+					solutions.put(mazes.get(name), solution);
+					displayMessage("solution for " + name + " is ready");
+					break;
+							
+				case "BFS" : 
+					solver = new DFS<Position>(); 
+					solution = solver.search( new MazeDomain(mazes.get(name)));
+					solutions.put(mazes.get(name), solution);
+					displayMessage("solution for " + name + " is ready");
+					break;
+				}
+								
+				setChanged();
+				return solution;
 			}	
 		});
-		thread.start();
-		threads.add(thread);
 	}
 
 	/**
