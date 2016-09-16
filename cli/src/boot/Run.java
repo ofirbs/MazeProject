@@ -19,8 +19,9 @@ public class Run {
 	public static void main(String[] args) {
 		
 		//Initialize Properties
-		int numOfThreads;
-		String generatorType;
+		int numOfThreads; // integer
+		String generatorType; // GrowingTreeGenerator or SimpleMaze3dGenerator
+		String typeOfUI; // console or GUI
 		Properties properties = new Properties();
 		try {
 			properties.loadFromXML(new FileInputStream("resources/properties.xml"));
@@ -33,6 +34,7 @@ public class Run {
 		}
 		numOfThreads = Integer.parseInt(properties.getProperty("numOfThreads","10"));
 		generatorType = properties.getProperty("generatorType", "GrowingTreeGenerator");
+		typeOfUI = properties.getProperty("typeOfUI", "console");
 		
 		
 		InputStreamReader isr = new InputStreamReader(System.in);

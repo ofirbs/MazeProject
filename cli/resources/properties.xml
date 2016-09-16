@@ -3,4 +3,5 @@
     <comment>test</comment>
     <entry key="numOfThreads">50</entry>
     <entry key="generatorType">SimpleMaze3dGenerator</entry>
+    <entry key="typeOfUI">GUI</entry>
 </properties>
