@@ -27,7 +27,9 @@ public class BFS<T> extends CommonSearcher<T> {
 	
 	@Override
 	public Solution<T> search(Searchable s){
-
+		
+		if ( s == null )
+			return null;
 		openList.add(s.getStartState());
 		
 		while (!openList.isEmpty() && !isDone) {
