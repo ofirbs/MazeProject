@@ -1,7 +1,11 @@
 package view;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import algorithms.mazeGenerators.Maze3d;
 import controller.Command;
@@ -13,8 +17,7 @@ import controller.Controller;
  * @author ofir and rom
  *
  */
-public class MyView implements View {
-	private Controller controller;
+public class MyView extends Observable implements View, Observer {
 	private CLI cli; 
 	
 	/**
@@ -22,10 +25,10 @@ public class MyView implements View {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyView(Controller controller, CLI cli) {
+	public MyView(BufferedReader in, PrintWriter out) {
 		super();
-		this.controller = controller;
-		this.cli = cli;
+		cli = new CLI(in, out);
+		cli.addObserver(this);
 	}
 
 	/**
@@ -44,14 +47,6 @@ public class MyView implements View {
 		cli.receiveNotification("maze " + name + " is ready.");		
 	}
 
-	/**
-	 * This method sets the controller
-	 * @param name
-	 */
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-	
 	/**
 	 * This method prints the received maze
 	 * @param Maze3d maze
@@ -84,5 +79,14 @@ public class MyView implements View {
 	@Override
 	public void displayMaze2d(int[][] maze2d) {
 		cli.displayMaze2d(maze2d);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o==cli) {
+			setChanged();
+			notifyObservers(arg);
+		}
+		
 	}
 }

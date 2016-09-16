@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Observable;
 
 import algorithms.mazeGenerators.Maze3d;
-import controller.Command;
-import controller.CommandsManager;
 
 /**
  * <h1> The CLI Class</h1>
@@ -15,10 +14,9 @@ import controller.CommandsManager;
  * @author ofir and rom
  *
  */
-public class CLI extends Thread {
+public class CLI extends Observable {
 	private BufferedReader in;
 	private PrintWriter out;
-	private CommandsManager commandsManager;
 	
 	/**
 	 * CLI constructor, CLI to receive user input and display output from the maze
@@ -26,51 +24,44 @@ public class CLI extends Thread {
 	 * @param out
 	 * @param commandsManager
 	 */
-	public CLI(BufferedReader in, PrintWriter out, CommandsManager commandsManager) {
+	public CLI(BufferedReader in, PrintWriter out) {
 		super();
 		this.in = in;
 		this.out = out;
-		this.commandsManager = commandsManager;
 	}
 	
+ 
 	/**
-	 * This method sets the command manager
+	 * This method receives a notification that the maze is ready and prints it
+	 * @param notification
 	 */
-	 public void setCommandsManager(CommandsManager commandsManager) {
-		this.commandsManager = commandsManager;
-	}
-	 
-		/**
-		 * This method receives a notification that the maze is ready and prints it
-		 * @param notification
-		 */
 	 public void receiveNotification(String notification){
 		 out.println(notification);
 		 out.flush();
 	 }
 
-		/**
-		 * This method receives a File array with a list of files and prints it
-		 * @param listOfFiles
-		 */
+	/**
+	 * This method receives a File array with a list of files and prints it
+	 * @param listOfFiles
+	 */
 	 public void getListOfFiles(File[] listOfFiles){
 		    for (int i = 0; i < listOfFiles.length; i++)
 		    	out.println("File: " + listOfFiles[i].getName());
 		 out.flush();
 	 }
 	 
-		/**
-		 * This method receives a generic notification and prints it
-		 * @param notification
-		 */
+	/**
+	 * This method receives a generic notification and prints it
+	 * @param notification
+	 */
 	 public void notify(String message){
 		 out.println(message);
 		 out.flush();
 	 }
 	 
-		/**
-		 * The main loop of the CLI, waits for commands and executes them
-		 */
+	/**
+	 * The main loop of the CLI, waits for commands and executes them
+	 */
 	public void start()
 	{
 		Thread thread = new Thread(new Runnable() {
@@ -79,7 +70,7 @@ public class CLI extends Thread {
 			public void run() {
 				while (true) {
 				
-					out.println("Choose a command: ");
+					/*out.println("Choose a command: ");
 					out.flush();
 					try {
 						String commandLine = in.readLine();
@@ -109,7 +100,23 @@ public class CLI extends Thread {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}*/
+					
+					//mvp
+					out.println("Choose a command: ");
+					try {
+						String commandLine = in.readLine();
+						setChanged();
+						notifyObservers(commandLine);
+						
+						if (commandLine.equals("exit"))
+							break;
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+					
 				}
 			}			
 		});

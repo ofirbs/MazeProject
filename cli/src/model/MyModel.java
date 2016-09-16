@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import algorithms.demo.MazeDomain;
@@ -21,7 +22,6 @@ import algorithms.search.BFS;
 import algorithms.search.CommonSearcher;
 import algorithms.search.DFS;
 import algorithms.search.Solution;
-import controller.Controller;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
@@ -32,8 +32,8 @@ import io.MyDecompressorInputStream;
  * @author ofir and rom
  *
  */
-public class MyModel implements Model {
-	private Controller controller;
+public class MyModel extends Observable implements Model {
+
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution> solutions = new ConcurrentHashMap<Maze3d, Solution>();
 	private List<Thread> threads = new ArrayList<Thread>();
@@ -46,9 +46,8 @@ public class MyModel implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel(Controller controller) {
+	public MyModel() {
 		super();
-		this.controller = controller;
 	}
 	
 	
@@ -70,7 +69,10 @@ public class MyModel implements Model {
 			Maze3d maze = generator.generate(floors, rows, cols);
 			mazes.put(name, maze);
 			
-			controller.notifyMazeIsReady(name);			
+			setChanged();
+			notifyObservers("maze_ready " + name);
+			
+			displayMessage("maze " + name + " is ready.");			
 		}
 		
 		public void terminate() {
@@ -110,10 +112,6 @@ public class MyModel implements Model {
 	@Override
 	public Maze3d display(String name) {
 		return mazes.get(name);
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
 	}
 
 	@Override
@@ -171,7 +169,6 @@ public class MyModel implements Model {
 			e.printStackTrace();
 		}
 		try {
-			byte[] b = mazes.get(name).toByteArray();			
 			out.write(mazes.get(name).toByteArray());
 			
 		} catch (IOException e) {
@@ -264,13 +261,13 @@ public class MyModel implements Model {
 			case "DFS" :
 				solver = new BFS<Position>(); 
 				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
-				controller.notify("solution for " + name + " is ready");
+				displayMessage("solution for " + name + " is ready");
 				break;
 						
 			case "BFS" : 
 				solver = new DFS<Position>(); 
 				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
-				controller.notify("solution for " + name + " is ready");
+				displayMessage("solution for " + name + " is ready");
 				break;
 			}
 		}
@@ -310,9 +307,14 @@ public class MyModel implements Model {
 	@Override
 	public void displaySolution(String name) {
 		if (solutions.get(mazes.get(name)) != null)
-			controller.notify(solutions.get(mazes.get(name)).toString());
+			displayMessage(solutions.get(mazes.get(name)).toString());
 		else
-			controller.notify("no solution found");
+			displayMessage("no solution found");
+	}
+	
+	private void displayMessage(String msg) {
+		setChanged();
+		notifyObservers("display_message");
 	}
 	
 	/**
