@@ -17,8 +17,10 @@ import java.util.concurrent.Executors;
 import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Maze3dGeneratorBase;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
+import algorithms.mazeGenerators.SimpleMaze3dGenerator;
 import algorithms.search.BFS;
 import algorithms.search.CommonSearcher;
 import algorithms.search.DFS;
@@ -38,6 +40,7 @@ public class MyModel extends Observable implements Model {
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution<Position>> solutions = new ConcurrentHashMap<Maze3d, Solution<Position>>();
 	private ExecutorService executor;
+	private String generatorType;
 
 	
 	/**
@@ -45,8 +48,9 @@ public class MyModel extends Observable implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel(int numOfThreads) {
+	public MyModel(int numOfThreads, String generatorType) {
 		super();
+		this.generatorType = generatorType;
 		executor = Executors.newFixedThreadPool(numOfThreads);
 	}
 	
@@ -63,7 +67,16 @@ public class MyModel extends Observable implements Model {
 
 			@Override
 			public Maze3d call() throws Exception {
-				GrowingTreeGenerator generator = new GrowingTreeGenerator(new RandomNeighborChooser());
+				Maze3dGeneratorBase generator=null;
+				switch (generatorType) {
+				case "GrowingTreeGenerator":
+					generator = new GrowingTreeGenerator(new RandomNeighborChooser());
+					break;
+
+				case "SimpleMaze3dGenerator":
+					generator = new SimpleMaze3dGenerator();
+					break;
+				}
 				Maze3d maze = generator.generate(floors, rows, cols);
 				mazes.put(name, maze);
 				

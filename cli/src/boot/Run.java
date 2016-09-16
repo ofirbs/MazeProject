@@ -17,18 +17,22 @@ import view.MyView;
 public class Run {
 
 	public static void main(String[] args) {
+		
+		//Initialize Properties
 		int numOfThreads;
+		String generatorType;
 		Properties properties = new Properties();
 		try {
 			properties.loadFromXML(new FileInputStream("resources/properties.xml"));
 		} catch (InvalidPropertiesFormatException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			numOfThreads = 10;
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		numOfThreads = Integer.parseInt(properties.getProperty("numOfThreads"));
+		numOfThreads = Integer.parseInt(properties.getProperty("numOfThreads","10"));
+		generatorType = properties.getProperty("generatorType", "GrowingTreeGenerator");
 		
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -39,7 +43,7 @@ public class Run {
 
 		
 		MyView view = new MyView(in, out);
-		MyModel model = new MyModel(numOfThreads);
+		MyModel model = new MyModel(numOfThreads, generatorType);
 		
 		Presenter presenter = new Presenter(model, view);
 		model.addObserver(presenter);
