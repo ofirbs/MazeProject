@@ -1,4 +1,4 @@
-package controller;
+package presenter;
 
 import java.io.File;
 import java.util.HashMap;
@@ -44,6 +44,7 @@ public class CommandsManager {
 		commands.put("solve", new SolveCommand());
 		commands.put("display_solution", new DisplaySolutionCommand());
 		commands.put("exit", new ExitCommand());
+		commands.put("display_message", new DisplayMessageCommand());
 		
 		return commands;
 	}
@@ -80,7 +81,6 @@ public class CommandsManager {
 			Maze3d maze = model.display(name);
 			view.displayMaze(maze);
 		}
-		
 	}
 	
 	/**
@@ -228,6 +228,18 @@ public class CommandsManager {
 				return;
 			}
 			model.displaySolution(name);
+		}
+	}
+	
+	public class DisplayMessageCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			StringBuilder builder = new StringBuilder();
+			for(String s : args) {
+			    builder.append(s + " ");
+			}
+			view.notify(builder.toString());
 		}
 	}
 	

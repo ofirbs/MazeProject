@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import controller.Command;
-import controller.CommandsManager;
 import model.Model;
 import view.View;
 

@@ -72,7 +72,7 @@ public class MyModel extends Observable implements Model {
 				mazes.put(name, maze);
 				
 				setChanged();
-				notifyObservers("maze_ready " + name);
+				//notifyObservers("maze_ready " + name);
 				//check
 				displayMessage("maze " + name + " is ready.");	
 				return maze;
@@ -289,7 +289,7 @@ public class MyModel extends Observable implements Model {
 	
 	private void displayMessage(String msg) {
 		setChanged();
-		notifyObservers("display_message");
+		notifyObservers("display_message " + msg);
 	}
 	
 	/**

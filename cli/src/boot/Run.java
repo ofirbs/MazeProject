@@ -5,9 +5,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import controller.CommandsManager;
 import controller.MyController;
 import model.MyModel;
+import presenter.CommandsManager;
 import presenter.Presenter;
 import view.CLI;
 import view.MyView;

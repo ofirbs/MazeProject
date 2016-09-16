@@ -8,8 +8,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import algorithms.mazeGenerators.Maze3d;
-import controller.Command;
 import controller.Controller;
+import presenter.Command;
 
 /**
  * <h1> The MyView Class</h1>
@@ -44,7 +44,7 @@ public class MyView extends Observable implements View, Observer {
 	 */
 	@Override
 	public void notifyMazeIsReady(String name) {
-		cli.receiveNotification("maze " + name + " is ready.");		
+		cli.notify("maze " + name + " is ready.");		
 	}
 
 	/**

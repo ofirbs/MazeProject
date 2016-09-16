@@ -29,16 +29,6 @@ public class CLI extends Observable {
 		this.in = in;
 		this.out = out;
 	}
-	
- 
-	/**
-	 * This method receives a notification that the maze is ready and prints it
-	 * @param notification
-	 */
-	 public void receiveNotification(String notification){
-		 out.println(notification);
-		 out.flush();
-	 }
 
 	/**
 	 * This method receives a File array with a list of files and prints it
@@ -69,40 +59,7 @@ public class CLI extends Observable {
 			@Override
 			public void run() {
 				while (true) {
-				
-					/*out.println("Choose a command: ");
-					out.flush();
-					try {
-						String commandLine = in.readLine();
-						String arr[] = commandLine.split(" ");
-						String command = arr[0];			
-						
-						if(!commandsManager.getCommandsMap().containsKey(command)) {
-							out.println("Command doesn't exist");
-						}
-						else {
-							String[] args = null;
-							if (arr.length > 1) {
-								String commandArgs = commandLine.substring(
-										commandLine.indexOf(" ") + 1);
-								args = commandArgs.split(" ");							
-							}
-							Command cmd = commandsManager.getCommandsMap().get(command);
-							cmd.doCommand(args);				
-							
-							if (command.equals("exit"))
-							{
-								out.println("exited.");
-								out.flush();
-								break;
-							}
-						}
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}*/
-					
-					//mvp
+			
 					out.println("Choose a command: ");
 					out.flush();
 					try {
@@ -110,14 +67,16 @@ public class CLI extends Observable {
 						setChanged();
 						notifyObservers(commandLine);
 						
-						if (commandLine.equals("exit"))
+						if (commandLine.equals("exit")) {
+							out.println("exited.");
+							out.flush();
 							break;
+						}
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
 				}
 			}			
 		});
