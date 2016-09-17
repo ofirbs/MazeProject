@@ -17,23 +17,27 @@ import algorithms.mazeGenerators.Position;
 
 public class MazeDisplay extends Canvas {
 	
-	private int[][] mazeData = {
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,1,1,0,1,0,0,1},
-			{0,0,1,1,1,1,1,0,0,1,0,1,0,1,1},
-			{1,1,1,0,0,0,1,0,1,1,0,1,0,0,1},
-			{1,0,1,0,1,1,1,0,0,0,0,1,1,0,1},
-			{1,1,0,0,0,1,0,0,1,1,1,1,0,0,1},
-			{1,0,0,1,0,0,1,0,0,0,0,1,0,1,1},
-			{1,0,1,1,0,1,1,0,1,1,0,0,0,1,1},
-			{1,0,0,0,0,0,0,0,0,1,0,1,0,0,1},
-			{1,1,1,1,1,1,1,1,1,1,1,1,0,1,1}		
-	};
+	private int[][] mazeData;
 	
 	private Character character;
 
+	public Character getCharacter() {
+		return character;
+	}
+
 	public MazeDisplay(Composite parent, int style) {
 		super(parent, style);
+		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}  
+				 };
 		character = new Character();
 		character.setPos(new Position(1, 1, 1));
 						
@@ -124,6 +128,8 @@ public class MazeDisplay extends Canvas {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 500);*/
 	}
-
+	public void setMaze2d(int[][] maze2d) {
+		this.mazeData = maze2d;
+	}
 }
 

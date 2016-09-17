@@ -12,6 +12,13 @@ import org.eclipse.swt.widgets.Text;
 
 public class GenerateMazeWindow extends DialogWindow {
 	
+	private MazeWindow mazeWindow;
+	
+	public GenerateMazeWindow(MazeWindow mazeWindow) {
+		super();
+		this.mazeWindow = mazeWindow;
+	}
+
 	@Override
 	protected void initWidgets() {
 		shell.setText("Generate maze");
@@ -60,9 +67,10 @@ public class GenerateMazeWindow extends DialogWindow {
 				int rows = Integer.parseInt(txtRows.getText());
 				int cols = Integer.parseInt(txtCols.getText());
 				
-				msg.setMessage("Generating maze " + name + " with floors: " + floors + " rows: " + rows + " cols: " + cols);
-						
-				msg.open();
+				mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
+				//msg.setMessage("Generated maze " + name + " with floors: " + floors + " rows: " + rows + " cols: " + cols);
+				mazeWindow.update("display "+name);
+				//msg.open();
 				shell.close();
 			}
 			

@@ -1,5 +1,7 @@
 package view;
 
+import java.io.File;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -9,21 +11,15 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import presenter.Presenter;
+import algorithms.mazeGenerators.Maze3d;
 
-public class MazeWindow extends BaseWindow {
+public class MazeWindow extends BaseWindow implements View {
 
 	private MazeDisplay mazeDisplay;
-	private Presenter presenter;
-	
-	
-	public MazeWindow(Presenter presenter) {
-		super();
-		this.presenter = presenter;
-	}
 
 	@Override
 	protected void initWidgets() {
+		
 		GridLayout grid = new GridLayout(2, false);
 		shell.setLayout(grid);
 		
@@ -38,9 +34,8 @@ public class MazeWindow extends BaseWindow {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				GenerateMazeWindow win = new GenerateMazeWindow();				
+				GenerateMazeWindow win = new GenerateMazeWindow(MazeWindow.this);				
 				win.start(display);
-
 			}
 			
 			@Override
@@ -56,5 +51,39 @@ public class MazeWindow extends BaseWindow {
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
 	}
+	
+	public void update(String command) {
+		 setChanged();
+		 notifyObservers(command);
+	}
 
+	@Override
+	public void notifyMazeIsReady(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayMaze(Maze3d maze) {
+		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
+		mazeDisplay.redraw();
+	}
+
+	@Override
+	public void printListOfFiles(File[] listOfFiles) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notify(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayMaze2d(int[][] maze2d) {
+		// TODO Auto-generated method stub
+		
+	}
 }

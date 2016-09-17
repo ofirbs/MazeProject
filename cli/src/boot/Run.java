@@ -45,21 +45,25 @@ public class Run {
         PrintWriter out = new PrintWriter(osw);
 
 		
-		MyView view = new MyView(in, out);
+		
 		MyModel model = new MyModel(numOfThreads, generatorType);
 		
-		Presenter presenter = new Presenter(model, view);
-		model.addObserver(presenter);
-		view.addObserver(presenter);
-		
+
 		switch (typeOfUI) {
 		case "GUI":
-			MazeWindow win = new MazeWindow(presenter);
-			win.start();
+			MazeWindow viewGUI= new MazeWindow();
+			Presenter presenterGUI = new Presenter(model, viewGUI);
+			model.addObserver(presenterGUI);
+			viewGUI.addObserver(presenterGUI);
+			viewGUI.start();
 			break;
 
 		case "console":
-			view.start();
+			MyView viewCLI = new MyView(in, out);
+			Presenter presenter = new Presenter(model, viewCLI);
+			model.addObserver(presenter);
+			viewCLI.addObserver(presenter);
+			viewCLI.start();
 			break;
 		}
 	}
