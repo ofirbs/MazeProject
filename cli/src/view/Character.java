@@ -50,6 +50,13 @@ public class Character {
 		this.img = img;
 	}
 	
+	public boolean checkCollision(int pos){
+		if(pos!=0)
+			return true;
+		else
+			return false;
+	}
+	
 	
 
 }

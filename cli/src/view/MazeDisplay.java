@@ -28,7 +28,7 @@ public class MazeDisplay extends Canvas {
 	public MazeDisplay(Composite parent, int style) {
 		super(parent, style);
 		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+				   {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -53,27 +53,38 @@ public class MazeDisplay extends Canvas {
 			public void keyPressed(KeyEvent e) {
 				Position pos = character.getPos();
 				switch (e.keyCode) {
-				case SWT.ARROW_RIGHT:					
-					//character.setPos(new Position(pos.x + 1, pos.y));
-					character.setImg(new Image(null,"images/character.png"));
-					character.moveRight();
+				case SWT.ARROW_LEFT:					
+					character.setImg(new Image(null,"images/characterL.png"));
+					redraw();
+					if(character.checkCollision(mazeData[character.getPos().x-1][character.getPos().y]))
+						break;
+					character.moveLeft();
 					redraw();
 					break;
 				
-				case SWT.ARROW_LEFT:					
-					character.setImg(new Image(null,"images/characterR.png"));
-					character.moveLeft();
+				case SWT.ARROW_RIGHT:
+					character.setImg(new Image(null,"images/character.png"));
+					redraw();
+					if(character.checkCollision(mazeData[character.getPos().x+1][character.getPos().y]))
+						break;
+					character.moveRight();
 					redraw();
 					break;
 					
 				case SWT.ARROW_UP:					
 					character.setImg(new Image(null,"images/characterU.png"));
+					redraw();
+					if(character.checkCollision(mazeData[character.getPos().x][character.getPos().y-1]))
+						break;
 					character.moveUp();
 					redraw();
 					break;
 					
 				case SWT.ARROW_DOWN:					
 					character.setImg(new Image(null,"images/characterD.png"));
+					redraw();
+					if(character.checkCollision(mazeData[character.getPos().x][character.getPos().y+1]))
+						break;
 					character.moveDown();
 					redraw();
 					break;
