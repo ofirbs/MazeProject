@@ -68,6 +68,14 @@ public class GenerateMazeWindow extends DialogWindow {
 				int cols = Integer.parseInt(txtCols.getText());
 				
 				mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
+				while(!mazeWindow.getIsMazeReady()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				//msg.setMessage("Generated maze " + name + " with floors: " + floors + " rows: " + rows + " cols: " + cols);
 				mazeWindow.update("display "+name);
 				//msg.open();

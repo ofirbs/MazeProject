@@ -81,7 +81,7 @@ public class MyModel extends Observable implements Model {
 				mazes.put(name, maze);
 				
 				setChanged();
-				displayMessage("maze " + name + " is ready.");	
+				notifyMazeIsReady(name);
 				return maze;
 			}	
 		});
@@ -310,6 +310,11 @@ public class MyModel extends Observable implements Model {
 	private void displayMessage(String msg) {
 		setChanged();
 		notifyObservers("display_message " + msg);
+	}
+	
+	private void notifyMazeIsReady(String name) {
+		 setChanged();
+		 notifyObservers("maze_ready " + name);
 	}
 	
 	/**

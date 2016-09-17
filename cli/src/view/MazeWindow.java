@@ -16,6 +16,7 @@ import algorithms.mazeGenerators.Maze3d;
 public class MazeWindow extends BaseWindow implements View {
 
 	private MazeDisplay mazeDisplay;
+	private Boolean isMazeReady = false;
 
 	@Override
 	protected void initWidgets() {
@@ -52,6 +53,14 @@ public class MazeWindow extends BaseWindow implements View {
 		mazeDisplay.setFocus();
 	}
 	
+	public Boolean getIsMazeReady() {
+		return isMazeReady;
+	}
+
+	public void setIsMazeReady(Boolean isMazeReady) {
+		this.isMazeReady = isMazeReady;
+	}
+
 	public void update(String command) {
 		 setChanged();
 		 notifyObservers(command);
@@ -59,13 +68,12 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void notifyMazeIsReady(String name) {
-		// TODO Auto-generated method stub
-		
+		setIsMazeReady(true);
 	}
 
 	@Override
 	public void displayMaze(Maze3d maze) {
-		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
+		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x+3));
 		mazeDisplay.redraw();
 	}
 

@@ -45,6 +45,8 @@ public class CommandsManager {
 		commands.put("display_solution", new DisplaySolutionCommand());
 		commands.put("exit", new ExitCommand());
 		commands.put("display_message", new DisplayMessageCommand());
+		commands.put("maze_ready", new MazeReadyCommand());
+
 		
 		return commands;
 	}
@@ -251,6 +253,14 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			model.exit();
+		}
+	}
+	
+	public class MazeReadyCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			view.notifyMazeIsReady(args[0]);
 		}
 	}
 }
