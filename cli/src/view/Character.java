@@ -10,7 +10,7 @@ public class Character {
 	private Image img;
 	
 	public Character() {
-		img = new Image(null, "resources/images/character.jpg");
+		img = new Image(null, "images/character.png");
 	}
 
 	public Position getPos() {
@@ -29,6 +29,27 @@ public class Character {
 	public void moveRight() {
 		pos.x++;
 	}
+	
+	public void moveLeft() {
+		pos.x--;
+	}
+	
+	public void moveUp() {
+		pos.y--;
+	}
+	
+	public void moveDown() {
+		pos.y++;
+	}
+
+	public Image getImg() {
+		return img;
+	}
+
+	public void setImg(Image img) {
+		this.img = img;
+	}
+	
 	
 
 }
