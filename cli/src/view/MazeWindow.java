@@ -75,6 +75,7 @@ public class MazeWindow extends BaseWindow implements View {
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x+3));
 		mazeDisplay.redraw();
+		mazeDisplay.setFocus();
 	}
 
 	@Override
