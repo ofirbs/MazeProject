@@ -56,7 +56,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_LEFT:					
 					character.setImg(new Image(null,"images/characterL.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().x-1][character.getPos().y]))
+					if(character.checkCollision(mazeData[character.getPos().y][character.getPos().z-1]))
 						break;
 					character.moveLeft();
 					redraw();
@@ -65,7 +65,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_RIGHT:
 					character.setImg(new Image(null,"images/character.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().x+1][character.getPos().y]))
+					if(character.checkCollision(mazeData[character.getPos().y][character.getPos().z+1]))
 						break;
 					character.moveRight();
 					redraw();
@@ -74,7 +74,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_UP:					
 					character.setImg(new Image(null,"images/characterU.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().x][character.getPos().y-1]))
+					if(character.checkCollision(mazeData[character.getPos().y-1][character.getPos().z]))
 						break;
 					character.moveUp();
 					redraw();
@@ -83,7 +83,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_DOWN:					
 					character.setImg(new Image(null,"images/characterD.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().x][character.getPos().y+1]))
+					if(character.checkCollision(mazeData[character.getPos().y+1][character.getPos().z]))
 						break;
 					character.moveDown();
 					redraw();
@@ -97,25 +97,24 @@ public class MazeDisplay extends Canvas {
 			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(new Color(null,0,0,0));
-				   e.gc.setBackground(new Color(null,0,0,0));
+				e.gc.setBackground(new Color(null,0,0,0));
 				   
-
-				   int width=getSize().x;
-				   int height=getSize().y;
-
-				   int w=width/mazeData[0].length;
-				   int h=height/mazeData.length;
-
-				   for(int i=0;i<mazeData.length;i++)
-				      for(int j=0;j<mazeData[i].length;j++){
-				          int x=j*w;
-				          int y=i*h;
-				          if(mazeData[i][j]!=0)
-				              e.gc.fillRectangle(x,y,w,h);
-				      }
+				int width=getSize().x;
+				int height=getSize().y;
+	
+				int w=width/mazeData[0].length;
+				int h=height/mazeData.length;
+	
+				for(int i=0;i<mazeData.length;i++)
+				   for(int j=0;j<mazeData[i].length;j++){
+				       int x=j*w;
+				       int y=i*h;
+				       if(mazeData[i][j]!=0)
+				           e.gc.fillRectangle(x,y,w,h);
+				   }
 				   
 				 
-				   character.draw(w, h, e.gc);
+				character.draw(w, h, e.gc);
 				
 			}
 		});
