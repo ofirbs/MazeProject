@@ -48,6 +48,24 @@ public class MazeWindow extends BaseWindow implements View {
 		Button btnSolveMaze = new Button(buttons, SWT.PUSH);
 		btnSolveMaze.setText("Solve maze");
 		
+		Button btnExit = new Button(buttons, SWT.PUSH);
+		btnExit.setText("Exit");
+		
+		btnExit.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				update("exit");
+				shell.dispose();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+
+		
 		mazeDisplay = new MazeDisplay(shell, SWT.BORDER);	
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
