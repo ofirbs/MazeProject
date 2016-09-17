@@ -66,7 +66,7 @@ public class GenerateMazeWindow extends DialogWindow {
 				int floors = Integer.parseInt(txtFloors.getText());
 				int rows = Integer.parseInt(txtRows.getText());
 				int cols = Integer.parseInt(txtCols.getText());
-				
+				mazeWindow.setIsMazeReady(false);
 				mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
 				while(!mazeWindow.getIsMazeReady()) {
 					try {
