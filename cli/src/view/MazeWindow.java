@@ -9,11 +9,19 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import presenter.Presenter;
+
 public class MazeWindow extends BaseWindow {
 
 	private MazeDisplay mazeDisplay;
-	private Character character;
+	private Presenter presenter;
 	
+	
+	public MazeWindow(Presenter presenter) {
+		super();
+		this.presenter = presenter;
+	}
+
 	@Override
 	protected void initWidgets() {
 		GridLayout grid = new GridLayout(2, false);
@@ -32,12 +40,12 @@ public class MazeWindow extends BaseWindow {
 			public void widgetSelected(SelectionEvent arg0) {
 				GenerateMazeWindow win = new GenerateMazeWindow();				
 				win.start(display);
+
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		

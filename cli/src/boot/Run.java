@@ -54,7 +54,7 @@ public class Run {
 		
 		switch (typeOfUI) {
 		case "GUI":
-			MazeWindow win = new MazeWindow();
+			MazeWindow win = new MazeWindow(presenter);
 			win.start();
 			break;
 
