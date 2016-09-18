@@ -60,8 +60,6 @@ public class GenerateMazeWindow extends DialogWindow {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {				
 				MessageBox msg = new MessageBox(shell, SWT.OK);
-				//msg.setText("Title");
-				//msg.setMessage("Button was clicked");
 				String name = txtName.getText();
 				int floors = Integer.parseInt(txtFloors.getText());
 				int rows = Integer.parseInt(txtRows.getText());
@@ -72,13 +70,10 @@ public class GenerateMazeWindow extends DialogWindow {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				//msg.setMessage("Generated maze " + name + " with floors: " + floors + " rows: " + rows + " cols: " + cols);
 				mazeWindow.update("display "+name);
-				//msg.open();
 				shell.close();
 			}
 			

@@ -18,14 +18,19 @@ import algorithms.mazeGenerators.Position;
 public class MazeDisplay extends Canvas {
 	
 	private int[][] mazeData;
-	
+	private int rows;
+	private int cols;
 	private Character character;
 
 	public Character getCharacter() {
 		return character;
 	}
-
-	public MazeDisplay(Composite parent, int style) {
+	
+	public void setCharacter(Position pos) {
+		character.setPos(pos);
+	}
+	
+	public MazeDisplay(Composite parent, int style, Position pos) {
 		super(parent, style);
 		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -39,8 +44,7 @@ public class MazeDisplay extends Canvas {
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}  
 				 };
 		character = new Character();
-		character.setPos(new Position(1, 1, 1));
-						
+		character.setPos(pos);
 		this.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -56,7 +60,9 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_LEFT:					
 					character.setImg(new Image(null,"images/characterL.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().y][character.getPos().z-1]))
+					if (pos.z <= 0)
+						break;
+					if(character.checkCollision(mazeData[pos.y][pos.z-1]))
 						break;
 					character.moveLeft();
 					redraw();
@@ -65,7 +71,9 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_RIGHT:
 					character.setImg(new Image(null,"images/character.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().y][character.getPos().z+1]))
+					if (pos.z >= cols)
+						break;
+					if(character.checkCollision(mazeData[pos.y][pos.z+1]))
 						break;
 					character.moveRight();
 					redraw();
@@ -74,7 +82,9 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_UP:					
 					character.setImg(new Image(null,"images/characterU.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().y-1][character.getPos().z]))
+					if (pos.y <= 0)
+						break;
+					if(character.checkCollision(mazeData[pos.y-1][pos.z]))
 						break;
 					character.moveUp();
 					redraw();
@@ -83,7 +93,9 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_DOWN:					
 					character.setImg(new Image(null,"images/characterD.png"));
 					redraw();
-					if(character.checkCollision(mazeData[character.getPos().y+1][character.getPos().z]))
+					if (pos.y >= rows)
+						break;
+					if(character.checkCollision(mazeData[pos.y+1][pos.z]))
 						break;
 					character.moveDown();
 					redraw();
@@ -140,6 +152,8 @@ public class MazeDisplay extends Canvas {
 	}
 	public void setMaze2d(int[][] maze2d) {
 		this.mazeData = maze2d;
+		this.rows = maze2d.length;
+		this.cols = maze2d[0].length;
 	}
 }
 
