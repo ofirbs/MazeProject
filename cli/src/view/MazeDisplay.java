@@ -30,7 +30,7 @@ public class MazeDisplay extends Canvas {
 		character.setPos(pos);
 	}
 	
-	public MazeDisplay(Composite parent, int style, Position pos) {
+	public MazeDisplay(Composite parent, int style) {
 		super(parent, style);
 		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -44,7 +44,7 @@ public class MazeDisplay extends Canvas {
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}  
 				 };
 		character = new Character();
-		character.setPos(pos);
+		character.setPos(new Position(0,1,1));
 		this.addKeyListener(new KeyListener() {
 			
 			@Override

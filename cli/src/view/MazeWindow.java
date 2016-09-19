@@ -64,6 +64,11 @@ public class MazeWindow extends BaseWindow implements View {
 				// TODO Auto-generated method stub
 			}
 		});
+		
+		mazeDisplay = new MazeDisplay(shell, SWT.BORDER);
+		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		mazeDisplay.setFocus();
+		mazeDisplay.setVisible(false);
 	}
 	
 	public Boolean getIsMazeReady() {
@@ -87,10 +92,9 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void displayMaze(Maze3d maze) {
-		mazeDisplay = new MazeDisplay(shell, SWT.BORDER,maze.getStartPosition());
-		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//mazeDisplay.setFocus();
+		mazeDisplay.setVisible(true);
 		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
+		mazeDisplay.setCharacter(maze.getStartPosition());
 		mazeDisplay.redraw();
 		mazeDisplay.setFocus();
 	}
