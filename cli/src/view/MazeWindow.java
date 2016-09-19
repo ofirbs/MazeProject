@@ -10,7 +10,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 
 import algorithms.mazeGenerators.Maze3d;
 
@@ -18,6 +21,11 @@ public class MazeWindow extends BaseWindow implements View {
 
 	private MazeDisplay mazeDisplay;
 	private Boolean isMazeReady = false;
+	private Boolean isMazeDisplayed = false;
+
+	public void setIsMazeDisplayed(Boolean isMazeDisplayed) {
+		this.isMazeDisplayed = isMazeDisplayed;
+	}
 
 	@Override
 	protected void initWidgets() {
@@ -51,6 +59,19 @@ public class MazeWindow extends BaseWindow implements View {
 		
 		Button btnExit = new Button(buttons, SWT.PUSH);
 		btnExit.setText("Exit");
+		
+		Label lblBlank = new Label(buttons, SWT.NONE);
+		lblBlank.setVisible(false);
+		
+		Label lblBlank2 = new Label(buttons, SWT.NONE);
+		lblBlank2.setVisible(false);
+		
+		Label lblCurrentFloor = new Label(buttons, SWT.NONE);
+		lblCurrentFloor.setText("Current floor: " );
+		if(isMazeDisplayed)
+			lblCurrentFloor.setVisible(true);
+		else
+			lblCurrentFloor.setVisible(false);
 		
 		btnExit.addSelectionListener(new SelectionListener() {
 			
