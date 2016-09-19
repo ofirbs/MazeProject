@@ -26,6 +26,8 @@ public class SimpleMaze3dGenerator extends Maze3dGeneratorBase {
 	@Override
 	public Maze3d generate(int floors, int rows, int cols) {
 		maze3d = init(maze3d, floors, rows, cols);
+		Position startPos = maze3d.getStartPosition();
+		maze3d.setFree(startPos.x, startPos.y, startPos.z);
 		GenerateSimpleRoute(maze3d.getStartPosition());			
 		return maze3d;
 	}

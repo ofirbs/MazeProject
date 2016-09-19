@@ -49,7 +49,9 @@ public class GrowingTreeGenerator extends Maze3dGeneratorBase {
 		
 		ArrayList<Position> positionsList = new ArrayList<Position>(); 
 		//start from the randomized start position
-		positionsList.add(maze3d.getStartPosition());
+		Position startPos = maze3d.getStartPosition();
+		positionsList.add(startPos);
+		maze3d.setFree(startPos.x, startPos.y, startPos.z);
 		
 		while(! positionsList.isEmpty() && !isDone)
 		{
