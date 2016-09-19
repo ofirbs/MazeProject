@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.mazeGenerators.Position;
 
@@ -21,11 +22,20 @@ public class MazeDisplay extends Canvas {
 	private int rows;
 	private int cols;
 	private Character character;
+	private Goal goal;
 
 	public Character getCharacter() {
 		return character;
 	}
-	
+
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Position pos) {
+		goal.setPos(pos);
+	}
+
 	public void setCharacter(Position pos) {
 		character.setPos(pos);
 	}
@@ -44,6 +54,8 @@ public class MazeDisplay extends Canvas {
 				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}  
 				 };
 		character = new Character();
+		goal = new Goal();
+		goal.setPos(new Position(0,1,1));
 		character.setPos(new Position(0,1,1));
 		this.addKeyListener(new KeyListener() {
 			
@@ -65,6 +77,7 @@ public class MazeDisplay extends Canvas {
 					if(character.checkCollision(mazeData[pos.y][pos.z-1]))
 						break;
 					character.moveLeft();
+					checkWon();
 					redraw();
 					break;
 				
@@ -76,6 +89,7 @@ public class MazeDisplay extends Canvas {
 					if(character.checkCollision(mazeData[pos.y][pos.z+1]))
 						break;
 					character.moveRight();
+					checkWon();
 					redraw();
 					break;
 					
@@ -87,6 +101,7 @@ public class MazeDisplay extends Canvas {
 					if(character.checkCollision(mazeData[pos.y-1][pos.z]))
 						break;
 					character.moveUp();
+					checkWon();
 					redraw();
 					break;
 					
@@ -98,6 +113,7 @@ public class MazeDisplay extends Canvas {
 					if(character.checkCollision(mazeData[pos.y+1][pos.z]))
 						break;
 					character.moveDown();
+					checkWon();
 					redraw();
 					break;
 				}
@@ -127,6 +143,7 @@ public class MazeDisplay extends Canvas {
 				   
 				 
 				character.draw(w, h, e.gc);
+				goal.draw(w, h, e.gc);
 				
 			}
 		});
@@ -154,6 +171,12 @@ public class MazeDisplay extends Canvas {
 		this.mazeData = maze2d;
 		this.rows = maze2d.length;
 		this.cols = maze2d[0].length;
+	}
+	
+	public void checkWon() {
+		if (character.getPos().equals(goal.getPos())) {
+			this.setVisible(false);			
+		}
 	}
 }
 

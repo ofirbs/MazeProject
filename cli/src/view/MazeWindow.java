@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.mazeGenerators.Maze3d;
 
@@ -95,6 +96,7 @@ public class MazeWindow extends BaseWindow implements View {
 		mazeDisplay.setVisible(true);
 		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
 		mazeDisplay.setCharacter(maze.getStartPosition());
+		mazeDisplay.setGoal(maze.getGoalPosition());
 		mazeDisplay.redraw();
 		mazeDisplay.setFocus();
 	}
@@ -115,5 +117,11 @@ public class MazeWindow extends BaseWindow implements View {
 	public void displayMaze2d(int[][] maze2d) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void messageWon() {
+		MessageBox msg = new MessageBox(shell, SWT.OK);
+		msg.setMessage("You Won!");
+		msg.open();
 	}
 }

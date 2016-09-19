@@ -59,7 +59,6 @@ public class GenerateMazeWindow extends DialogWindow {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {				
-				MessageBox msg = new MessageBox(shell, SWT.OK);
 				String name = txtName.getText();
 				int floors = Integer.parseInt(txtFloors.getText());
 				int rows = Integer.parseInt(txtRows.getText());
