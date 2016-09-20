@@ -25,6 +25,7 @@ public class MazeDisplay extends Canvas {
 	private Goal goal;
 	private int currentFloor;
 	private Label lblCurrentFloor;
+	private PaintListener ps;
 
 
 	public Character getCharacter() {
@@ -63,20 +64,66 @@ public class MazeDisplay extends Canvas {
 	public void initialize(Maze3d maze) {
 		this.maze = maze;
 	}
+	public void configPaintListiner() {
+		this.setBackgroundImage(null);
+		ps = new PaintListener() {
+			int type;
+			@Override
+			public void paintControl(PaintEvent e) {
+				e.gc.setForeground(new Color(null,0,0,0));
+				e.gc.setBackground(new Color(null,0,0,0));
+				   
+				int width=getSize().x;
+				int height=getSize().y;
 	
+				int w=width/mazeData[0].length;
+				int h=height/mazeData.length;
+	
+				for(int i=0;i<mazeData.length;i++)
+				   for(int j=0;j<mazeData[i].length;j++){
+				       int x=j*w;
+				       int y=i*h;
+				       if(mazeData[i][j]!=0) {
+							e.gc.setBackground(new Color(null,0,0,0));
+					    	e.gc.fillRectangle(x,y,w,h);
+
+				       }
+				       
+				       else {
+				    	   type = getCellType(new Position(currentFloor,i,j));
+				    	   
+				    	switch (type) {
+							case 2:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_GREEN));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+							case 4:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_RED));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+								
+							case 6:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLUE));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+						}
+				       }   
+				   }
+				   
+				 
+				character.draw(w, h, e.gc);
+				if (goal.getPos().x == currentFloor)
+					goal.draw(w, h, e.gc);
+				
+			}
+		};
+		
+		this.addPaintListener(ps);
+	}
 	public MazeDisplay(Composite parent, int style, Label lblCurrentFloor) {
 		super(parent, style);
-		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}  
-				 };
+		this.setBackgroundImage(new Image(null, "images/goal.png"));
+		
 		character = new Character();
 		goal = new Goal();
 		this.lblCurrentFloor = lblCurrentFloor;
@@ -171,63 +218,7 @@ public class MazeDisplay extends Canvas {
 			}
 		});
 		
-		this.addPaintListener(new PaintListener() {
-			
-			int type;
-			@Override
-			public void paintControl(PaintEvent e) {
-				e.gc.setForeground(new Color(null,0,0,0));
-				e.gc.setBackground(new Color(null,0,0,0));
-				   
-				int width=getSize().x;
-				int height=getSize().y;
-	
-				int w=width/mazeData[0].length;
-				int h=height/mazeData.length;
-				
-				//Image imgUp = new Image(null,"images/upArrow.png");
-				//Image imgDown = new Image(null,"images/downArrow.png");
-
-	
-				for(int i=0;i<mazeData.length;i++)
-				   for(int j=0;j<mazeData[i].length;j++){
-				       int x=j*w;
-				       int y=i*h;
-				       if(mazeData[i][j]!=0) {
-							e.gc.setBackground(new Color(null,0,0,0));
-					    	e.gc.fillRectangle(x,y,w,h);
-
-				       }
-				       
-				       else {
-				    	   type = getCellType(new Position(currentFloor,i,j));
-				    	   
-				    	switch (type) {
-							case 2:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_GREEN));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
-							case 4:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_RED));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
-								
-							case 6:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLUE));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
-						}
-				       }   
-				   }
-				   
-				 
-				character.draw(w, h, e.gc);
-				if (goal.getPos().x == currentFloor)
-					goal.draw(w, h, e.gc);
-				
-			}
-		});
-		
+		//configPaintListiner();
 		/*TimerTask task = new TimerTask() {
 			
 			@Override
@@ -268,7 +259,9 @@ public class MazeDisplay extends Canvas {
 	
 	public void checkWon() {
 		if (character.getPos().equals(goal.getPos())) {
-			this.setVisible(false);			
+			//this.setVisible(false);	
+			this.removePaintListener(ps);
+			this.setBackgroundImage(new Image(null,"images/character.png"));
 		}
 	}
 }

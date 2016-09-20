@@ -5,6 +5,7 @@ import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -89,7 +90,6 @@ public class MazeWindow extends BaseWindow implements View {
 		mazeDisplay = new MazeDisplay(shell, SWT.BORDER, lblCurrentFloor);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
-		mazeDisplay.setVisible(false);
 	}
 	
 	public Boolean getIsMazeReady() {
@@ -114,16 +114,13 @@ public class MazeWindow extends BaseWindow implements View {
 	@Override
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setVisible(true);
+		mazeDisplay.configPaintListiner();
 		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setCharacter(maze.getStartPosition());
 		mazeDisplay.setGoal(maze.getGoalPosition());
 		lblCurrentFloor.setText("Floor: " + Integer.toString(mazeDisplay.getCharacter().getPos().x + 1)+"/"+Integer.toString(maze.getFloors()));
 		lblCurrentFloor.setVisible(true);
 		mazeDisplay.initialize(maze);
-		/*if (mazeDisplay.getGoal().getPos().x == mazeDisplay.getCharacter().getPos().x)
-			mazeDisplay.setIsSameFloor(true);
-		else
-			mazeDisplay.setIsSameFloor(false);*/
 		mazeDisplay.setCurrentFloor(mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.redraw();
 		mazeDisplay.setFocus();
