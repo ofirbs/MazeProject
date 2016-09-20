@@ -38,6 +38,14 @@ public class Character {
 		pos.y--;
 	}
 	
+	public void moveAbove() {
+		pos.x++;
+	}
+	
+	public void moveBelow() {
+		pos.x--;
+	}
+	
 	public void moveDown() {
 		pos.y++;
 	}
@@ -56,4 +64,6 @@ public class Character {
 		else
 			return false;
 	}
+
+
 }

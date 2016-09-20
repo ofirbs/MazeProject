@@ -10,10 +10,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
 import algorithms.mazeGenerators.Maze3d;
 
@@ -88,7 +86,7 @@ public class MazeWindow extends BaseWindow implements View {
 			}
 		});
 		
-		mazeDisplay = new MazeDisplay(shell, SWT.BORDER);
+		mazeDisplay = new MazeDisplay(shell, SWT.BORDER, lblCurrentFloor);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		mazeDisplay.setFocus();
 		mazeDisplay.setVisible(false);
@@ -116,11 +114,17 @@ public class MazeWindow extends BaseWindow implements View {
 	@Override
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setVisible(true);
-		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
+		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setCharacter(maze.getStartPosition());
 		mazeDisplay.setGoal(maze.getGoalPosition());
 		lblCurrentFloor.setText("Floor: " + Integer.toString(mazeDisplay.getCharacter().getPos().x + 1)+"/"+Integer.toString(maze.getFloors()));
 		lblCurrentFloor.setVisible(true);
+		mazeDisplay.initialize(maze);
+		/*if (mazeDisplay.getGoal().getPos().x == mazeDisplay.getCharacter().getPos().x)
+			mazeDisplay.setIsSameFloor(true);
+		else
+			mazeDisplay.setIsSameFloor(false);*/
+		mazeDisplay.setCurrentFloor(mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.redraw();
 		mazeDisplay.setFocus();
 	}

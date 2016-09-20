@@ -1,8 +1,5 @@
 package view;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -12,17 +9,22 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Label;
 
+import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 
 public class MazeDisplay extends Canvas {
-	
+	private Maze3d maze;
 	private int[][] mazeData;
+	private int floors;
 	private int rows;
 	private int cols;
 	private Character character;
 	private Goal goal;
+	private int currentFloor;
+	private Label lblCurrentFloor;
+
 
 	public Character getCharacter() {
 		return character;
@@ -40,7 +42,28 @@ public class MazeDisplay extends Canvas {
 		character.setPos(pos);
 	}
 	
-	public MazeDisplay(Composite parent, int style) {
+
+	public Maze3d getMaze() {
+		return maze;
+	}
+
+	public void setMaze(Maze3d maze) {
+		this.maze = maze;
+	}
+
+	public int getCurrentFloor() {
+		return currentFloor;
+	}
+
+	public void setCurrentFloor(int currentFloor) {
+		this.currentFloor = currentFloor;
+	}
+
+	public void initialize(Maze3d maze) {
+		this.maze = maze;
+	}
+	
+	public MazeDisplay(Composite parent, int style, Label lblCurrentFloor) {
 		super(parent, style);
 		mazeData = new int[][] {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				   {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -55,6 +78,7 @@ public class MazeDisplay extends Canvas {
 				 };
 		character = new Character();
 		goal = new Goal();
+		this.lblCurrentFloor = lblCurrentFloor;
 		goal.setPos(new Position(0,1,1));
 		character.setPos(new Position(0,1,1));
 		this.addKeyListener(new KeyListener() {
@@ -116,6 +140,32 @@ public class MazeDisplay extends Canvas {
 					checkWon();
 					redraw();
 					break;
+					
+				case SWT.PAGE_UP:					
+					if (pos.x >= floors -1)
+						break;
+					if(maze.getValue(pos.x+1, pos.y, pos.z) == 1)
+						break;
+					mazeData = maze.getCrossSectionByX(pos.x+1);
+					character.moveAbove();
+					currentFloor++;
+					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
+					checkWon();
+					redraw();
+					break;
+					
+				case SWT.PAGE_DOWN:					
+					if (pos.x <= 0)
+						break;
+					if(maze.getValue(pos.x-1, pos.y, pos.z) == 1)
+						break;
+					mazeData = maze.getCrossSectionByX(pos.x-1);	
+					character.moveBelow();
+					currentFloor--;
+					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
+					checkWon();
+					redraw();
+					break;
 				}
 			}
 		});
@@ -143,7 +193,8 @@ public class MazeDisplay extends Canvas {
 				   
 				 
 				character.draw(w, h, e.gc);
-				goal.draw(w, h, e.gc);
+				if (goal.getPos().x == currentFloor)
+					goal.draw(w, h, e.gc);
 				
 			}
 		});
@@ -167,10 +218,11 @@ public class MazeDisplay extends Canvas {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 500);*/
 	}
-	public void setMaze2d(int[][] maze2d) {
-		this.mazeData = maze2d;
-		this.rows = maze2d.length;
-		this.cols = maze2d[0].length;
+	public void setMaze2d(Maze3d maze, int floor) {
+		this.mazeData = maze.getCrossSectionByX(floor);
+		this.rows = maze.getRows();
+		this.cols = maze.getCols();
+		this.floors = maze.getFloors();
 	}
 	
 	public void checkWon() {
