@@ -22,6 +22,7 @@ public class MazeWindow extends BaseWindow implements View {
 	private MazeDisplay mazeDisplay;
 	private Boolean isMazeReady = false;
 	private Boolean isMazeDisplayed = false;
+	private Label lblCurrentFloor;
 
 	public void setIsMazeDisplayed(Boolean isMazeDisplayed) {
 		this.isMazeDisplayed = isMazeDisplayed;
@@ -66,7 +67,7 @@ public class MazeWindow extends BaseWindow implements View {
 		Label lblBlank2 = new Label(buttons, SWT.NONE);
 		lblBlank2.setVisible(false);
 		
-		Label lblCurrentFloor = new Label(buttons, SWT.NONE);
+		lblCurrentFloor = new Label(buttons, SWT.NONE);
 		lblCurrentFloor.setText("Current floor: " );
 		if(isMazeDisplayed)
 			lblCurrentFloor.setVisible(true);
@@ -118,6 +119,8 @@ public class MazeWindow extends BaseWindow implements View {
 		mazeDisplay.setMaze2d(maze.getCrossSectionByX(mazeDisplay.getCharacter().getPos().x));
 		mazeDisplay.setCharacter(maze.getStartPosition());
 		mazeDisplay.setGoal(maze.getGoalPosition());
+		lblCurrentFloor.setText("Floor: " + Integer.toString(mazeDisplay.getCharacter().getPos().x + 1)+"/"+Integer.toString(maze.getFloors()));
+		lblCurrentFloor.setVisible(true);
 		mazeDisplay.redraw();
 		mazeDisplay.setFocus();
 	}
