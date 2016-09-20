@@ -108,7 +108,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_RIGHT:
 					character.setImg(new Image(null,"images/character.png"));
 					redraw();
-					if (pos.z >= cols)
+					if (pos.z >= cols-1)
 						break;
 					if(character.checkCollision(mazeData[pos.y][pos.z+1]))
 						break;
@@ -132,7 +132,7 @@ public class MazeDisplay extends Canvas {
 				case SWT.ARROW_DOWN:					
 					character.setImg(new Image(null,"images/characterD.png"));
 					redraw();
-					if (pos.y >= rows)
+					if (pos.y >= rows-1)
 						break;
 					if(character.checkCollision(mazeData[pos.y+1][pos.z]))
 						break;
