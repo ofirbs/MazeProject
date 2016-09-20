@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import algorithms.mazeGenerators.Maze3d;
@@ -172,6 +173,7 @@ public class MazeDisplay extends Canvas {
 		
 		this.addPaintListener(new PaintListener() {
 			
+			int type;
 			@Override
 			public void paintControl(PaintEvent e) {
 				e.gc.setForeground(new Color(null,0,0,0));
@@ -182,13 +184,40 @@ public class MazeDisplay extends Canvas {
 	
 				int w=width/mazeData[0].length;
 				int h=height/mazeData.length;
+				
+				//Image imgUp = new Image(null,"images/upArrow.png");
+				//Image imgDown = new Image(null,"images/downArrow.png");
+
 	
 				for(int i=0;i<mazeData.length;i++)
 				   for(int j=0;j<mazeData[i].length;j++){
 				       int x=j*w;
 				       int y=i*h;
-				       if(mazeData[i][j]!=0)
-				           e.gc.fillRectangle(x,y,w,h);
+				       if(mazeData[i][j]!=0) {
+							e.gc.setBackground(new Color(null,0,0,0));
+					    	e.gc.fillRectangle(x,y,w,h);
+
+				       }
+				       
+				       else {
+				    	   type = getCellType(new Position(currentFloor,i,j));
+				    	   
+				    	switch (type) {
+							case 2:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_GREEN));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+							case 4:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_RED));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+								
+							case 6:
+								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLUE));
+								e.gc.fillRectangle(x,y,w,h);
+								break;
+						}
+				       }   
 				   }
 				   
 				 
@@ -218,6 +247,18 @@ public class MazeDisplay extends Canvas {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 500);*/
 	}
+	
+	public int getCellType(Position pos) {
+		int mode=0;
+		if (!(pos.x >= floors -1))
+			if(maze.getValue(pos.x+1, pos.y, pos.z) == 0)
+				mode+=2;
+		if (!(pos.x <= 0))
+			if(maze.getValue(pos.x-1, pos.y, pos.z) == 0)
+				mode+=4;
+		return mode;
+	}
+	
 	public void setMaze2d(Maze3d maze, int floor) {
 		this.mazeData = maze.getCrossSectionByX(floor);
 		this.rows = maze.getRows();
