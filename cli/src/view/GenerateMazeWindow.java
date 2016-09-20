@@ -60,14 +60,21 @@ public class GenerateMazeWindow extends DialogWindow {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {				
 				String name = txtName.getText();
+				MessageBox msgError = new MessageBox(shell, SWT.ICON_WARNING);
 				if((name =="") || (txtFloors.getText()=="") || (txtRows.getText()=="") || (txtCols.getText()=="")) // check for empty fields
 				{
-					MessageBox msg = new MessageBox(shell, SWT.ICON_WARNING);
-					msg.setMessage("All fields must be filled");
-					msg.open();
+					
+					msgError.setMessage("All fields must be filled");
+					msgError.open();
 					
 				}
-				else{
+				else if((Integer.parseInt(txtFloors.getText())<=0) || (Integer.parseInt(txtRows.getText())<=0) || (Integer.parseInt(txtCols.getText())<=0)) // check for negative maze dimensions
+				{
+					msgError.setMessage("Maze dimensions must be greater than 0");
+					msgError.open();
+				}
+				else
+				{
 					int floors = Integer.parseInt(txtFloors.getText());
 					int rows = Integer.parseInt(txtRows.getText());
 					int cols = Integer.parseInt(txtCols.getText());
