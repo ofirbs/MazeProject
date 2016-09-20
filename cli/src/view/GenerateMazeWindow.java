@@ -60,21 +60,30 @@ public class GenerateMazeWindow extends DialogWindow {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {				
 				String name = txtName.getText();
-				int floors = Integer.parseInt(txtFloors.getText());
-				int rows = Integer.parseInt(txtRows.getText());
-				int cols = Integer.parseInt(txtCols.getText());
-				mazeWindow.setIsMazeReady(false);
-				mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
-				while(!mazeWindow.getIsMazeReady()) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+				if((name =="") || (txtFloors.getText()=="") || (txtRows.getText()=="") || (txtCols.getText()=="")) // check for empty fields
+				{
+					MessageBox msg = new MessageBox(shell, SWT.ICON_WARNING);
+					msg.setMessage("All fields must be filled");
+					msg.open();
+					
 				}
-				mazeWindow.update("display "+name);
-				mazeWindow.setIsMazeDisplayed(true);
-				shell.close();
+				else{
+					int floors = Integer.parseInt(txtFloors.getText());
+					int rows = Integer.parseInt(txtRows.getText());
+					int cols = Integer.parseInt(txtCols.getText());
+					mazeWindow.setIsMazeReady(false);
+					mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
+					while(!mazeWindow.getIsMazeReady()) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					mazeWindow.update("display "+name);
+					mazeWindow.setIsMazeDisplayed(true);
+					shell.close();
+				}
 			}
 			
 			@Override
