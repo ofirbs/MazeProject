@@ -27,6 +27,7 @@ import algorithms.search.DFS;
 import algorithms.search.Solution;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
+import properties.PropertiesLoader;
 
 /**
  * <h1> The MyModel Class</h1>
@@ -40,7 +41,8 @@ public class MyModel extends Observable implements Model {
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution<Position>> solutions = new ConcurrentHashMap<Maze3d, Solution<Position>>();
 	private ExecutorService executor;
-	private String generatorType;
+	private String generateMazeAlgorithm;
+	private String solveMazeAlgorithm;
 
 	
 	/**
@@ -48,9 +50,10 @@ public class MyModel extends Observable implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel(int numOfThreads, String generatorType) {
+	public MyModel(int numOfThreads, String generateMazeAlgorithm, String solveMazeAlgorithm) {
 		super();
-		this.generatorType = generatorType;
+		this.generateMazeAlgorithm = generateMazeAlgorithm;
+		this.solveMazeAlgorithm = solveMazeAlgorithm;
 		executor = Executors.newFixedThreadPool(numOfThreads);
 	}
 	
@@ -68,7 +71,7 @@ public class MyModel extends Observable implements Model {
 			@Override
 			public Maze3d call() throws Exception {
 				Maze3dGeneratorBase generator=null;
-				switch (generatorType) {
+				switch (generateMazeAlgorithm) {
 				case "GrowingTreeGenerator":
 					generator = new GrowingTreeGenerator(new RandomNeighborChooser());
 					break;

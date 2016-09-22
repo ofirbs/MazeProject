@@ -1,7 +1,17 @@
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-    <comment>test</comment>
-    <entry key="numOfThreads">50</entry>
-    <entry key="generatorType">GrowingTreeGenerator</entry>
-    <entry key="typeOfUI">GUI</entry>
-</properties>
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_60" class="java.beans.XMLDecoder">
+ <object class="properties.Properties">
+  <void property="generateMazeAlgorithm">
+   <string>GrowingTreeGenerator</string>
+  </void>
+  <void property="numOfThreads">
+   <int>50</int>
+  </void>
+  <void property="solveMazeAlgorithm">
+   <string>DFS</string>
+  </void>
+  <void property="typeOfUI">
+   <string>GUI</string>
+  </void>
+ </object>
+</java>

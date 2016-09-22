@@ -1,17 +1,13 @@
 package boot;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.InvalidPropertiesFormatException;
-import java.util.Properties;
 
 import model.MyModel;
 import presenter.Presenter;
+import properties.PropertiesLoader;
 import view.MazeWindow;
 import view.MyView;
 
@@ -21,21 +17,16 @@ public class Run {
 		
 		//Initialize Properties
 		int numOfThreads; // integer
-		String generatorType; // GrowingTreeGenerator or SimpleMaze3dGenerator
+		String generateMazeAlgorithm; // GrowingTreeGenerator or SimpleMaze3dGenerator
 		String typeOfUI; // console or GUI
-		Properties properties = new Properties();
-		try {
-			properties.loadFromXML(new FileInputStream("resources/properties.xml"));
-		} catch (InvalidPropertiesFormatException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		numOfThreads = Integer.parseInt(properties.getProperty("numOfThreads","10"));
-		generatorType = properties.getProperty("generatorType", "GrowingTreeGenerator");
-		typeOfUI = properties.getProperty("typeOfUI", "console");
+		String solveMazeAlgorithm;
+		PropertiesLoader loader = new PropertiesLoader(); 
+		
+		numOfThreads = loader.getProperties().getNumOfThreads();
+		generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm();
+		solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();;
+		typeOfUI = loader.getProperties().getTypeOfUI();
+		
 		
 		
 		InputStreamReader isr = new InputStreamReader(System.in);
@@ -46,7 +37,7 @@ public class Run {
 
 		
 		
-		MyModel model = new MyModel(numOfThreads, generatorType);
+		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm);
 		
 
 		switch (typeOfUI) {
