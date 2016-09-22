@@ -57,7 +57,6 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
 			}
 		});
 		
@@ -68,22 +67,50 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				update("solve " + mazeDisplay.getMazeName());
-				while(!getIsSolutionReady()) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+				if(mazeDisplay.getMazeName() != null){
+					update("solve " + mazeDisplay.getMazeName());
+					while(!getIsSolutionReady()) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
+					update("display_solution " + mazeDisplay.getMazeName());
+					isSolutionReady=false;
 				}
-				update("display_solution " + mazeDisplay.getMazeName());
-				isSolutionReady=false;
+				else{
+					MessageBox msg = new MessageBox(shell, SWT.OK);
+					msg.setMessage("No maze to solve");
+					msg.open();
+				}
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
 				
+			}
+		});
+		
+		Button btnHint = new Button(buttons, SWT.PUSH);
+		btnHint.setText("Hint");
+		
+		btnHint.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if(mazeDisplay.getMazeName() != null){
+					//TODO: Add hint function
+				}
+				else{
+					MessageBox msg = new MessageBox(shell, SWT.OK);
+					msg.setMessage("No maze found");
+					msg.open();
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
 		
@@ -108,8 +135,14 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				update("exit");
-				shell.dispose();
+				MessageBox msg = new MessageBox(shell,SWT.YES | SWT.NO);
+				msg.setMessage("Are you sure?");
+				msg.setText("Exit maze");
+				int response = msg.open();
+				if(response == SWT.YES){
+					update("exit");
+					shell.dispose();
+				}
 			}
 			
 			@Override
@@ -195,7 +228,6 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void printListOfFiles(File[] listOfFiles) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -208,7 +240,6 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void displayMaze2d(int[][] maze2d) {
-		// TODO Auto-generated method stub
 		
 	}
 	

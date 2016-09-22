@@ -140,7 +140,6 @@ public class MazeDisplay extends Canvas {
 			
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -211,6 +210,7 @@ public class MazeDisplay extends Canvas {
 					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
 					checkWon();
 					redraw();*/
+					moveAbove(pos);
 					break;
 					
 				case SWT.PAGE_DOWN:					
@@ -224,6 +224,7 @@ public class MazeDisplay extends Canvas {
 					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
 					checkWon();
 					redraw();*/
+					moveBelow(pos);
 					break;
 				}
 			}
