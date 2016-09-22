@@ -27,7 +27,6 @@ import algorithms.search.DFS;
 import algorithms.search.Solution;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
-import properties.PropertiesLoader;
 
 /**
  * <h1> The MyModel Class</h1>
@@ -268,7 +267,7 @@ public class MyModel extends Observable implements Model {
 	 * @param alg
 	 */
 	@Override
-	public void solveMaze(String name, String alg) {
+	public void solveMaze(String name) {
 		executor.submit(new Callable<Solution<Position>>() {
 
 			@Override
@@ -276,7 +275,7 @@ public class MyModel extends Observable implements Model {
 				
 				CommonSearcher<Position> solver;
 				Solution<Position> solution=null;
-				switch (alg) {
+				switch (solveMazeAlgorithm) {
 				case "DFS" :
 					solver = new BFS<Position>();
 					solution = solver.search( new MazeDomain(mazes.get(name)));

@@ -23,7 +23,7 @@ public interface Model {
 	boolean isMazeExists(String name);
 	void saveMaze(String name, String path);
 	void loadMaze(String path, String name);
-	void solveMaze(String name,String alg);
+	void solveMaze(String name);
 	void displaySolution(String name); 
 	public Solution<Position> getSolution(String name);
 	void exit();

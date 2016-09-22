@@ -65,9 +65,7 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				//once we change algorithm to be a property
-				//update("solve " +mazeDisplay.getMazeName());
-				update("solve " + mazeDisplay.getMazeName() +" BFS");
+				update("solve " + mazeDisplay.getMazeName());
 				while(!getIsSolutionReady()) {
 					try {
 						Thread.sleep(100);
@@ -76,6 +74,7 @@ public class MazeWindow extends BaseWindow implements View {
 					}
 				}
 				update("display_solution " + mazeDisplay.getMazeName());
+				isSolutionReady=false;
 			}
 			
 			@Override

@@ -85,7 +85,6 @@ public class MyView extends Observable implements View, Observer {
 			setChanged();
 			notifyObservers(arg);
 		}
-		
 	}
 
 	@Override
@@ -96,6 +95,6 @@ public class MyView extends Observable implements View, Observer {
 
 	@Override
 	public void displaySolution(Solution<Position> solution) {
-		solution.toString();
+		cli.notify(solution.toString());
 	}
 }

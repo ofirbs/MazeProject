@@ -209,12 +209,8 @@ public class CommandsManager {
 				view.notify("Maze " + name + " not found");
 				return;
 			}
-			String alg = args[1];
-			if ((alg.equals("BFS")) || ( alg.equals("DFS"))) {
-				model.solveMaze(name,alg);
-			}
-			else
-				view.notify("Algorithm not found");
+			
+			model.solveMaze(name);
 		}
 	}
 	
