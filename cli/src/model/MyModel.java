@@ -40,6 +40,7 @@ public class MyModel extends Observable implements Model {
 	private Map<String, Maze3d> mazes = new ConcurrentHashMap<String, Maze3d>();
 	private Map<Maze3d, Solution<Position>> solutions = new ConcurrentHashMap<Maze3d, Solution<Position>>();
 	private ExecutorService executor;
+
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
 
@@ -336,5 +337,13 @@ public class MyModel extends Observable implements Model {
 	@Override
 	public void exit() {
 		executor.shutdownNow();
+	}
+
+	public void setGenerateMazeAlgorithm(String generateMazeAlgorithm) {
+		this.generateMazeAlgorithm = generateMazeAlgorithm;
+	}
+
+	public void setSolveMazeAlgorithm(String solveMazeAlgorithm) {
+		this.solveMazeAlgorithm = solveMazeAlgorithm;
 	}
 }

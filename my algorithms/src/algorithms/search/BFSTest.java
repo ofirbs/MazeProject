@@ -2,7 +2,6 @@ package algorithms.search;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
 import algorithms.mazeGenerators.LastNeighborChooser;
-import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
 

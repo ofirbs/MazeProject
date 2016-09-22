@@ -20,7 +20,8 @@ public class Run {
 		String generateMazeAlgorithm; // GrowingTreeGenerator or SimpleMaze3dGenerator
 		String typeOfUI; // console or GUI
 		String solveMazeAlgorithm;
-		PropertiesLoader loader = new PropertiesLoader(); 
+		String path = "resources/properties.xml";
+		PropertiesLoader loader = new PropertiesLoader(path); 
 		
 		numOfThreads = loader.getProperties().getNumOfThreads();
 		generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm();

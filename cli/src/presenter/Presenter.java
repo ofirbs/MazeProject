@@ -5,8 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import model.Model;
-import model.MyModel;
-import view.MazeWindow;
 import view.View;
 
 public class Presenter implements Observer {

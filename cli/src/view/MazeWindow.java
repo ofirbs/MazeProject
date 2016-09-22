@@ -5,18 +5,19 @@ import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import properties.PropertiesLoader;
 
 public class MazeWindow extends BaseWindow implements View {
 
@@ -111,7 +112,28 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
+			}
+		});
+		
+		Button btnProperties = new Button(buttons, SWT.PUSH);
+		btnProperties.setText("Properties file");
+		
+		btnProperties.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				FileDialog dialog = new FileDialog(shell, SWT.OPEN);
+				dialog.setFilterNames(new String[] { ".xml"});
+				dialog.setFilterExtensions(new String[] { "*.xml"}); 
+				String selectedFile = dialog.open();
+				if(selectedFile != null){
+				PropertiesLoader loader = new PropertiesLoader(selectedFile);
+				update("new_properties "+loader.getProperties().getGenerateMazeAlgorithm()+" "+loader.getProperties().getSolveMazeAlgorithm());
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
 		

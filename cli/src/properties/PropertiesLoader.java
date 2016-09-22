@@ -7,15 +7,15 @@ import java.io.FileNotFoundException;
 public class PropertiesLoader {
 	private static PropertiesLoader instance;
 	private Properties properties;
-	
+
 	public Properties getProperties() {
 		return properties;
 	}
 	
-	public PropertiesLoader() 
+	public PropertiesLoader(String path) 
 	{
 		try {
-			XMLDecoder decoder = new XMLDecoder(new FileInputStream("resources/properties.xml"));
+			XMLDecoder decoder = new XMLDecoder(new FileInputStream(path));
 			properties = (Properties)decoder.readObject();
 			decoder.close();
 		} catch (FileNotFoundException e) {
@@ -23,9 +23,9 @@ public class PropertiesLoader {
 		}
 	}
 	
-	public static PropertiesLoader getInstance() {
+	public static PropertiesLoader getInstance(String path) {
 		if (instance == null) 
-			instance = new PropertiesLoader();
+			instance = new PropertiesLoader(path);
 		return instance;
 	}
 	
