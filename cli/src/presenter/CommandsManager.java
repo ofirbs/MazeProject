@@ -46,6 +46,7 @@ public class CommandsManager {
 		commands.put("exit", new ExitCommand());
 		commands.put("display_message", new DisplayMessageCommand());
 		commands.put("maze_ready", new MazeReadyCommand());
+		commands.put("solution_ready", new SolutionReadyCommand());
 
 		
 		return commands;
@@ -229,7 +230,7 @@ public class CommandsManager {
 				view.notify("Maze " + name + " not found");
 				return;
 			}
-			model.displaySolution(name);
+			view.displaySolution(model.getSolution(name));
 		}
 	}
 	
@@ -261,6 +262,14 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			view.notifyMazeIsReady(args[0]);
+		}
+	}
+	
+	public class SolutionReadyCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			view.notifySolutionIsReady(args[0]);
 		}
 	}
 }

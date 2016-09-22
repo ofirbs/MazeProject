@@ -7,6 +7,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 /**
  * <h1> The MyView Class</h1>
  * Creates an instance of the View interface
@@ -84,5 +86,16 @@ public class MyView extends Observable implements View, Observer {
 			notifyObservers(arg);
 		}
 		
+	}
+
+	@Override
+	public void notifySolutionIsReady(String string) {
+		// TODO Auto-generated method stub
+		cli.notify("solution for  " + string + " is ready.");		
+	}
+
+	@Override
+	public void displaySolution(Solution<Position> solution) {
+		solution.toString();
 	}
 }

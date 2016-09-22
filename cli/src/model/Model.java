@@ -1,6 +1,8 @@
 package model;
 
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 /**
  * <h1> The Model interface</h1>
@@ -23,5 +25,6 @@ public interface Model {
 	void loadMaze(String path, String name);
 	void solveMaze(String name,String alg);
 	void displaySolution(String name); 
+	public Solution<Position> getSolution(String name);
 	void exit();
 }

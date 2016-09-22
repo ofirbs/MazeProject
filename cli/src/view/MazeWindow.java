@@ -15,12 +15,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 public class MazeWindow extends BaseWindow implements View {
 
 	private MazeDisplay mazeDisplay;
 	private Boolean isMazeReady = false;
+	private Boolean isSolutionReady = false;
 	private Boolean isMazeDisplayed = false;
+	
 	private Label lblCurrentFloor;
 
 	public void setIsMazeDisplayed(Boolean isMazeDisplayed) {
@@ -56,6 +60,31 @@ public class MazeWindow extends BaseWindow implements View {
 		
 		Button btnSolveMaze = new Button(buttons, SWT.PUSH);
 		btnSolveMaze.setText("Solve maze");
+		
+		btnSolveMaze.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				//once we change algorithm to be a property
+				//update("solve " +mazeDisplay.getMazeName());
+				update("solve " + mazeDisplay.getMazeName() +" BFS");
+				while(!getIsSolutionReady()) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				update("display_solution " + mazeDisplay.getMazeName());
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		Button btnExit = new Button(buttons, SWT.PUSH);
 		btnExit.setText("Exit");
@@ -95,15 +124,30 @@ public class MazeWindow extends BaseWindow implements View {
 	public Boolean getIsMazeReady() {
 		return isMazeReady;
 	}
+	
+	public Boolean getIsSolutionReady() {
+		return isSolutionReady;
+	}
 
 	public void setIsMazeReady(Boolean isMazeReady) {
 		this.isMazeReady = isMazeReady;
 	}
 	
+	public void setMazeName(String mazeName) {
+		mazeDisplay.setMazeName(mazeName);
+	}
 	
 	public void update(String command) {
 		 setChanged();
 		 notifyObservers(command);
+	}
+	
+	public void notifySolutionIsReady(String name) {
+		setIsSolutionReady(true);
+	}
+
+	private void setIsSolutionReady(boolean isSolutionReady) {
+		this.isSolutionReady = isSolutionReady;
 	}
 
 	@Override
@@ -134,8 +178,9 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void notify(String type) {
-		// TODO Auto-generated method stub
-		
+		MessageBox msg = new MessageBox(shell, SWT.OK);
+		msg.setMessage(type);
+		msg.open();
 	}
 
 	@Override
@@ -147,6 +192,16 @@ public class MazeWindow extends BaseWindow implements View {
 	public void messageWon() {
 		MessageBox msg = new MessageBox(shell, SWT.OK);
 		msg.setMessage("You Won!");
+		msg.open();
+	}
+
+	@Override
+	public void displaySolution(Solution<Position> solution) {
+		MessageBox msg = new MessageBox(shell, SWT.OK);
+		if ( solution == null )
+			msg.setMessage("Could not solve solution");
+		else
+			msg.setMessage(solution.toString());
 		msg.open();
 	}
 }

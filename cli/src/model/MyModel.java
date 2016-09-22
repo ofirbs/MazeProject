@@ -281,14 +281,18 @@ public class MyModel extends Observable implements Model {
 					solver = new BFS<Position>();
 					solution = solver.search( new MazeDomain(mazes.get(name)));
 					solutions.put(mazes.get(name), solution);
-					displayMessage("solution for " + name + " is ready");
+					//displayMessage("solution for " + name + " is ready");
+					setChanged();
+					notifyObservers("solution_ready " + name);
 					break;
 							
 				case "BFS" : 
 					solver = new DFS<Position>(); 
 					solution = solver.search( new MazeDomain(mazes.get(name)));
 					solutions.put(mazes.get(name), solution);
-					displayMessage("solution for " + name + " is ready");
+					//displayMessage("solution for " + name + " is ready");
+					setChanged();
+					notifyObservers("solution_ready " + name);
 					break;
 				}
 								
@@ -304,10 +308,17 @@ public class MyModel extends Observable implements Model {
 	 */
 	@Override
 	public void displaySolution(String name) {
-		if (solutions.get(mazes.get(name)) != null)
-			displayMessage(solutions.get(mazes.get(name)).toString());
+		if (solutions.get(mazes.get(name)) != null) {
+			//displayMessage(solutions.get(mazes.get(name)).toString());
+			setChanged();
+			notifyObservers("display_solution " + solutions.get(mazes.get(name)).toString());
+		}
 		else
 			displayMessage("no solution found");
+	}
+	
+	public Solution<Position> getSolution(String name) {
+		return solutions.get(mazes.get(name));
 	}
 	
 	private void displayMessage(String msg) {

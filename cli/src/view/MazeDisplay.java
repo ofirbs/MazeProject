@@ -18,6 +18,7 @@ import algorithms.mazeGenerators.Position;
 public class MazeDisplay extends Canvas {
 	private Maze3d maze;
 	private int[][] mazeData;
+	private String mazeName;
 	private int floors;
 	private int rows;
 	private int cols;
@@ -44,6 +45,13 @@ public class MazeDisplay extends Canvas {
 		character.setPos(pos);
 	}
 	
+	public String getMazeName() {
+		return mazeName;
+	}
+
+	public void setMazeName(String mazeName) {
+		this.mazeName = mazeName;
+	}
 
 	public Maze3d getMaze() {
 		return maze;

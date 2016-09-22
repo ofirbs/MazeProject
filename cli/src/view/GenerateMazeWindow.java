@@ -88,6 +88,7 @@ public class GenerateMazeWindow extends DialogWindow {
 						}
 					}
 					mazeWindow.update("display "+name);
+					mazeWindow.setMazeName(name);
 					mazeWindow.setIsMazeDisplayed(true);
 					shell.close();
 				}

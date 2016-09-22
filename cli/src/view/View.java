@@ -3,6 +3,8 @@ package view;
 import java.io.File;
 
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 /**
  * <h1> The View interface</h1>
@@ -17,4 +19,6 @@ public interface View {
 	void printListOfFiles(File[] listOfFiles);
 	void notify(String type);
 	void displayMaze2d(int[][] maze2d);
+	void notifySolutionIsReady(String string);
+	void displaySolution(Solution<Position> solution);
 }
