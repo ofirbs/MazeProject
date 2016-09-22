@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import algorithms.search.State;
 import properties.PropertiesLoader;
 
 public class MazeWindow extends BaseWindow implements View {
@@ -218,11 +220,89 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void displaySolution(Solution<Position> solution) {
-		MessageBox msg = new MessageBox(shell, SWT.OK);
+		/*MessageBox msg = new MessageBox(shell, SWT.OK);
 		if ( solution == null )
 			msg.setMessage("Could not solve solution");
 		else
 			msg.setMessage(solution.toString());
-		msg.open();
+		msg.open();*/	
+		
+		
+		List<State<Position>> states = solution.getStates();
+		//OPTION 1
+		/*ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
+		Runnable runnable = new Runnable() {
+			
+			@Override
+			public void run() {
+				int currIndex = 0;
+					if (currIndex == states.size() - 1) {
+						return;		
+					}
+					else {
+						State<Position> currState = states.get(currIndex);
+						State<Position> nextState = states.get(currIndex + 1);
+						
+						Position startPos = currState.getValue();
+						Position nextPos = nextState.getValue();
+						if (nextPos.z == startPos.z + 1)
+							mazeDisplay.moveRight(startPos);
+						else if (nextPos.z == startPos.z - 1)
+							mazeDisplay.moveLeft(startPos);
+						else if (nextPos.y == startPos.y + 1) 
+							mazeDisplay.moveDown(startPos);
+						else if (nextPos.y == startPos.y - 1)
+							mazeDisplay.moveUp(startPos);
+						else if (nextPos.x == startPos.x + 1)
+							mazeDisplay.moveAbove(startPos);
+						else if (nextPos.x == startPos.x - 1)
+							mazeDisplay.moveBelow(startPos);
+						
+						currIndex++;		
+				}			
+
+			}
+		};
+		
+		scheduler.scheduleAtFixedRate(runnable, 0, 500, TimeUnit.MILLISECONDS);*/
+		
+		
+		//OPTION 2
+		/*
+		TimerTask task = new TimerTask() {
+			int currIndex = 0;
+			
+			@Override
+			public void run() {
+				if (currIndex == states.size() - 1) {
+					this.cancel();					
+				}
+				else {
+					State<Position> currState = states.get(currIndex);
+					State<Position> nextState = states.get(currIndex + 1);
+					
+					Position startPos = currState.getValue();
+					Position nextPos = nextState.getValue();
+					if (nextPos.z == startPos.z + 1)
+						mazeDisplay.moveRight(startPos);
+					else if (nextPos.z == startPos.z - 1)
+						mazeDisplay.moveLeft(startPos);
+					else if (nextPos.y == startPos.y + 1) 
+						mazeDisplay.moveDown(startPos);
+					else if (nextPos.y == startPos.y - 1)
+						mazeDisplay.moveUp(startPos);
+					else if (nextPos.x == startPos.x + 1)
+						mazeDisplay.moveAbove(startPos);
+					else if (nextPos.x == startPos.x - 1)
+						mazeDisplay.moveBelow(startPos);
+					
+					currIndex++;
+				}				
+			}			
+		};
+			
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(task, 0, 500);*/
+			
 	}
 }

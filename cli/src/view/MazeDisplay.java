@@ -149,7 +149,7 @@ public class MazeDisplay extends Canvas {
 				Position pos = character.getPos();
 				switch (e.keyCode) {
 				case SWT.ARROW_LEFT:					
-					character.setImg(new Image(null,"images/characterL.png"));
+					/*character.setImg(new Image(null,"images/characterL.png"));
 					redraw();
 					if (pos.z <= 0)
 						break;
@@ -157,11 +157,12 @@ public class MazeDisplay extends Canvas {
 						break;
 					character.moveLeft();
 					checkWon();
-					redraw();
+					redraw();*/
+					moveLeft(pos);
 					break;
 				
 				case SWT.ARROW_RIGHT:
-					character.setImg(new Image(null,"images/character.png"));
+					/*character.setImg(new Image(null,"images/character.png"));
 					redraw();
 					if (pos.z >= cols-1)
 						break;
@@ -169,11 +170,12 @@ public class MazeDisplay extends Canvas {
 						break;
 					character.moveRight();
 					checkWon();
-					redraw();
+					redraw();*/
+					moveRight(pos);
 					break;
 					
 				case SWT.ARROW_UP:					
-					character.setImg(new Image(null,"images/characterU.png"));
+					/*character.setImg(new Image(null,"images/characterU.png"));
 					redraw();
 					if (pos.y <= 0)
 						break;
@@ -181,11 +183,12 @@ public class MazeDisplay extends Canvas {
 						break;
 					character.moveUp();
 					checkWon();
-					redraw();
+					redraw();*/
+					moveUp(pos);
 					break;
 					
 				case SWT.ARROW_DOWN:					
-					character.setImg(new Image(null,"images/characterD.png"));
+					/*character.setImg(new Image(null,"images/characterD.png"));
 					redraw();
 					if (pos.y >= rows-1)
 						break;
@@ -193,11 +196,12 @@ public class MazeDisplay extends Canvas {
 						break;
 					character.moveDown();
 					checkWon();
-					redraw();
+					redraw();*/
+					moveDown(pos);
 					break;
 					
 				case SWT.PAGE_UP:					
-					if (pos.x >= floors -1)
+					/*if (pos.x >= floors -1)
 						break;
 					if(maze.getValue(pos.x+1, pos.y, pos.z) == 1)
 						break;
@@ -206,11 +210,11 @@ public class MazeDisplay extends Canvas {
 					currentFloor++;
 					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
 					checkWon();
-					redraw();
+					redraw();*/
 					break;
 					
 				case SWT.PAGE_DOWN:					
-					if (pos.x <= 0)
+					/*if (pos.x <= 0)
 						break;
 					if(maze.getValue(pos.x-1, pos.y, pos.z) == 1)
 						break;
@@ -219,7 +223,7 @@ public class MazeDisplay extends Canvas {
 					currentFloor--;
 					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
 					checkWon();
-					redraw();
+					redraw();*/
 					break;
 				}
 			}
@@ -270,6 +274,80 @@ public class MazeDisplay extends Canvas {
 			this.removePaintListener(ps);
 			this.setBackgroundImage(new Image(null,"images/character.png"));
 		}
+	}
+	
+	public void moveLeft(Position pos) {
+		character.setImg(new Image(null,"images/characterL.png"));
+		redraw();
+		if (pos.z <= 0)
+			return;
+		if(character.checkCollision(mazeData[pos.y][pos.z-1]))
+			return;
+		character.moveLeft();
+		checkWon();
+		redraw();
+	}
+	
+	public void moveRight(Position pos) {
+		character.setImg(new Image(null,"images/character.png"));
+		redraw();
+		if (pos.z >= cols-1)
+			return;
+		if(character.checkCollision(mazeData[pos.y][pos.z+1]))
+			return;
+		character.moveRight();
+		checkWon();
+		redraw();
+	}
+	
+	public void moveUp(Position pos) {
+		character.setImg(new Image(null,"images/characterU.png"));
+		redraw();
+		if (pos.y <= 0)
+			return;
+		if(character.checkCollision(mazeData[pos.y-1][pos.z]))
+			return;
+		character.moveUp();
+		checkWon();
+		redraw();
+	}
+	
+	public void moveDown(Position pos) {
+		character.setImg(new Image(null,"images/characterD.png"));
+		redraw();
+		if (pos.y >= rows-1)
+			return;
+		if(character.checkCollision(mazeData[pos.y+1][pos.z]))
+			return;
+		character.moveDown();
+		checkWon();
+		redraw();
+	}
+	
+	public void moveAbove(Position pos) {
+		if (pos.x >= floors -1)
+			return;
+		if(maze.getValue(pos.x+1, pos.y, pos.z) == 1)
+			return;
+		mazeData = maze.getCrossSectionByX(pos.x+1);
+		character.moveAbove();
+		currentFloor++;
+		lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
+		checkWon();
+		redraw();
+	}
+	
+	public void moveBelow(Position pos) {
+		if (pos.x <= 0)
+			return;
+		if(maze.getValue(pos.x-1, pos.y, pos.z) == 1)
+			return;
+		mazeData = maze.getCrossSectionByX(pos.x-1);	
+		character.moveBelow();
+		currentFloor--;
+		lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
+		checkWon();
+		redraw();
 	}
 }
 
