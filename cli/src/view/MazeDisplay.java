@@ -1,5 +1,7 @@
 package view;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -14,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
+import algorithms.search.State;
 
 public class MazeDisplay extends Canvas {
 	private Maze3d maze;
@@ -59,8 +62,8 @@ public class MazeDisplay extends Canvas {
 		return hint;
 	}
 
-	public void setSolutionForHint(Solution<Position> solution) {
-		this.hint.setSolution(solution);
+	public void setSolutionForHint(List<State<Position>> states) {
+		this.hint.setSolution(states);
 	}
 
 	public String getMazeName() {
@@ -301,5 +304,6 @@ public class MazeDisplay extends Canvas {
 		checkWon();
 		redraw();
 	}
+
 }
 

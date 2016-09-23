@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -309,10 +310,57 @@ public class MazeWindow extends BaseWindow implements View {
 	}
 	
 	public void hint(Solution<Position> solution) {
-		//mazeDisplay.setIsHinted(true);
+		mazeDisplay.setIsHinted(true);
+		if (solution == null) {
+			MessageBox msg = new MessageBox(shell, SWT.OK);
+			msg.setMessage("No solution");
+			msg.open();
+		}
+			
 		List<State<Position>> states = solution.getStates();
 		
+		List<State<Position>> floorStates = new ArrayList<State<Position>>();
+		
 		int currIndex = 0;
+		if (currIndex == states.size() - 1) {
+			return;		
+		}
+		
+		State<Position> currState = states.get(currIndex);
+		State<Position> nextState = states.get(currIndex + 1);
+		
+		//if (!(nextState.getValue().x == mazeDisplay.getMaze().getFloors() - 1))
+		//{
+			if (currState.getValue().x == nextState.getValue().x - 1) {
+				MessageBox msg = new MessageBox(shell, SWT.OK);
+				msg.setMessage("Go Above");
+				msg.open();
+			}
+		//}
+		//if (!(currState.getValue().x == 0 ))
+		//{
+			if (currState.getValue().x == nextState.getValue().x + 1) {
+				MessageBox msg = new MessageBox(shell, SWT.OK);
+				msg.setMessage("Go Below");
+				msg.open();
+			}
+		//}
+		
+		if( nextState.getValue().equals(mazeDisplay.getGoal().getPos()))
+			return;
+		
+		while ((currIndex != states.size() - 1) && (nextState.getValue().x == currState.getValue().x)) {
+			floorStates.add(nextState);
+			currIndex++;
+			if (currIndex == states.size() - 2)
+				break;
+			nextState = states.get(currIndex + 1);
+		} 
+		
+		mazeDisplay.setSolutionForHint(floorStates);
+		mazeDisplay.redraw();
+		
+		/*int currIndex = 0;
 		
 		if (currIndex == states.size() - 1) {
 			return;		
@@ -342,6 +390,6 @@ public class MazeWindow extends BaseWindow implements View {
 			
 			mazeDisplay.setSolutionForHint(solution);
 			mazeDisplay.redraw();
-		}
+		}*/
 	}
 }
