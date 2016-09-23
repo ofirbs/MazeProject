@@ -79,7 +79,7 @@ public class MazeWindow extends BaseWindow implements View {
 						}
 					}
 					update("display_solution " + mazeDisplay.getMazeName());
-					isSolutionReady=false;
+					
 				}
 				else{
 					MessageBox msg = new MessageBox(shell, SWT.OK);
@@ -217,8 +217,8 @@ public class MazeWindow extends BaseWindow implements View {
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setVisible(true);
 		mazeDisplay.configPaintListiner();
-		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setCharacter(maze.getStartPosition());
+		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setGoal(maze.getGoalPosition());
 		lblCurrentFloor.setText("Floor: " + Integer.toString(mazeDisplay.getCharacter().getPos().x + 1)+"/"+Integer.toString(maze.getFloors()));
 		lblCurrentFloor.setVisible(true);
@@ -253,53 +253,15 @@ public class MazeWindow extends BaseWindow implements View {
 
 	@Override
 	public void displaySolution(Solution<Position> solution) {
-		/*MessageBox msg = new MessageBox(shell, SWT.OK);
+		MessageBox msg = new MessageBox(shell, SWT.OK);
 		if ( solution == null )
 			msg.setMessage("Could not solve solution");
-		else
-			msg.setMessage(solution.toString());
-		msg.open();*/
+		//else
+		//	msg.setMessage(solution.toString());
+		//msg.open();
 		
 		
 		List<State<Position>> states = solution.getStates();
-		//OPTION 1
-		/*ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
-		Runnable runnable = new Runnable() {
-			
-			@Override
-			public void run() {
-				int currIndex = 0;
-					if (currIndex == states.size() - 1) {
-						return;		
-					}
-					else {
-						State<Position> currState = states.get(currIndex);
-						State<Position> nextState = states.get(currIndex + 1);
-						
-						Position startPos = currState.getValue();
-						Position nextPos = nextState.getValue();
-						if (nextPos.z == startPos.z + 1)
-							mazeDisplay.moveRight(startPos);
-						else if (nextPos.z == startPos.z - 1)
-							mazeDisplay.moveLeft(startPos);
-						else if (nextPos.y == startPos.y + 1) 
-							mazeDisplay.moveDown(startPos);
-						else if (nextPos.y == startPos.y - 1)
-							mazeDisplay.moveUp(startPos);
-						else if (nextPos.x == startPos.x + 1)
-							mazeDisplay.moveAbove(startPos);
-						else if (nextPos.x == startPos.x - 1)
-							mazeDisplay.moveBelow(startPos);
-						
-						currIndex++;		
-				}			
-
-			}
-		};
-		
-		scheduler.scheduleAtFixedRate(runnable, 0, 500, TimeUnit.MILLISECONDS);*/
-		
-		
 		/*
 		TimerTask task = new TimerTask() {
 			int currIndex = 0;
@@ -368,5 +330,6 @@ public class MazeWindow extends BaseWindow implements View {
 				
 			}
 		});
+		isSolutionReady=false;
 	}
 }
