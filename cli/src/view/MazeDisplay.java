@@ -86,7 +86,11 @@ public class MazeDisplay extends Canvas {
 	public void setCurrentFloor(int currentFloor) {
 		this.currentFloor = currentFloor;
 	}
-
+	
+	public PaintListener getPs() {
+		return ps;
+	}
+	
 	public void initialize(Maze3d maze) {
 		this.maze = maze;
 	}
@@ -141,8 +145,7 @@ public class MazeDisplay extends Canvas {
 				if (goal.getPos().x == currentFloor)
 					goal.draw(w, h, e.gc);
 				if (isHinted) 
-					hint.draw(w,h, e.gc);
-				
+					hint.draw(w,h, e.gc);				
 			}
 		};
 		
@@ -269,10 +272,6 @@ public class MazeDisplay extends Canvas {
 		character.moveDown();
 		checkWon();
 		redraw();
-	}
-	
-	public PaintListener getPs() {
-		return ps;
 	}
 
 	public void moveAbove(Position pos) {

@@ -104,6 +104,7 @@ public class MazeWindow extends BaseWindow implements View {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(mazeDisplay.getMazeName() != null){
+					mazeDisplay.getMaze().setStartPosition(mazeDisplay.getCharacter().getPos());
 					update("solve " + mazeDisplay.getMazeName());
 					while(!getIsSolutionReady()) {
 						try {
@@ -308,7 +309,7 @@ public class MazeWindow extends BaseWindow implements View {
 	}
 	
 	public void hint(Solution<Position> solution) {
-		mazeDisplay.setIsHinted(true);
+		//mazeDisplay.setIsHinted(true);
 		List<State<Position>> states = solution.getStates();
 		
 		int currIndex = 0;
@@ -322,7 +323,7 @@ public class MazeWindow extends BaseWindow implements View {
 			Position startPos = currState.getValue();
 			Position nextPos = nextState.getValue();
 			
-			if (!(nextPos.x == mazeDisplay.getMaze().getFloors()))
+			if (!(nextPos.x == mazeDisplay.getMaze().getFloors() - 1))
 			{
 				if (nextPos.x == startPos.x + 1) {
 					MessageBox msg = new MessageBox(shell, SWT.OK);
@@ -342,7 +343,5 @@ public class MazeWindow extends BaseWindow implements View {
 			mazeDisplay.setSolutionForHint(solution);
 			mazeDisplay.redraw();
 		}
-		
-		//mazeDisplay.setIsHinted(false);
 	}
 }
