@@ -303,6 +303,7 @@ public class MazeWindow extends BaseWindow implements View {
 				@Override
 				public void run() {
 					if (currIndex == states.size() - 1) {
+						mazeDisplay.removePaintListener(mazeDisplay.getPs());
 						return;		
 					}
 					else {

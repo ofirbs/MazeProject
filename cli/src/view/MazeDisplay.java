@@ -325,6 +325,10 @@ public class MazeDisplay extends Canvas {
 		redraw();
 	}
 	
+	public PaintListener getPs() {
+		return ps;
+	}
+
 	public void moveAbove(Position pos) {
 		if (pos.x >= floors -1)
 			return;
