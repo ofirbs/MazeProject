@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Label;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 public class MazeDisplay extends Canvas {
 	private Maze3d maze;
@@ -22,10 +23,12 @@ public class MazeDisplay extends Canvas {
 	private int rows;
 	private int cols;
 	private Character character;
+	private Hint hint;
 	private Goal goal;
 	private int currentFloor;
 	private Label lblCurrentFloor;
 	private PaintListener ps;
+	private Boolean isHinted = false;
 
 
 	public Character getCharacter() {
@@ -44,6 +47,22 @@ public class MazeDisplay extends Canvas {
 		character.setPos(pos);
 	}
 	
+	public Boolean getIsHinted() {
+		return isHinted;
+	}
+
+	public void setIsHinted(Boolean isHinted) {
+		this.isHinted = isHinted;
+	}
+
+	public Hint getHint() {
+		return hint;
+	}
+
+	public void setSolutionForHint(Solution<Position> solution) {
+		this.hint.setSolution(solution);
+	}
+
 	public String getMazeName() {
 		return mazeName;
 	}
@@ -121,6 +140,8 @@ public class MazeDisplay extends Canvas {
 				character.draw(w, h, e.gc);
 				if (goal.getPos().x == currentFloor)
 					goal.draw(w, h, e.gc);
+				if (isHinted) 
+					hint.draw(w,h, e.gc);
 				
 			}
 		};
@@ -133,6 +154,7 @@ public class MazeDisplay extends Canvas {
 		
 		character = new Character();
 		goal = new Goal();
+		hint = new Hint();
 		this.lblCurrentFloor = lblCurrentFloor;
 		goal.setPos(new Position(0,1,1));
 		character.setPos(new Position(0,1,1));
@@ -148,107 +170,31 @@ public class MazeDisplay extends Canvas {
 				Position pos = character.getPos();
 				switch (e.keyCode) {
 				case SWT.ARROW_LEFT:					
-					/*character.setImg(new Image(null,"images/characterL.png"));
-					redraw();
-					if (pos.z <= 0)
-						break;
-					if(character.checkCollision(mazeData[pos.y][pos.z-1]))
-						break;
-					character.moveLeft();
-					checkWon();
-					redraw();*/
 					moveLeft(pos);
 					break;
 				
 				case SWT.ARROW_RIGHT:
-					/*character.setImg(new Image(null,"images/character.png"));
-					redraw();
-					if (pos.z >= cols-1)
-						break;
-					if(character.checkCollision(mazeData[pos.y][pos.z+1]))
-						break;
-					character.moveRight();
-					checkWon();
-					redraw();*/
 					moveRight(pos);
 					break;
 					
 				case SWT.ARROW_UP:					
-					/*character.setImg(new Image(null,"images/characterU.png"));
-					redraw();
-					if (pos.y <= 0)
-						break;
-					if(character.checkCollision(mazeData[pos.y-1][pos.z]))
-						break;
-					character.moveUp();
-					checkWon();
-					redraw();*/
 					moveUp(pos);
 					break;
 					
 				case SWT.ARROW_DOWN:					
-					/*character.setImg(new Image(null,"images/characterD.png"));
-					redraw();
-					if (pos.y >= rows-1)
-						break;
-					if(character.checkCollision(mazeData[pos.y+1][pos.z]))
-						break;
-					character.moveDown();
-					checkWon();
-					redraw();*/
 					moveDown(pos);
 					break;
 					
 				case SWT.PAGE_UP:					
-					/*if (pos.x >= floors -1)
-						break;
-					if(maze.getValue(pos.x+1, pos.y, pos.z) == 1)
-						break;
-					mazeData = maze.getCrossSectionByX(pos.x+1);
-					character.moveAbove();
-					currentFloor++;
-					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
-					checkWon();
-					redraw();*/
 					moveAbove(pos);
 					break;
 					
 				case SWT.PAGE_DOWN:					
-					/*if (pos.x <= 0)
-						break;
-					if(maze.getValue(pos.x-1, pos.y, pos.z) == 1)
-						break;
-					mazeData = maze.getCrossSectionByX(pos.x-1);	
-					character.moveBelow();
-					currentFloor--;
-					lblCurrentFloor.setText("Floor: " + (currentFloor+1) +"/"+floors);					
-					checkWon();
-					redraw();*/
 					moveBelow(pos);
 					break;
 				}
 			}
 		});
-		
-		//configPaintListiner();
-		/*TimerTask task = new TimerTask() {
-			
-			@Override
-			public void run() {	
-				getDisplay().syncExec(new Runnable() {					
-
-					@Override
-					public void run() {
-						
-						character.moveRight();
-						redraw();
-					}
-				});
-				
-			}
-		};
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);*/
 	}
 	
 	public int getCellType(Position pos) {
@@ -334,6 +280,7 @@ public class MazeDisplay extends Canvas {
 			return;
 		if(maze.getValue(pos.x+1, pos.y, pos.z) == 1)
 			return;
+		isHinted = false;
 		mazeData = maze.getCrossSectionByX(pos.x+1);
 		character.moveAbove();
 		currentFloor++;
@@ -347,6 +294,7 @@ public class MazeDisplay extends Canvas {
 			return;
 		if(maze.getValue(pos.x-1, pos.y, pos.z) == 1)
 			return;
+		isHinted = false;
 		mazeData = maze.getCrossSectionByX(pos.x-1);	
 		character.moveBelow();
 		currentFloor--;

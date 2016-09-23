@@ -21,4 +21,5 @@ public interface View {
 	void displayMaze2d(int[][] maze2d);
 	void notifySolutionIsReady(String string);
 	void displaySolution(Solution<Position> solution);
+	void hint(Solution<Position> solution);
 }

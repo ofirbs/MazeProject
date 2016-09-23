@@ -48,6 +48,7 @@ public class CommandsManager {
 		commands.put("maze_ready", new MazeReadyCommand());
 		commands.put("solution_ready", new SolutionReadyCommand());
 		commands.put("new_properties", new NewPropertiesCommand());
+		commands.put("hint", new NewHintCommand());
 
 		
 		return commands;
@@ -276,6 +277,14 @@ public class CommandsManager {
 		public void doCommand(String[] args) {
 			model.setGenerateMazeAlgorithm(args[0]);
 			model.setSolveMazeAlgorithm(args[1]);
+		}
+	}
+	
+	public class NewHintCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			view.hint(model.getSolution(args[0]));
 		}
 	}
 }

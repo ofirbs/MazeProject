@@ -2,8 +2,6 @@ package view;
 
 import java.io.File;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -49,12 +47,14 @@ public class MazeWindow extends BaseWindow implements View {
 		Button btnGenerateMaze = new Button(buttons, SWT.PUSH);
 		btnGenerateMaze.setText("Generate maze");
 		
+		//Generate Button Functionality
 		btnGenerateMaze.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				GenerateMazeWindow win = new GenerateMazeWindow(MazeWindow.this);				
 				win.start(display);
+				mazeDisplay.setIsHinted(false);
 			}
 			
 			@Override
@@ -65,6 +65,7 @@ public class MazeWindow extends BaseWindow implements View {
 		Button btnSolveMaze = new Button(buttons, SWT.PUSH);
 		btnSolveMaze.setText("Solve maze");
 		
+		//Solve Button Functionality
 		btnSolveMaze.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -97,12 +98,22 @@ public class MazeWindow extends BaseWindow implements View {
 		Button btnHint = new Button(buttons, SWT.PUSH);
 		btnHint.setText("Hint");
 		
+		//Hint Button Functionality
 		btnHint.addSelectionListener(new SelectionListener() {
 			
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(mazeDisplay.getMazeName() != null){
-					//TODO: Add hint function
+					update("solve " + mazeDisplay.getMazeName());
+					while(!getIsSolutionReady()) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					update("hint "+ mazeDisplay.getMazeName());
+					mazeDisplay.setIsHinted(true);
 				}
 				else{
 					MessageBox msg = new MessageBox(shell, SWT.OK);
@@ -133,6 +144,7 @@ public class MazeWindow extends BaseWindow implements View {
 		else
 			lblCurrentFloor.setVisible(false);
 		
+		//Exit Button Functionality
 		btnExit.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -256,47 +268,9 @@ public class MazeWindow extends BaseWindow implements View {
 		MessageBox msg = new MessageBox(shell, SWT.OK);
 		if ( solution == null )
 			msg.setMessage("Could not solve solution");
-		//else
-		//	msg.setMessage(solution.toString());
-		//msg.open();
-		
-		
+
 		List<State<Position>> states = solution.getStates();
-		/*
-		TimerTask task = new TimerTask() {
-			int currIndex = 0;
-			
-			@Override
-			public void run() {
-				if (currIndex == states.size() - 1) {
-					this.cancel();					
-				}
-				else {
-					State<Position> currState = states.get(currIndex);
-					State<Position> nextState = states.get(currIndex + 1);
-					
-					Position startPos = currState.getValue();
-					Position nextPos = nextState.getValue();
-					if (nextPos.z == startPos.z + 1)
-						mazeDisplay.moveRight(startPos);
-					else if (nextPos.z == startPos.z - 1)
-						mazeDisplay.moveLeft(startPos);
-					else if (nextPos.y == startPos.y + 1) 
-						mazeDisplay.moveDown(startPos);
-					else if (nextPos.y == startPos.y - 1)
-						mazeDisplay.moveUp(startPos);
-					else if (nextPos.x == startPos.x + 1)
-						mazeDisplay.moveAbove(startPos);
-					else if (nextPos.x == startPos.x - 1)
-						mazeDisplay.moveBelow(startPos);
-					
-					currIndex++;
-				}				
-			}			
-		};
-			
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(task, 0, 500);*/
+
 		display.timerExec(500,  new Runnable() {
 			
 				int currIndex = 0;
@@ -328,9 +302,47 @@ public class MazeWindow extends BaseWindow implements View {
 						currIndex++;
 						display.timerExec(500,  this);
 					}				
-				
 			}
 		});
 		isSolutionReady=false;
+	}
+	
+	public void hint(Solution<Position> solution) {
+		mazeDisplay.setIsHinted(true);
+		List<State<Position>> states = solution.getStates();
+		
+		int currIndex = 0;
+		
+		if (currIndex == states.size() - 1) {
+			return;		
+		}
+		else {
+			State<Position> currState = states.get(currIndex);
+			State<Position> nextState = states.get(currIndex + 1);
+			Position startPos = currState.getValue();
+			Position nextPos = nextState.getValue();
+			
+			if (!(nextPos.x == mazeDisplay.getMaze().getFloors()))
+			{
+				if (nextPos.x == startPos.x + 1) {
+					MessageBox msg = new MessageBox(shell, SWT.OK);
+					msg.setMessage("Go Above");
+					msg.open();
+				}
+			}
+			if (!(nextPos.x == 0 ))
+			{
+				if (nextPos.x == startPos.x - 1) {
+					MessageBox msg = new MessageBox(shell, SWT.OK);
+					msg.setMessage("Go Below");
+					msg.open();
+				}
+			}
+			
+			mazeDisplay.setSolutionForHint(solution);
+			mazeDisplay.redraw();
+		}
+		
+		//mazeDisplay.setIsHinted(false);
 	}
 }

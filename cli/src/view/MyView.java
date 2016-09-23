@@ -97,4 +97,9 @@ public class MyView extends Observable implements View, Observer {
 	public void displaySolution(Solution<Position> solution) {
 		cli.notify(solution.toString());
 	}
+
+	@Override
+	public void hint(Solution<Position> solution) {
+		// TODO Auto-generated method stub
+	}
 }

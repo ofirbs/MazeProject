@@ -281,7 +281,6 @@ public class MyModel extends Observable implements Model {
 					solver = new BFS<Position>();
 					solution = solver.search( new MazeDomain(mazes.get(name)));
 					solutions.put(mazes.get(name), solution);
-					//displayMessage("solution for " + name + " is ready");
 					setChanged();
 					notifyObservers("solution_ready " + name);
 					break;
@@ -290,7 +289,6 @@ public class MyModel extends Observable implements Model {
 					solver = new DFS<Position>(); 
 					solution = solver.search( new MazeDomain(mazes.get(name)));
 					solutions.put(mazes.get(name), solution);
-					//displayMessage("solution for " + name + " is ready");
 					setChanged();
 					notifyObservers("solution_ready " + name);
 					break;
