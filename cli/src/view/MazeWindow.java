@@ -2,6 +2,8 @@ package view;
 
 import java.io.File;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -256,7 +258,7 @@ public class MazeWindow extends BaseWindow implements View {
 			msg.setMessage("Could not solve solution");
 		else
 			msg.setMessage(solution.toString());
-		msg.open();*/	
+		msg.open();*/
 		
 		
 		List<State<Position>> states = solution.getStates();
@@ -298,7 +300,6 @@ public class MazeWindow extends BaseWindow implements View {
 		scheduler.scheduleAtFixedRate(runnable, 0, 500, TimeUnit.MILLISECONDS);*/
 		
 		
-		//OPTION 2
 		/*
 		TimerTask task = new TimerTask() {
 			int currIndex = 0;
@@ -334,6 +335,38 @@ public class MazeWindow extends BaseWindow implements View {
 			
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(task, 0, 500);*/
+		display.timerExec(500,  new Runnable() {
 			
+				int currIndex = 0;
+				@Override
+				public void run() {
+					if (currIndex == states.size() - 1) {
+						return;		
+					}
+					else {
+						State<Position> currState = states.get(currIndex);
+						State<Position> nextState = states.get(currIndex + 1);
+						
+						Position startPos = currState.getValue();
+						Position nextPos = nextState.getValue();
+						if (nextPos.z == startPos.z + 1)
+							mazeDisplay.moveRight(startPos);
+						else if (nextPos.z == startPos.z - 1)
+							mazeDisplay.moveLeft(startPos);
+						else if (nextPos.y == startPos.y + 1) 
+							mazeDisplay.moveDown(startPos);
+						else if (nextPos.y == startPos.y - 1)
+							mazeDisplay.moveUp(startPos);
+						else if (nextPos.x == startPos.x + 1)
+							mazeDisplay.moveAbove(startPos);
+						else if (nextPos.x == startPos.x - 1)
+							mazeDisplay.moveBelow(startPos);
+						
+						currIndex++;
+						display.timerExec(500,  this);
+					}				
+				
+			}
+		});
 	}
 }
