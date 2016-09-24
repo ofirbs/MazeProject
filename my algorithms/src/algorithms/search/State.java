@@ -1,5 +1,7 @@
 package algorithms.search;
 
+import java.io.Serializable;
+
 /**
  * <h1>The State<T> Class</h1>
  * This class implements Comparable<State<T>> and represents the current search state. 
@@ -8,7 +10,7 @@ package algorithms.search;
  * @param <T>
  */
 
-public class State<T> implements Comparable<State<T>> {
+public class State<T> implements Comparable<State<T>>,Serializable {
 	private String key;
 	private double cost;
 	private State<T> cameFrom;

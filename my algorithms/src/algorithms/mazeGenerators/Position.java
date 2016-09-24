@@ -1,12 +1,14 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
+
 /**
  * <h1> The Position Class</h1>
  * This class contains the position information and basic functions.
  * @author ofir and rom
  *
  */
-public class Position {
+public class Position implements Serializable{
 	public int x;
 	public int y;
 	public int z;

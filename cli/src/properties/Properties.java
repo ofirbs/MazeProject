@@ -10,6 +10,7 @@ public class Properties implements Serializable {
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
 	private String typeOfUI;
+	private String saveMethod;
 	
 	public Properties() {
 		
@@ -40,7 +41,10 @@ public class Properties implements Serializable {
 	public void setTypeOfUI(String typeOfUI) {
 		this.typeOfUI = typeOfUI;
 	}
-	
-	
-	
+	public String getSaveMethod() {
+		return saveMethod;
+	}
+	public void setSaveMethod(String saveMethod) {
+		this.saveMethod = saveMethod;
+	}
 }

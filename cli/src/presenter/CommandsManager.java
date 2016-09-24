@@ -49,6 +49,8 @@ public class CommandsManager {
 		commands.put("solution_ready", new SolutionReadyCommand());
 		commands.put("new_properties", new NewPropertiesCommand());
 		commands.put("hint", new NewHintCommand());
+		commands.put("save_solution", new NewSaveSolutionCommand());
+		commands.put("ls", new NewLoadSolutionCommand());
 
 		
 		return commands;
@@ -285,6 +287,22 @@ public class CommandsManager {
 		@Override
 		public void doCommand(String[] args) {
 			view.hint(model.getSolution(args[0]));
+		}
+	}
+	
+	public class NewSaveSolutionCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			model.saveSolution(args[0]);
+		}
+	}
+	
+	public class NewLoadSolutionCommand implements Command {
+
+		@Override
+		public void doCommand(String[] args) {
+			model.loadSolution();
 		}
 	}
 }

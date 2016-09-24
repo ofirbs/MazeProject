@@ -1,5 +1,6 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Maze3d {
+public class Maze3d implements Serializable{
 	private int [][][] maze;
 	private int floors;
 	private int rows;

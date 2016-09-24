@@ -21,12 +21,14 @@ public class Run {
 		String typeOfUI; // console or GUI
 		String solveMazeAlgorithm;
 		String path = "resources/properties.xml";
+		String saveMethod;
 		PropertiesLoader loader = new PropertiesLoader(path); 
 		
 		numOfThreads = loader.getProperties().getNumOfThreads();
 		generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm();
 		solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();;
 		typeOfUI = loader.getProperties().getTypeOfUI();
+		saveMethod = loader.getProperties().getSaveMethod();
 		
 		
 		
@@ -38,7 +40,7 @@ public class Run {
 
 		
 		
-		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm);
+		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm,saveMethod);
 		
 
 		switch (typeOfUI) {

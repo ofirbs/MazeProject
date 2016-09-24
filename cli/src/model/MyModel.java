@@ -1,18 +1,28 @@
 package model;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
@@ -43,6 +53,7 @@ public class MyModel extends Observable implements Model {
 
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
+	private String saveMethod;
 
 	
 	/**
@@ -50,10 +61,11 @@ public class MyModel extends Observable implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel(int numOfThreads, String generateMazeAlgorithm, String solveMazeAlgorithm) {
+	public MyModel(int numOfThreads, String generateMazeAlgorithm, String solveMazeAlgorithm, String saveMethod) {
 		super();
 		this.generateMazeAlgorithm = generateMazeAlgorithm;
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
+		this.saveMethod = saveMethod;
 		executor = Executors.newFixedThreadPool(numOfThreads);
 	}
 	
@@ -309,7 +321,6 @@ public class MyModel extends Observable implements Model {
 	@Override
 	public void displaySolution(String name) {
 		if (solutions.get(mazes.get(name)) != null) {
-			//displayMessage(solutions.get(mazes.get(name)).toString());
 			setChanged();
 			notifyObservers("display_solution " + solutions.get(mazes.get(name)).toString());
 		}
@@ -345,5 +356,140 @@ public class MyModel extends Observable implements Model {
 
 	public void setSolveMazeAlgorithm(String solveMazeAlgorithm) {
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
+	}
+	
+	public void saveSolution(String name){
+		switch(saveMethod){
+		case ("ZIP"):{
+			ObjectOutputStream oos = null;
+			try {
+			    oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
+				oos.writeObject(mazes);
+				oos.writeObject(solutions);			
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					oos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			}
+		case ("SQL"):{
+			byte[] dataMaze = null;
+			byte[] dataSolution = null;
+				ByteArrayOutputStream bosMaze = new ByteArrayOutputStream();
+		        try {
+					ObjectOutputStream oosMaze = new ObjectOutputStream(bosMaze);
+					oosMaze.writeObject(mazes);
+					oosMaze.close();
+					bosMaze.close();
+					dataMaze = bosMaze.toByteArray();
+					ByteArrayOutputStream bosSolution = new ByteArrayOutputStream();
+					ObjectOutputStream oosSolution = new ObjectOutputStream(bosSolution);
+					oosSolution.writeObject(solutions);
+					oosSolution.close();
+					dataSolution = bosSolution.toByteArray();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			try{
+			Class.forName("com.mysql.jdbc.Driver"); 
+			String DB_URL = "jdbc:mysql://localhost:3306/test";
+	        Connection conn = DriverManager.getConnection(DB_URL,"root",""); 
+	        String sql = "INSERT INTO Solutions (mazes,solutions) values (?,?)";
+	        PreparedStatement ps = conn.prepareStatement(sql);
+	        ps.setObject(1, dataMaze);
+	        ps.setObject(2, dataSolution);
+	        ps.executeUpdate();
+	        conn.close();
+			}
+	     catch (Exception e) { 
+	        System.err.println("SQL Error");
+	        System.err.println(e.getMessage()); 
+	     	}
+			}
+		}
+	}
+	
+	public void loadSolution(){
+		switch(this.saveMethod){
+		case ("ZIP"):{
+			File file = new File("solutions.dat");
+			if (!file.exists())
+				return;
+			
+			ObjectInputStream ois = null;
+			
+			try {
+				ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
+				mazes = (Map<String, Maze3d>)ois.readObject();
+				solutions = (Map<Maze3d, Solution<Position>>)ois.readObject();		
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} finally{
+				try {
+					ois.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			}
+		case ("SQL"):{
+			try{
+				Class.forName("com.mysql.jdbc.Driver"); 
+				String DB_URL = "jdbc:mysql://localhost:3306/test";
+		        Connection conn = DriverManager.getConnection(DB_URL,"root",""); 
+		        String sql = "SELECT mazes FROM Solutions";
+		        PreparedStatement ps=conn.prepareStatement(sql);
+
+		        ResultSet rs=ps.executeQuery();
+
+		        if(rs.next())
+		        {
+		            ByteArrayInputStream bis;
+
+		            ObjectInputStream ois;
+
+		            bis = new ByteArrayInputStream(rs.getBytes("mazes"));
+
+		            ois = new ObjectInputStream(bis);
+		            
+		            ois.close();
+		            //System.out.println(maze);
+		            mazes = (Map<String, Maze3d>)ois.readObject();
+
+		            String sql2 = "SELECT solutions FROM Solutions";
+		            PreparedStatement ps2=conn.prepareStatement(sql2);
+		            ResultSet rs2=ps2.executeQuery();
+		            if(rs2.next())
+		            {
+		                ByteArrayInputStream bis2;
+
+		                ObjectInputStream ois2;
+
+		            bis2 = new ByteArrayInputStream(rs2.getBytes("solutions"));
+
+		            ois2 = new ObjectInputStream(bis2);
+		            
+		            ois2.close();
+		            solutions = (Map<Maze3d, Solution<Position>>)ois2.readObject();
+		            }
+		        }        
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }
