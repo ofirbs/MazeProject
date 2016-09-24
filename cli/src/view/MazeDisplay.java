@@ -31,6 +31,7 @@ public class MazeDisplay extends Canvas {
 	private int currentFloor;
 	private Label lblCurrentFloor;
 	private PaintListener ps;
+	private KeyListener keyListener;
 	private Boolean isHinted = false;
 
 
@@ -144,11 +145,12 @@ public class MazeDisplay extends Canvas {
 				   }
 				   
 				 
-				character.draw(w, h, e.gc);
+				
 				if (goal.getPos().x == currentFloor)
 					goal.draw(w, h, e.gc);
 				if (isHinted) 
-					hint.draw(w,h, e.gc);				
+					hint.draw(w,h, e.gc);	
+				character.draw(w, h, e.gc);
 			}
 		};
 		
@@ -163,44 +165,7 @@ public class MazeDisplay extends Canvas {
 		hint = new Hint();
 		this.lblCurrentFloor = lblCurrentFloor;
 		goal.setPos(new Position(0,1,1));
-		character.setPos(new Position(0,1,1));
-		this.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				Position pos = character.getPos();
-				switch (e.keyCode) {
-				case SWT.ARROW_LEFT:					
-					moveLeft(pos);
-					break;
-				
-				case SWT.ARROW_RIGHT:
-					moveRight(pos);
-					break;
-					
-				case SWT.ARROW_UP:					
-					moveUp(pos);
-					break;
-					
-				case SWT.ARROW_DOWN:					
-					moveDown(pos);
-					break;
-					
-				case SWT.PAGE_UP:					
-					moveAbove(pos);
-					break;
-					
-				case SWT.PAGE_DOWN:					
-					moveBelow(pos);
-					break;
-				}
-			}
-		});
+		character.setPos(new Position(0,1,1)); 
 	}
 	
 	public int getCellType(Position pos) {
@@ -225,6 +190,10 @@ public class MazeDisplay extends Canvas {
 		if (character.getPos().equals(goal.getPos())) {
 			//this.setVisible(false);	
 			this.removePaintListener(ps);
+			this.removeKeyListener(keyListener);
+			this.maze = null;
+			this.mazeData = null;
+			this.mazeName = null;
 			this.setBackgroundImage(new Image(null,"images/character.png"));
 		}
 	}
@@ -305,5 +274,45 @@ public class MazeDisplay extends Canvas {
 		redraw();
 	}
 
+	public void configKeyListiner() {
+			
+		keyListener = new KeyListener() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				Position pos = character.getPos();
+				switch (e.keyCode) {
+				case SWT.ARROW_LEFT:					
+					moveLeft(pos);
+					break;
+				
+				case SWT.ARROW_RIGHT:
+					moveRight(pos);
+					break;
+					
+				case SWT.ARROW_UP:					
+					moveUp(pos);
+					break;
+					
+				case SWT.ARROW_DOWN:					
+					moveDown(pos);
+					break;
+					
+				case SWT.PAGE_UP:					
+					moveAbove(pos);
+					break;
+					
+				case SWT.PAGE_DOWN:					
+					moveBelow(pos);
+					break;
+				}
+			}
+		};
+	this.addKeyListener(keyListener);
+	}
 }
 

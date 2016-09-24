@@ -280,6 +280,7 @@ public class MyModel extends Observable implements Model {
 				case "DFS" :
 					solver = new BFS<Position>();
 					solution = solver.search( new MazeDomain(mazes.get(name)));
+					solutions.remove(mazes.get(name));
 					solutions.put(mazes.get(name), solution);
 					setChanged();
 					notifyObservers("solution_ready " + name);
@@ -288,6 +289,7 @@ public class MyModel extends Observable implements Model {
 				case "BFS" : 
 					solver = new DFS<Position>(); 
 					solution = solver.search( new MazeDomain(mazes.get(name)));
+					solutions.remove(mazes.get(name));
 					solutions.put(mazes.get(name), solution);
 					setChanged();
 					notifyObservers("solution_ready " + name);

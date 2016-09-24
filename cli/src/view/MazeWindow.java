@@ -105,6 +105,7 @@ public class MazeWindow extends BaseWindow implements View {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(mazeDisplay.getMazeName() != null){
+					isSolutionReady = false;
 					mazeDisplay.getMaze().setStartPosition(mazeDisplay.getCharacter().getPos());
 					update("solve " + mazeDisplay.getMazeName());
 					while(!getIsSolutionReady()) {
@@ -122,6 +123,7 @@ public class MazeWindow extends BaseWindow implements View {
 					msg.setMessage("No maze found");
 					msg.open();
 				}
+				mazeDisplay.setFocus();
 			}
 			
 			@Override
@@ -231,6 +233,7 @@ public class MazeWindow extends BaseWindow implements View {
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setVisible(true);
 		mazeDisplay.configPaintListiner();
+		mazeDisplay.configKeyListiner();
 		mazeDisplay.setCharacter(maze.getStartPosition());
 		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setGoal(maze.getGoalPosition());
@@ -331,23 +334,32 @@ public class MazeWindow extends BaseWindow implements View {
 		
 		//if (!(nextState.getValue().x == mazeDisplay.getMaze().getFloors() - 1))
 		//{
-			if (currState.getValue().x == nextState.getValue().x - 1) {
-				MessageBox msg = new MessageBox(shell, SWT.OK);
-				msg.setMessage("Go Above");
-				msg.open();
-			}
+		if (currState.getValue().x == nextState.getValue().x - 1) {
+			MessageBox msg = new MessageBox(shell, SWT.OK);
+			msg.setMessage("Go Above");
+			msg.open();
+		}
 		//}
 		//if (!(currState.getValue().x == 0 ))
 		//{
-			if (currState.getValue().x == nextState.getValue().x + 1) {
-				MessageBox msg = new MessageBox(shell, SWT.OK);
-				msg.setMessage("Go Below");
-				msg.open();
-			}
+		if (currState.getValue().x == nextState.getValue().x + 1) {
+			MessageBox msg = new MessageBox(shell, SWT.OK);
+			msg.setMessage("Go Below");
+			msg.open();
+		}
 		//}
 		
 		if( nextState.getValue().equals(mazeDisplay.getGoal().getPos()))
 			return;
+
+		
+		/*while (!(currState.equals(nextState))) {
+			mazeDisplay.getMaze().
+			currIndex++;
+			nextState = states.get(currIndex + 1);
+		}*/
+		
+		
 		
 		while ((currIndex != states.size() - 1) && (nextState.getValue().x == currState.getValue().x)) {
 			floorStates.add(nextState);
@@ -359,37 +371,5 @@ public class MazeWindow extends BaseWindow implements View {
 		
 		mazeDisplay.setSolutionForHint(floorStates);
 		mazeDisplay.redraw();
-		
-		/*int currIndex = 0;
-		
-		if (currIndex == states.size() - 1) {
-			return;		
-		}
-		else {
-			State<Position> currState = states.get(currIndex);
-			State<Position> nextState = states.get(currIndex + 1);
-			Position startPos = currState.getValue();
-			Position nextPos = nextState.getValue();
-			
-			if (!(nextPos.x == mazeDisplay.getMaze().getFloors() - 1))
-			{
-				if (nextPos.x == startPos.x + 1) {
-					MessageBox msg = new MessageBox(shell, SWT.OK);
-					msg.setMessage("Go Above");
-					msg.open();
-				}
-			}
-			if (!(nextPos.x == 0 ))
-			{
-				if (nextPos.x == startPos.x - 1) {
-					MessageBox msg = new MessageBox(shell, SWT.OK);
-					msg.setMessage("Go Below");
-					msg.open();
-				}
-			}
-			
-			mazeDisplay.setSolutionForHint(solution);
-			mazeDisplay.redraw();
-		}*/
 	}
 }
