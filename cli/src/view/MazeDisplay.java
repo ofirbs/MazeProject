@@ -33,6 +33,10 @@ public class MazeDisplay extends Canvas {
 	private PaintListener ps;
 	private KeyListener keyListener;
 	private Boolean isHinted = false;
+	private Image border = new Image(null, "images/border1.png");;
+	private Image upArrow = new Image(null, "images/upArrow.png");;
+	private Image downArrow = new Image(null, "images/downArrow.png");;
+	private Image upDownArrow = new Image(null, "images/upDownArrow.png");;
 
 
 	public Character getCharacter() {
@@ -118,28 +122,37 @@ public class MazeDisplay extends Canvas {
 				       int x=j*w;
 				       int y=i*h;
 				       if(mazeData[i][j]!=0) {
-							e.gc.setBackground(new Color(null,0,0,0));
-					    	e.gc.fillRectangle(x,y,w,h);
-
+							//e.gc.setBackground(new Color(null,0,0,0));
+					    	//e.gc.fillRectangle(x,y,w,h);
+				    	   e.gc.drawImage(border, 0, 0, border.getBounds().width, border.getBounds().height, x, y, w, h);
 				       }
-				       
+				    	   
+				    	   
 				       else {
 				    	   type = getCellType(new Position(currentFloor,i,j));
-				    	   
+				    	   e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
+				    	   e.gc.fillRectangle(x,y,w,h);
 				    	switch (type) {
-							case 2:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_GREEN));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
-							case 4:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_RED));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
+				    	//case 0:
+				    		//e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
+					    	//e.gc.fillRectangle(x,y,w,h);
+					    	//break;
+						case 2:
+							//e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_GREEN));
+							//e.gc.fillRectangle(x,y,w,h);
+							e.gc.drawImage(upArrow, 0, 0, upArrow.getBounds().width, upArrow.getBounds().height, x, y, w, h);
+							break;
+						case 4:
+							//e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_RED));
+							//e.gc.fillRectangle(x,y,w,h);
+							e.gc.drawImage(downArrow, 0, 0, downArrow.getBounds().width, downArrow.getBounds().height, x, y, w, h);
+							break;
 								
-							case 6:
-								e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLUE));
-								e.gc.fillRectangle(x,y,w,h);
-								break;
+						case 6:
+							//e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLUE));
+							//e.gc.fillRectangle(x,y,w,h);
+							e.gc.drawImage(upDownArrow, 0, 0, upDownArrow.getBounds().width, upDownArrow.getBounds().height, x, y, w, h);
+							break;
 						}
 				       }   
 				   }
@@ -158,7 +171,7 @@ public class MazeDisplay extends Canvas {
 	}
 	public MazeDisplay(Composite parent, int style, Label lblCurrentFloor) {
 		super(parent, style);
-		this.setBackgroundImage(new Image(null, "images/goal.png"));
+		this.setBackgroundImage(new Image(null, "images/start.png"));
 		
 		character = new Character();
 		goal = new Goal();
@@ -194,7 +207,7 @@ public class MazeDisplay extends Canvas {
 			this.maze = null;
 			this.mazeData = null;
 			this.mazeName = null;
-			this.setBackgroundImage(new Image(null,"images/character.png"));
+			this.setBackgroundImage(new Image(null,"images/end.png"));
 		}
 	}
 	
