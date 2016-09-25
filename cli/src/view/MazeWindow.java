@@ -72,6 +72,7 @@ public class MazeWindow extends BaseWindow implements View {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(mazeDisplay.getMazeName() != null){
+					isSolutionReady = false;
 					update("solve " + mazeDisplay.getMazeName());
 					while(!getIsSolutionReady()) {
 						try {
