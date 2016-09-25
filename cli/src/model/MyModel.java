@@ -397,6 +397,7 @@ public class MyModel extends Observable implements Model {
 				String url = "jdbc:mysql://localhost:3306/"+dbName;
 		        Connection conn = DriverManager.getConnection(url,user,pass); 
 		        Statement stmt = conn.createStatement();
+		        stmt.executeUpdate("drop table if exists solutions");
 		        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Solutions(mazes BLOB, solutions BLOB)");
 		        String sql = "INSERT INTO Solutions (mazes,solutions) values (?,?)";
 		        PreparedStatement ps = conn.prepareStatement(sql);
@@ -440,7 +441,7 @@ public class MyModel extends Observable implements Model {
 					e.printStackTrace();
 				}
 			}
-			
+			break;
 		case "SQL":
 			try{ 
 				String user = "root";
