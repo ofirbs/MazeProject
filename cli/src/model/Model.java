@@ -29,6 +29,6 @@ public interface Model {
 	void exit();
 	public void setGenerateMazeAlgorithm(String generateMazeAlgorithm);
 	public void setSolveMazeAlgorithm(String solveMazeAlgorithm);
-	public void saveSolution(String name);
-	public void loadSolution();
+	public void saveSolutions();
+	public void loadSolutions();
 }

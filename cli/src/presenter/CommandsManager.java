@@ -49,8 +49,8 @@ public class CommandsManager {
 		commands.put("solution_ready", new SolutionReadyCommand());
 		commands.put("new_properties", new NewPropertiesCommand());
 		commands.put("hint", new NewHintCommand());
-		commands.put("save_solution", new NewSaveSolutionCommand());
-		commands.put("ls", new NewLoadSolutionCommand());
+		commands.put("save_solutions", new NewSaveSolutionCommand());
+		commands.put("load_solutions", new NewLoadSolutionCommand());
 
 		
 		return commands;
@@ -294,7 +294,7 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
-			model.saveSolution(args[0]);
+			model.saveSolutions();
 		}
 	}
 	
@@ -302,7 +302,7 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
-			model.loadSolution();
+			model.loadSolutions();
 		}
 	}
 }

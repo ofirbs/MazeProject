@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.Callable;
@@ -358,7 +359,7 @@ public class MyModel extends Observable implements Model {
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
 	}
 	
-	public void saveSolution(String name){
+	public void saveSolutions(){
 		switch(saveMethod){
 		case ("ZIP"):{
 			ObjectOutputStream oos = null;
@@ -380,43 +381,38 @@ public class MyModel extends Observable implements Model {
 			}
 			}
 		case ("SQL"):{
-			byte[] dataMaze = null;
-			byte[] dataSolution = null;
-				ByteArrayOutputStream bosMaze = new ByteArrayOutputStream();
-		        try {
-					ObjectOutputStream oosMaze = new ObjectOutputStream(bosMaze);
-					oosMaze.writeObject(mazes);
-					oosMaze.close();
-					bosMaze.close();
-					dataMaze = bosMaze.toByteArray();
-					ByteArrayOutputStream bosSolution = new ByteArrayOutputStream();
-					ObjectOutputStream oosSolution = new ObjectOutputStream(bosSolution);
-					oosSolution.writeObject(solutions);
-					oosSolution.close();
-					dataSolution = bosSolution.toByteArray();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			try{
-			Class.forName("com.mysql.jdbc.Driver"); 
-			String DB_URL = "jdbc:mysql://localhost:3306/test";
-	        Connection conn = DriverManager.getConnection(DB_URL,"root",""); 
-	        String sql = "INSERT INTO Solutions (mazes,solutions) values (?,?)";
-	        PreparedStatement ps = conn.prepareStatement(sql);
-	        ps.setObject(1, dataMaze);
-	        ps.setObject(2, dataSolution);
-	        ps.executeUpdate();
-	        conn.close();
-			}
-	     catch (Exception e) { 
+				String user = "root";
+				String pass = "";
+				ByteArrayOutputStream baosMaze = new ByteArrayOutputStream();
+				ByteArrayOutputStream baosSolution = new ByteArrayOutputStream();
+				ObjectOutputStream oos = new ObjectOutputStream(baosMaze);
+				oos.writeObject(mazes);
+				byte[] dataMaze = baosMaze.toByteArray();
+				
+				oos = new ObjectOutputStream(baosSolution);
+				oos.writeObject(solutions);
+				byte[] dataSolution = baosSolution.toByteArray();
+				String url = "jdbc:mysql://localhost:3306/test";
+		        Connection conn = DriverManager.getConnection(url,user,pass); 
+		        Statement stmt = conn.createStatement();
+		        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Solutions(mazes BLOB, solutions BLOB)");
+		        String sql = "INSERT INTO Solutions (mazes,solutions) values (?,?)";
+		        PreparedStatement ps = conn.prepareStatement(sql);
+		        ps.setObject(1, dataMaze);
+		        ps.setObject(2, dataSolution);
+		        ps.executeUpdate();
+		        conn.close();
+				}
+			catch (Exception e) { 
 	        System.err.println("SQL Error");
 	        System.err.println(e.getMessage()); 
-	     	}
-			}
+	     			}
+				}
 		}
 	}
 	
-	public void loadSolution(){
+	public void loadSolutions(){
 		switch(this.saveMethod){
 		case ("ZIP"):{
 			File file = new File("solutions.dat");
@@ -444,49 +440,31 @@ public class MyModel extends Observable implements Model {
 			}
 			}
 		case ("SQL"):{
-			try{
-				Class.forName("com.mysql.jdbc.Driver"); 
-				String DB_URL = "jdbc:mysql://localhost:3306/test";
-		        Connection conn = DriverManager.getConnection(DB_URL,"root",""); 
-		        String sql = "SELECT mazes FROM Solutions";
+			try{ 
+				String user = "root";
+				String pass = "";
+				String url = "jdbc:mysql://localhost:3306/test";
+		        Connection conn = DriverManager.getConnection(url,user,pass);
+		        String sql = "SELECT * FROM Solutions";
 		        PreparedStatement ps=conn.prepareStatement(sql);
 
 		        ResultSet rs=ps.executeQuery();
 
 		        if(rs.next())
 		        {
-		            ByteArrayInputStream bis;
-
-		            ObjectInputStream ois;
-
-		            bis = new ByteArrayInputStream(rs.getBytes("mazes"));
-
-		            ois = new ObjectInputStream(bis);
-		            
-		            ois.close();
-		            //System.out.println(maze);
-		            mazes = (Map<String, Maze3d>)ois.readObject();
-
-		            String sql2 = "SELECT solutions FROM Solutions";
-		            PreparedStatement ps2=conn.prepareStatement(sql2);
-		            ResultSet rs2=ps2.executeQuery();
-		            if(rs2.next())
-		            {
-		                ByteArrayInputStream bis2;
-
-		                ObjectInputStream ois2;
-
-		            bis2 = new ByteArrayInputStream(rs2.getBytes("solutions"));
-
-		            ois2 = new ObjectInputStream(bis2);
-		            
-		            ois2.close();
-		            solutions = (Map<Maze3d, Solution<Position>>)ois2.readObject();
-		            }
-		        }        
-				}
+		        	byte[] dataMaze = (byte[]) rs.getObject(1);
+		        	byte[] dataSolution = (byte[]) rs.getObject(2);
+		        	ByteArrayInputStream baisMaze = new ByteArrayInputStream(dataMaze);
+		        	ByteArrayInputStream baisSolution = new ByteArrayInputStream(dataSolution);
+		        	ObjectInputStream ois = new ObjectInputStream(baisMaze);
+		        	mazes = (Map<String, Maze3d>)ois.readObject();
+		        	ois = new ObjectInputStream(baisSolution);
+		        	solutions = (Map<Maze3d, Solution<Position>>)ois.readObject();
+		        }
+			}
 				catch (Exception e){
-					e.printStackTrace();
+					System.err.println("SQL Error");
+			        System.err.println(e.getMessage()); 
 				}
 			}
 		}

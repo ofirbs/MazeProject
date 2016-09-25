@@ -190,6 +190,20 @@ public class MazeWindow extends BaseWindow implements View {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
+		Button btnSave = new Button(buttons, SWT.PUSH);
+		btnSave.setText("Save maze");
+		
+		btnSave.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				update("save_solutions");
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
 		
 		mazeDisplay = new MazeDisplay(shell, SWT.BORDER, lblCurrentFloor);
 		mazeDisplay.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
