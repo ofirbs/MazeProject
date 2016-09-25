@@ -11,7 +11,7 @@
    <string>DFS</string>
   </void>
   <void property="typeOfUI">
-   <string>GUI</string>
+   <string>console</string>
   </void>
   <void property="saveMethod">
    <string>ZIP</string>

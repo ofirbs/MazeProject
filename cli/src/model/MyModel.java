@@ -361,12 +361,12 @@ public class MyModel extends Observable implements Model {
 	
 	public void saveSolutions(){
 		switch(saveMethod){
-		case ("ZIP"):{
-			ObjectOutputStream oos = null;
+		case "ZIP":
+			ObjectOutputStream oosZip = null;
 			try {
-			    oos = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
-				oos.writeObject(mazes);
-				oos.writeObject(solutions);			
+			    oosZip = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream("solutions.dat")));
+				oosZip.writeObject(mazes);
+				oosZip.writeObject(solutions);			
 				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -374,16 +374,17 @@ public class MyModel extends Observable implements Model {
 				e.printStackTrace();
 			} finally {
 				try {
-					oos.close();
+					oosZip.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			}
-		case ("SQL"):{
+			break;
+		case "SQL":
 			try{
 				String user = "root";
 				String pass = "";
+				String dbName = "solutions";
 				ByteArrayOutputStream baosMaze = new ByteArrayOutputStream();
 				ByteArrayOutputStream baosSolution = new ByteArrayOutputStream();
 				ObjectOutputStream oos = new ObjectOutputStream(baosMaze);
@@ -393,7 +394,7 @@ public class MyModel extends Observable implements Model {
 				oos = new ObjectOutputStream(baosSolution);
 				oos.writeObject(solutions);
 				byte[] dataSolution = baosSolution.toByteArray();
-				String url = "jdbc:mysql://localhost:3306/test";
+				String url = "jdbc:mysql://localhost:3306/"+dbName;
 		        Connection conn = DriverManager.getConnection(url,user,pass); 
 		        Statement stmt = conn.createStatement();
 		        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS Solutions(mazes BLOB, solutions BLOB)");
@@ -407,24 +408,25 @@ public class MyModel extends Observable implements Model {
 			catch (Exception e) { 
 	        System.err.println("SQL Error");
 	        System.err.println(e.getMessage()); 
-	     			}
-				}
+	     				}
+			break;
+				
 		}
 	}
 	
 	public void loadSolutions(){
 		switch(this.saveMethod){
-		case ("ZIP"):{
+		case "ZIP":
 			File file = new File("solutions.dat");
 			if (!file.exists())
 				return;
 			
-			ObjectInputStream ois = null;
+			ObjectInputStream oisZip = null;
 			
 			try {
-				ois = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
-				mazes = (Map<String, Maze3d>)ois.readObject();
-				solutions = (Map<Maze3d, Solution<Position>>)ois.readObject();		
+				oisZip = new ObjectInputStream(new GZIPInputStream(new FileInputStream("solutions.dat")));
+				mazes = (Map<String, Maze3d>)oisZip.readObject();
+				solutions = (Map<Maze3d, Solution<Position>>)oisZip.readObject();		
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -433,17 +435,18 @@ public class MyModel extends Observable implements Model {
 				e.printStackTrace();
 			} finally{
 				try {
-					ois.close();
+					oisZip.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			}
-		case ("SQL"):{
+			
+		case "SQL":
 			try{ 
 				String user = "root";
 				String pass = "";
-				String url = "jdbc:mysql://localhost:3306/test";
+				String dbName = "solutions";
+				String url = "jdbc:mysql://localhost:3306/"+dbName;
 		        Connection conn = DriverManager.getConnection(url,user,pass);
 		        String sql = "SELECT * FROM Solutions";
 		        PreparedStatement ps=conn.prepareStatement(sql);
@@ -451,23 +454,23 @@ public class MyModel extends Observable implements Model {
 		        ResultSet rs=ps.executeQuery();
 
 		        if(rs.next())
-		        {
-		        	byte[] dataMaze = (byte[]) rs.getObject(1);
-		        	byte[] dataSolution = (byte[]) rs.getObject(2);
-		        	ByteArrayInputStream baisMaze = new ByteArrayInputStream(dataMaze);
-		        	ByteArrayInputStream baisSolution = new ByteArrayInputStream(dataSolution);
-		        	ObjectInputStream ois = new ObjectInputStream(baisMaze);
-		        	mazes = (Map<String, Maze3d>)ois.readObject();
-		        	ois = new ObjectInputStream(baisSolution);
-		        	solutions = (Map<Maze3d, Solution<Position>>)ois.readObject();
-		        }
-			}
+		        	{
+			        	byte[] dataMaze = (byte[]) rs.getObject(1);
+			        	byte[] dataSolution = (byte[]) rs.getObject(2);
+			        	ByteArrayInputStream baisMaze = new ByteArrayInputStream(dataMaze);
+			        	ByteArrayInputStream baisSolution = new ByteArrayInputStream(dataSolution);
+			        	ObjectInputStream ois = new ObjectInputStream(baisMaze);
+			        	mazes = (Map<String, Maze3d>)ois.readObject();
+			        	ois = new ObjectInputStream(baisSolution);
+			        	solutions = (Map<Maze3d, Solution<Position>>)ois.readObject();
+		        	}
+				}
 				catch (Exception e){
 					System.err.println("SQL Error");
 			        System.err.println(e.getMessage()); 
 				}
+			break;
 			}
 		}
 		
 	}
-}
