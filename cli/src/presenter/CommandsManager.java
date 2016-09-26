@@ -63,6 +63,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 4) {
+				view.notify("Please enter 4 parameters: <name> <floors> <rows> <columns>");
+				return;
+			}
 			String name = args[0];
 			int floors = Integer.parseInt(args[1]);
 			int rows = Integer.parseInt(args[2]);
@@ -79,6 +83,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 1) {
+				view.notify("Please enter 1 parameter: <name>");
+				return;
+			}
 			String name = args[0];
 			if ( ! (model.isMazeExists(name)) ) {
 				view.notify("Maze " + name + " not found");
@@ -97,6 +105,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 1) {
+				view.notify("Please enter 1 parameter: <directory path>");
+				return;
+			}
 			File path = new File(args[0]);
 			if(path.exists()!= true)
 				view.notify("Direcotry not found.");
@@ -114,6 +126,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 3) {
+				view.notify("Please enter 3 parameters: <index> <x/y/z> <name>");
+				return;
+			}
 			String index = args[0];
 			String section = args[1];
 			String name = args[2];
@@ -164,6 +180,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 2) {
+				view.notify("Please enter 2 parameter: <name> <path>");
+				return;
+			}
 			String name = args[0];
 			
 			if ( ! (model.isMazeExists(name)) ) {
@@ -184,6 +204,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 2) {
+				view.notify("Please enter 2 parameters: <path> <name>");
+				return;
+			}
 			String path = args[0];
 			File file = new File(args[0]);
 			if(file.exists()!= true) {
@@ -207,7 +231,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
-			
+			if (args == null || args.length != 1) {
+				view.notify("Please enter 1 parameter: <name>");
+				return;
+			}
 			String name = args[0];
 			if ( ! (model.isMazeExists(name)) ) {
 				view.notify("Maze " + name + " not found");
@@ -225,6 +252,10 @@ public class CommandsManager {
 
 		@Override
 		public void doCommand(String[] args) {
+			if (args == null || args.length != 1) {
+				view.notify("Please enter 1 parameter: <name>");
+				return;
+			}
 			String name = args[0];
 			if ( ! (model.isMazeExists(name)) ) {
 				view.notify("Maze " + name + " not found");

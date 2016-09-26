@@ -58,6 +58,10 @@ public class CLI extends Observable {
 
 			@Override
 			public void run() {
+				out.println("Available commands: ");
+				out.println("------------------- ");
+				out.println("display, dir, display_cross_section, save_maze, load_maze, solve, display_solution,");
+				out.println("exit, new_properties, hint, save_solutions, load_solutions\n");
 				while (true) {
 			
 					out.println("Choose a command: ");

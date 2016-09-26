@@ -98,9 +98,9 @@ public abstract class Maze3dGeneratorBase implements Maze3dGenerator {
 		maze3d.setStartPosition(chooseRandomPosition(maze3d));
 		//make sure the goal is not the start
 		Position randomTempPosition = chooseRandomPosition(maze3d);
-		while(maze3d.getStartPosition() == randomTempPosition)
+		while(maze3d.getStartPosition().equals(randomTempPosition))
 			randomTempPosition = chooseRandomPosition(maze3d);
-		maze3d.setGoalPosition(chooseRandomPosition(maze3d));
+		maze3d.setGoalPosition(randomTempPosition);
 		return maze3d;
 	}
 }
