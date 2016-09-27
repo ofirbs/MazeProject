@@ -12,8 +12,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 
 import algorithms.mazeGenerators.Maze3d;
@@ -174,6 +176,15 @@ public class MazeWindow extends BaseWindow implements View {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
+		
+		//Close button functionality(top right red X)
+		shell.addListener(SWT.Close, new Listener(){
+	        public void handleEvent(Event event)
+	        {
+	        	update("exit");
+	        }
+	    });
+				
 		
 		//Properties button functionality
 		Button btnProperties = new Button(buttons, SWT.PUSH);

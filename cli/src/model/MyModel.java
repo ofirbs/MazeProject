@@ -331,6 +331,9 @@ public class MyModel extends Observable implements Model {
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
 	}
 	
+	/**
+	 * This method saves the current mazes and solutions maps into a file or SQL database, based on property saveMethod.
+	 */
 	public void saveSolutions(){
 		switch(saveMethod){
 		case "ZIP":
@@ -387,8 +390,11 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 	
+	/**
+	 * This method loads and replaces the mazes and solutions maps from a file or SQL, based on property saveMethod.
+	 */
 	public void loadSolutions(){
-		switch(this.saveMethod){
+		switch(saveMethod){
 		case "ZIP":
 			File file = new File("solutions.dat");
 			if (!file.exists())
