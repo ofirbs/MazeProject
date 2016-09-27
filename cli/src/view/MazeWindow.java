@@ -21,7 +21,12 @@ import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
 import algorithms.search.State;
 import properties.PropertiesLoader;
-
+/**
+ * <h1> The MazeWindow Class</h1>
+ * The main window which hold the maze display and buttons.<br>
+ * @author ofir and rom
+ *
+ */
 public class MazeWindow extends BaseWindow implements View {
 
 	private MazeDisplay mazeDisplay;
@@ -142,6 +147,7 @@ public class MazeWindow extends BaseWindow implements View {
 		Label lblBlank2 = new Label(buttons, SWT.NONE);
 		lblBlank2.setVisible(false);
 		
+		//sets the current floor label.
 		lblCurrentFloor = new Label(buttons, SWT.NONE);
 		lblCurrentFloor.setText("Current floor: " );
 		if(isMazeDisplayed)
@@ -169,6 +175,7 @@ public class MazeWindow extends BaseWindow implements View {
 			}
 		});
 		
+		//Properties button functionality
 		Button btnProperties = new Button(buttons, SWT.PUSH);
 		btnProperties.setText("Properties file");
 		
@@ -190,9 +197,11 @@ public class MazeWindow extends BaseWindow implements View {
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 			}
 		});
+		
 		Button btnSave = new Button(buttons, SWT.PUSH);
 		btnSave.setText("Save maze");
 		
+		//Save solutions button functionality
 		btnSave.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -243,15 +252,21 @@ public class MazeWindow extends BaseWindow implements View {
 	public void notifyMazeIsReady(String name) {
 		setIsMazeReady(true);
 	}
-
+	
+	/**
+	 * this method displays the generated maze. it creates a mazeDisplay object and configures it.
+	 * @param Maze3d maze
+	 */
 	@Override
 	public void displayMaze(Maze3d maze) {
 		mazeDisplay.setVisible(true);
 		mazeDisplay.configPaintListiner();
 		mazeDisplay.configKeyListiner();
 		mazeDisplay.setCharacter(maze.getStartPosition());
+		//sets the current floor data
 		mazeDisplay.setMaze2d(maze, mazeDisplay.getCharacter().getPos().x);
 		mazeDisplay.setGoal(maze.getGoalPosition());
+		//calculates the current floor
 		lblCurrentFloor.setText("Floor: " + Integer.toString(mazeDisplay.getCharacter().getPos().x + 1)+"/"+Integer.toString(maze.getFloors()));
 		lblCurrentFloor.setVisible(true);
 		mazeDisplay.initialize(maze);
@@ -282,7 +297,11 @@ public class MazeWindow extends BaseWindow implements View {
 		msg.setMessage("You Won!");
 		msg.open();
 	}
-
+	
+	/**
+	 * shows the solution for the maze. every half a second moves the characters towards the goal
+	 * @param Solution<Position> the solution
+	 */
 	@Override
 	public void displaySolution(Solution<Position> solution) {
 		MessageBox msg = new MessageBox(shell, SWT.OK);
@@ -327,6 +346,10 @@ public class MazeWindow extends BaseWindow implements View {
 		isSolutionReady=false;
 	}
 	
+	/**
+	 * shows the current hint for the maze. this will mark the way to the goal within this floor
+	 * @param Solution<Position> the solution
+	 */
 	public void hint(Solution<Position> solution) {
 		mazeDisplay.setIsHinted(true);
 		if (solution == null) {
@@ -340,6 +363,7 @@ public class MazeWindow extends BaseWindow implements View {
 		List<State<Position>> floorStates = new ArrayList<State<Position>>();
 		
 		int currIndex = 0;
+		//if the character is in the goal
 		if (currIndex == states.size() - 1) {
 			return;		
 		}
@@ -347,35 +371,24 @@ public class MazeWindow extends BaseWindow implements View {
 		State<Position> currState = states.get(currIndex);
 		State<Position> nextState = states.get(currIndex + 1);
 		
-		//if (!(nextState.getValue().x == mazeDisplay.getMaze().getFloors() - 1))
-		//{
+		//if the next cell is in the floor above, prints a relative message
 		if (currState.getValue().x == nextState.getValue().x - 1) {
 			MessageBox msg = new MessageBox(shell, SWT.OK);
 			msg.setMessage("Go Above");
 			msg.open();
 		}
-		//}
-		//if (!(currState.getValue().x == 0 ))
-		//{
+		
+		//if the next cell is in the floor below, prints a relative message
 		if (currState.getValue().x == nextState.getValue().x + 1) {
 			MessageBox msg = new MessageBox(shell, SWT.OK);
 			msg.setMessage("Go Below");
 			msg.open();
 		}
-		//}
 		
 		if( nextState.getValue().equals(mazeDisplay.getGoal().getPos()))
 			return;
-
 		
-		/*while (!(currState.equals(nextState))) {
-			mazeDisplay.getMaze().
-			currIndex++;
-			nextState = states.get(currIndex + 1);
-		}*/
-		
-		
-		
+		//cuts the states to this floor only
 		while ((currIndex != states.size() - 1) && (nextState.getValue().x == currState.getValue().x)) {
 			floorStates.add(nextState);
 			currIndex++;
@@ -384,6 +397,7 @@ public class MazeWindow extends BaseWindow implements View {
 			nextState = states.get(currIndex + 1);
 		} 
 		
+		//sends the current floors solution to mazeDisplay
 		mazeDisplay.setSolutionForHint(floorStates);
 		mazeDisplay.redraw();
 	}

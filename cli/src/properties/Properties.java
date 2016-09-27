@@ -1,21 +1,20 @@
 package properties;
 import java.io.Serializable;
 
+/**
+ * <h1> The Properties Class</h1>
+ * This class represents the properties file.<br>
+ * it hold all of the information needed for the client.
+ * @author ofir and rom
+ *
+ */
 public class Properties implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int numOfThreads;
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
 	private String typeOfUI;
 	private String saveMethod;
-	
-	public Properties() {
-		
-		
-	}
 			
 	public int getNumOfThreads() {
 		return numOfThreads;

@@ -9,7 +9,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
-
+/**
+ * <h1> The GenerateMazeWindow Class</h1>
+ * This class gets the necessary information to build a new maze.<br>
+ * It needs : a Name, Floors, Rows, Columns
+ * All fields must be filled and greater than 0.
+ * @author ofir and rom
+ *
+ */
 public class GenerateMazeWindow extends DialogWindow {
 	
 	private MazeWindow mazeWindow;
@@ -58,17 +65,20 @@ public class GenerateMazeWindow extends DialogWindow {
 		btnGenerateMaze.addSelectionListener(new SelectionListener() {
 			
 			@Override
-			public void widgetSelected(SelectionEvent arg0) {				
+			public void widgetSelected(SelectionEvent arg0) {	
+				
+				//ensures all the the fields have been filled.
 				String name = txtName.getText();
 				MessageBox msgError = new MessageBox(shell, SWT.ICON_WARNING);
-				if((name =="") || (txtFloors.getText()=="") || (txtRows.getText()=="") || (txtCols.getText()=="")) // check for empty fields
+				if((name =="") || (txtFloors.getText()=="") || (txtRows.getText()=="") || (txtCols.getText()==""))
 				{
 					
 					msgError.setMessage("All fields must be filled");
 					msgError.open();
 					
 				}
-				else if((Integer.parseInt(txtFloors.getText())<=0) || (Integer.parseInt(txtRows.getText())<=0) || (Integer.parseInt(txtCols.getText())<=0)) // check for negative maze dimensions
+				//ensures all the dimentions fields are greater than 0
+				else if((Integer.parseInt(txtFloors.getText())<=0) || (Integer.parseInt(txtRows.getText())<=0) || (Integer.parseInt(txtCols.getText())<=0)) 
 				{
 					msgError.setMessage("Maze dimensions must be greater than 0");
 					msgError.open();
@@ -78,8 +88,11 @@ public class GenerateMazeWindow extends DialogWindow {
 					int floors = Integer.parseInt(txtFloors.getText());
 					int rows = Integer.parseInt(txtRows.getText());
 					int cols = Integer.parseInt(txtCols.getText());
+					
 					mazeWindow.setIsMazeReady(false);
+					//send the generate maze command to the model
 					mazeWindow.update("generate_3d_maze "+name+" "+floors+" "+rows+" "+cols);
+					//waits until the maze is generated
 					while(!mazeWindow.getIsMazeReady()) {
 						try {
 							Thread.sleep(100);

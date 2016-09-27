@@ -144,7 +144,11 @@ public class MyModel extends Observable implements Model {
 	public int getCols(String name) {
 		return mazes.get(name).getCols();
 	}
-
+	
+	/**
+	 * checks if the maze exists in the mazes hash map.
+	 * @param name the mazes name
+	 */
 	@Override
 	public boolean isMazeExists(String name) {
 		if ( mazes.get(name) != null )
@@ -242,38 +246,6 @@ public class MyModel extends Observable implements Model {
 				e.printStackTrace();
 			}	
 	}
-	
-	/*class SolveMazeRunnable implements Runnable {
-
-		private String name;
-		private String alg;
-		private CommonSearcher<Position> solver;
-		public SolveMazeRunnable(String name, String alg) {
-			this.name = name;
-			this.alg = alg;
-		}
-		
-		@Override
-		public void run() {
-			switch (alg) {
-			case "DFS" :
-				solver = new BFS<Position>(); 
-				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
-				displayMessage("solution for " + name + " is ready");
-				break;
-						
-			case "BFS" : 
-				solver = new DFS<Position>(); 
-				solutions.put(mazes.get(name), solver.search( new MazeDomain(mazes.get(name))));
-				displayMessage("solution for " + name + " is ready");
-				break;
-			}
-		}
-		
-		public void terminate() {
-			solver.setDone(true);
-		}		
-	}*/
 	
 	/**
 	 * This method solves the selected maze with the selected solution method and pushes it into the Solution map

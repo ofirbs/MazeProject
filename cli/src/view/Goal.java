@@ -4,7 +4,12 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 
 import algorithms.mazeGenerators.Position;
-
+/**
+ * <h1> The Goal Class</h1>
+ * This class represents the goal position of the maze.<br>
+ * @author ofir and rom
+ *
+ */
 public class Goal {
 	private Position pos;
 	private Image img;

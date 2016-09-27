@@ -4,7 +4,13 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 
 import algorithms.mazeGenerators.Position;
-
+/**
+ * <h1> The Character Class</h1>
+ * This class represents the starting position for the maze.<br>
+ * it can move throughout the maze in its own. 
+ * @author ofir and rom
+ *
+ */
 public class Character {
 	private Position pos;
 	private Image img;
@@ -58,6 +64,11 @@ public class Character {
 		this.img = img;
 	}
 	
+	/**
+	 * checks if the given position is a wall.
+	 * @param pos
+	 * @return true if its a wall
+	 */
 	public boolean checkCollision(int pos){
 		if(pos!=0)
 			return true;

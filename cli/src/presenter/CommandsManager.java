@@ -265,6 +265,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that build a string and sends it to the view
+	 */
 	public class DisplayMessageCommand implements Command {
 
 		@Override
@@ -288,6 +291,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that notifies the view that the maze was built successfully
+	 */
 	public class MazeReadyCommand implements Command {
 
 		@Override
@@ -296,6 +302,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that notifies the view that the maze was solved successfully
+	 */
 	public class SolutionReadyCommand implements Command {
 
 		@Override
@@ -304,6 +313,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that configures the model properties
+	 */
 	public class NewPropertiesCommand implements Command {
 
 		@Override
@@ -313,6 +325,10 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that gets the solution for the maze from the model, 
+	 * and sends it to the view to show the current hint
+	 */
 	public class NewHintCommand implements Command {
 
 		@Override
@@ -321,6 +337,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that tells the model to saves all of the solutions
+	 */
 	public class NewSaveSolutionCommand implements Command {
 
 		@Override
@@ -329,6 +348,9 @@ public class CommandsManager {
 		}
 	}
 	
+	/**
+	 * Implements command interface, the hash map command that tells the model to load all of the solutions
+	 */
 	public class NewLoadSolutionCommand implements Command {
 
 		@Override

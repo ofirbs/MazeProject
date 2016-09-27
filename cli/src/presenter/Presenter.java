@@ -7,6 +7,13 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
+/**
+ * <h1> The Presenter Class</h1>
+ * This is the class of the presenter.<br>
+ * it observes changed from the view and model and send commands to each other.
+ * @author ofir and rom
+ *
+ */
 public class Presenter implements Observer {
 
 	private Model model;

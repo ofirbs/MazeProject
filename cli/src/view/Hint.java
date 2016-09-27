@@ -8,7 +8,13 @@ import org.eclipse.swt.graphics.Image;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
 import algorithms.search.State;
-
+/**
+ * <h1> The Hint Class</h1>
+ * This class represents the hint functionality for the maze.<br>
+ * It gets and draws the solution for the current floor only.
+ * @author ofir and rom
+ *
+ */
 public class Hint {
 	private Image img;
 	private List<State<Position>> solution;
@@ -36,26 +42,11 @@ public class Hint {
 			gc.drawImage(img, 0, 0, img.getBounds().width, img.getBounds().height, 
 					cellWidth * currState.getValue().z, cellHeight * currState.getValue().y, cellWidth, cellHeight);
 			index++;
+			//do not draw on the goal
 			if (index == solution.size())
 				return;
 			currState = solution.get(index);
 		}
-		
-		/*List<State<Position>> states = solution.getStates();
-		
-		State<Position> currState = solution.getStates().get(index);
-		State<Position> nextState = solution.getStates().get(++index);
-		Position currPos = currState.getValue();
-		Position nextPos = nextState.getValue();
-		
-		while ((index != states.size() - 1) && (nextPos.x == currPos.x)) {
-			gc.drawImage(img, 0, 0, img.getBounds().width, img.getBounds().height, 
-					cellWidth * nextPos.z, cellHeight * nextPos.y, cellWidth, cellHeight);
-			
-			index++;
-			nextState = solution.getStates().get(index);
-			nextPos = nextState.getValue();
-		}*/
 	}
 	
 }

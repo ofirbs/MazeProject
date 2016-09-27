@@ -16,30 +16,24 @@ public class Run {
 	public static void main(String[] args) {
 		
 		//Initialize Properties
-		int numOfThreads; // integer
-		String generateMazeAlgorithm; // GrowingTreeGenerator or SimpleMaze3dGenerator
-		String typeOfUI; // console or GUI
-		String solveMazeAlgorithm;
 		String path = "resources/properties.xml";
-		String saveMethod;
 		PropertiesLoader loader = new PropertiesLoader(path); 
+
+		int numOfThreads = loader.getProperties().getNumOfThreads(); // integer
+		String generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm(); // GrowingTreeGenerator or SimpleMaze3dGenerator
+		String typeOfUI = loader.getProperties().getTypeOfUI(); // console or GUI
+		String solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();	//BFS or DFS
+		String saveMethod = loader.getProperties().getSaveMethod(); //ZIP or SQL
+
 		
-		numOfThreads = loader.getProperties().getNumOfThreads();
-		generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm();
-		solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();;
-		typeOfUI = loader.getProperties().getTypeOfUI();
-		saveMethod = loader.getProperties().getSaveMethod();
-		
-		
-		
+		//Readers & Writers
 		InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader in = new BufferedReader(isr);
 		
         OutputStreamWriter osw = new OutputStreamWriter(System.out);
         PrintWriter out = new PrintWriter(osw);
-
-		
-		
+        
+        //initialize model with properties
 		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm,saveMethod);
 		
 
