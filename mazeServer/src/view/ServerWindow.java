@@ -7,6 +7,7 @@ import java.util.Date;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -70,8 +71,11 @@ public class ServerWindow extends BaseWindow implements View{
 	@Override
 	protected void initWidgets() {
 		
+		
+		
 		GridLayout grid = new GridLayout(1, false);
 		shell.setLayout(grid);
+		shell.setBackgroundImage(new Image(null, getClass().getClassLoader().getResourceAsStream("server.png")));
 		
 		
 		Composite log = new Composite(shell, SWT.NONE);
