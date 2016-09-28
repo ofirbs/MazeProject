@@ -1,4 +1,4 @@
-package mazeServer;
+package boot;
 
 import model.MyTcpIpServer;
 import properties.PropertiesLoader;
@@ -12,20 +12,19 @@ public class Run {
 		//Initialize Properties
 		int numOfThreads; // integer
 		int port;
-		String solveMazeAlgorithm;	//BFS or DFS
 		String path = "resources/properties.xml";
 		PropertiesLoader loader = new PropertiesLoader(path); 
 		
 		numOfThreads = loader.getProperties().getNumOfThreads();
 		port = loader.getProperties().getPort();;
-		solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();
 				
 				
-		MyTcpIpServer server = new MyTcpIpServer(port);
-		server.startServer(numOfThreads);
-		
-		
+		MyTcpIpServer server = new MyTcpIpServer(port, numOfThreads);
 		ServerWindow viewGUI= new ServerWindow();
+		
+		server.setServerWindow(viewGUI);
+		viewGUI.setMyTcpIpServer(server);
+		
 		viewGUI.start();
 	}
 }

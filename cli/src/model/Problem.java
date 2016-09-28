@@ -23,7 +23,7 @@ public class Problem implements Serializable{
 	public void setMaze(Maze3d maze) {
 		this.maze = maze;
 	}
-	
+
 	public String getAlgType() {
 		return algType;
 	}

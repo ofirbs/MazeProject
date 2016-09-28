@@ -9,7 +9,7 @@ import algorithms.search.Solution;
 /**
  * <h1> The View interface</h1>
  * This is the interface of the view object. <br>
- * The view object interacts with the user CLI.
+ * The view object interacts with the user.
  * @author ofir and rom
  *
  */

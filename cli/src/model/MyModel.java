@@ -259,29 +259,26 @@ public class MyModel extends Observable implements Model {
 			@Override
 			public Solution<Position> call() throws Exception {
 				
-				CommonSearcher<Position> solver;
 				Solution<Position> solution=null;
-				switch (solveMazeAlgorithm) {
-				case "DFS" :
-					solver = new BFS<Position>();
-					solution = solver.search( new MazeDomain(mazes.get(name)));
-					solutions.remove(mazes.get(name));
-					solutions.put(mazes.get(name), solution);
-					setChanged();
-					notifyObservers("solution_ready " + name);
-					break;
-							
-				case "BFS" : 
-					solver = new DFS<Position>(); 
-					solution = solver.search( new MazeDomain(mazes.get(name)));
-					solutions.remove(mazes.get(name));
-					solutions.put(mazes.get(name), solution);
-					setChanged();
-					notifyObservers("solution_ready " + name);
-					break;
+				
+				Problem problem = new Problem();
+				problem.setAlgType(solveMazeAlgorithm);
+				problem.setMaze(mazes.get(name));
+				
+				NetworkHandler handler = new NetworkHandler();		
+				
+				try {
+					solution = handler.sendMaze(problem);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-								
+				
+				solutions.remove(mazes.get(name));
+				solutions.put(mazes.get(name), solution);
 				setChanged();
+				notifyObservers("solution_ready " + name);
+				
 				return solution;
 			}	
 		});

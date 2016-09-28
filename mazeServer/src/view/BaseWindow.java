@@ -4,7 +4,13 @@ import java.util.Observable;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
+/**
+ * <h1> The BaseWindow Abstract Class</h1>
+ * This class implements the basic functionality for any window.<br>
+ * It starts that dispatches the GUI jobs.
+ * @author ofir and rom
+ *
+ */
 public abstract class BaseWindow extends Observable {
 	protected Display display;
 	protected Shell shell;	
@@ -14,7 +20,7 @@ public abstract class BaseWindow extends Observable {
 	public void start() {
 		display = new Display();
 		shell = new Shell(display);
-		shell.setSize(400, 400);
+		shell.setSize(700, 500);
 		
 		initWidgets();
 		shell.open();		
