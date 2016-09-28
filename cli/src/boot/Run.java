@@ -23,6 +23,8 @@ public class Run {
 		String typeOfUI = loader.getProperties().getTypeOfUI(); // console or GUI
 		String solveMazeAlgorithm = loader.getProperties().getSolveMazeAlgorithm();	//BFS or DFS
 		String saveMethod = loader.getProperties().getSaveMethod(); //ZIP or SQL
+		String ip = loader.getProperties().getIp(); //Server's IP
+		int port = loader.getProperties().getPort(); //Server's port
 
 		
 		//Readers & Writers
@@ -33,7 +35,7 @@ public class Run {
         PrintWriter out = new PrintWriter(osw);
         
         //initialize model with properties
-		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm,saveMethod);
+		MyModel model = new MyModel(numOfThreads, generateMazeAlgorithm, solveMazeAlgorithm, saveMethod, ip, port);
 		
 
 		switch (typeOfUI) {

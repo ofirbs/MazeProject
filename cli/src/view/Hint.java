@@ -6,7 +6,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 
 import algorithms.mazeGenerators.Position;
-import algorithms.search.Solution;
 import algorithms.search.State;
 /**
  * <h1> The Hint Class</h1>

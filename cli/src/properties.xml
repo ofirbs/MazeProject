@@ -16,5 +16,11 @@
   <void property="saveMethod">
    <string>ZIP</string>
   </void>
+  <void property="ip">
+   <string>localhost</string>
+  </void>
+  <void property="port">
+   <int>8000</int>
+  </void>
  </object>
 </java>

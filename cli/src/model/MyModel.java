@@ -25,16 +25,12 @@ import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import algorithms.demo.MazeDomain;
 import algorithms.mazeGenerators.GrowingTreeGenerator;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Maze3dGeneratorBase;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.RandomNeighborChooser;
 import algorithms.mazeGenerators.SimpleMaze3dGenerator;
-import algorithms.search.BFS;
-import algorithms.search.CommonSearcher;
-import algorithms.search.DFS;
 import algorithms.search.Solution;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
@@ -55,6 +51,8 @@ public class MyModel extends Observable implements Model {
 	private String generateMazeAlgorithm;
 	private String solveMazeAlgorithm;
 	private String saveMethod;
+	private String ip;
+	private int port;
 
 	
 	/**
@@ -62,11 +60,13 @@ public class MyModel extends Observable implements Model {
 	 * @param controller
 	 * @param cli
 	 */
-	public MyModel(int numOfThreads, String generateMazeAlgorithm, String solveMazeAlgorithm, String saveMethod) {
+	public MyModel(int numOfThreads, String generateMazeAlgorithm, String solveMazeAlgorithm, String saveMethod, String ip,int port) {
 		super();
 		this.generateMazeAlgorithm = generateMazeAlgorithm;
 		this.solveMazeAlgorithm = solveMazeAlgorithm;
 		this.saveMethod = saveMethod;
+		this.ip = ip;
+		this.port = port;
 		executor = Executors.newFixedThreadPool(numOfThreads);
 	}
 	
@@ -265,7 +265,7 @@ public class MyModel extends Observable implements Model {
 				problem.setAlgType(solveMazeAlgorithm);
 				problem.setMaze(mazes.get(name));
 				
-				NetworkHandler handler = new NetworkHandler();		
+				NetworkHandler handler = new NetworkHandler(ip,port);		
 				
 				try {
 					solution = handler.sendMaze(problem);

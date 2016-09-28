@@ -15,7 +15,21 @@ public class Properties implements Serializable {
 	private String solveMazeAlgorithm;
 	private String typeOfUI;
 	private String saveMethod;
+	private String ip;
+	private int port;
 			
+	public int getPort() {
+		return port;
+	}
+	public void setPort(int port) {
+		this.port = port;
+	}
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	public int getNumOfThreads() {
 		return numOfThreads;
 	}
