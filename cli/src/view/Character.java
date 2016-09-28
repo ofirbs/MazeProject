@@ -16,7 +16,7 @@ public class Character {
 	private Image img;
 	
 	public Character() {
-		img = new Image(null, "images/character.png");
+		img = new Image(null, getClass().getClassLoader().getResourceAsStream("character.png"));
 	}
 
 	public Position getPos() {

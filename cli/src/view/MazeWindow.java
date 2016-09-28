@@ -199,8 +199,8 @@ public class MazeWindow extends BaseWindow implements View {
 				dialog.setFilterExtensions(new String[] { "*.xml"}); 
 				String selectedFile = dialog.open();
 				if(selectedFile != null){
-				PropertiesLoader loader = new PropertiesLoader(selectedFile);
-				update("new_properties "+loader.getProperties().getGenerateMazeAlgorithm()+" "+loader.getProperties().getSolveMazeAlgorithm());
+					PropertiesLoader loader = new PropertiesLoader(selectedFile);
+					update("new_properties "+loader.getProperties().getGenerateMazeAlgorithm()+" "+loader.getProperties().getSolveMazeAlgorithm());
 				}
 			}
 			

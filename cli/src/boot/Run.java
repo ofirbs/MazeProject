@@ -16,8 +16,7 @@ public class Run {
 	public static void main(String[] args) {
 		
 		//Initialize Properties
-		String path = "resources/properties.xml";
-		PropertiesLoader loader = new PropertiesLoader(path); 
+		PropertiesLoader loader = new PropertiesLoader(); 
 
 		int numOfThreads = loader.getProperties().getNumOfThreads(); // integer
 		String generateMazeAlgorithm = loader.getProperties().getGenerateMazeAlgorithm(); // GrowingTreeGenerator or SimpleMaze3dGenerator

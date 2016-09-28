@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.Label;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
-import algorithms.search.Solution;
 import algorithms.search.State;
 /**
  * <h1> The MazeDisplay Class</h1>
@@ -40,11 +39,10 @@ public class MazeDisplay extends Canvas {
 	private PaintListener ps;
 	private KeyListener keyListener;
 	private Boolean isHinted = false;
-	private Image border = new Image(null, "images/border1.png");;
-	private Image upArrow = new Image(null, "images/upArrow.png");;
-	private Image downArrow = new Image(null, "images/downArrow.png");;
-	private Image upDownArrow = new Image(null, "images/upDownArrow.png");;
-
+	private Image border = new Image(null, getClass().getClassLoader().getResourceAsStream("border1.png"));
+	private Image upArrow = new Image(null, getClass().getClassLoader().getResourceAsStream("upArrow.png"));
+	private Image downArrow = new Image(null, getClass().getClassLoader().getResourceAsStream("downArrow.png"));
+	private Image upDownArrow = new Image(null, getClass().getClassLoader().getResourceAsStream("upDownArrow.png"));
 
 	public Character getCharacter() {
 		return character;
@@ -176,7 +174,7 @@ public class MazeDisplay extends Canvas {
 	
 	public MazeDisplay(Composite parent, int style, Label lblCurrentFloor) {
 		super(parent, style);
-		this.setBackgroundImage(new Image(null, "images/start.png"));
+		this.setBackgroundImage(new Image(null, getClass().getClassLoader().getResourceAsStream("start.png")));
 		
 		character = new Character();
 		goal = new Goal();
@@ -214,7 +212,7 @@ public class MazeDisplay extends Canvas {
 			this.maze = null;
 			this.mazeData = null;
 			this.mazeName = null;
-			this.setBackgroundImage(new Image(null,"images/end.png"));
+			this.setBackgroundImage(new Image(null,getClass().getClassLoader().getResourceAsStream("end.png")));
 		}
 	}
 	
@@ -223,7 +221,7 @@ public class MazeDisplay extends Canvas {
 	 * @param pos the position of the current characters position
 	 */
 	public void moveLeft(Position pos) {
-		character.setImg(new Image(null,"images/characterL.png"));
+		character.setImg(new Image(null,getClass().getClassLoader().getResourceAsStream("characterL.png")));
 		redraw();
 		if (pos.z <= 0)
 			return;
@@ -239,7 +237,7 @@ public class MazeDisplay extends Canvas {
 	 * @param pos the position of the current characters position
 	 */
 	public void moveRight(Position pos) {
-		character.setImg(new Image(null,"images/character.png"));
+		character.setImg(new Image(null,getClass().getClassLoader().getResourceAsStream("character.png")));
 		redraw();
 		if (pos.z >= cols-1)
 			return;
@@ -255,7 +253,7 @@ public class MazeDisplay extends Canvas {
 	 * @param pos the position of the current characters position
 	 */
 	public void moveUp(Position pos) {
-		character.setImg(new Image(null,"images/characterU.png"));
+		character.setImg(new Image(null,getClass().getClassLoader().getResourceAsStream("characterU.png")));
 		redraw();
 		if (pos.y <= 0)
 			return;
@@ -271,7 +269,7 @@ public class MazeDisplay extends Canvas {
 	 * @param pos the position of the current characters position
 	 */
 	public void moveDown(Position pos) {
-		character.setImg(new Image(null,"images/characterD.png"));
+		character.setImg(new Image(null,getClass().getClassLoader().getResourceAsStream("characterD.png")));
 		redraw();
 		if (pos.y >= rows-1)
 			return;

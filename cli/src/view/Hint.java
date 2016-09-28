@@ -20,7 +20,7 @@ public class Hint {
 	private List<State<Position>> solution;
 	
 	public Hint() {
-		img = new Image(null, "images/hint.png");
+		img = new Image(null, getClass().getClassLoader().getResourceAsStream("hint.png"));
 	}
 	
 	

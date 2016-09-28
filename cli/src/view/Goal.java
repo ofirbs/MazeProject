@@ -15,7 +15,7 @@ public class Goal {
 	private Image img;
 	
 	public Goal() {
-		img = new Image(null, "images/goal.png");
+		img = new Image(null, getClass().getClassLoader().getResourceAsStream("goal.png"));
 	}
 
 	public Position getPos() {
