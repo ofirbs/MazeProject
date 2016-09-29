@@ -12,8 +12,7 @@ public class Run {
 		//Initialize Properties
 		int numOfThreads; // integer
 		int port;
-		String path = "resources/properties.xml";
-		PropertiesLoader loader = new PropertiesLoader(path); 
+		PropertiesLoader loader = new PropertiesLoader(); 
 		
 		numOfThreads = loader.getProperties().getNumOfThreads();
 		port = loader.getProperties().getPort();;

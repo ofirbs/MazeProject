@@ -19,14 +19,21 @@ public class PropertiesLoader {
 	}
 	
 	public PropertiesLoader(String path) 
+	 {
+	  try {
+	   XMLDecoder decoder = new XMLDecoder(new FileInputStream(path));
+	   properties = (Properties)decoder.readObject();
+	   decoder.close();
+	  } catch (FileNotFoundException e) {
+	   e.printStackTrace();
+	  }
+	 }
+	
+	public PropertiesLoader() 
 	{
-		try {
-			XMLDecoder decoder = new XMLDecoder(new FileInputStream(path));
-			properties = (Properties)decoder.readObject();
-			decoder.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		XMLDecoder decoder = new XMLDecoder(getClass().getClassLoader().getResourceAsStream("properties.xml"));
+		properties = (Properties)decoder.readObject();
+		decoder.close();
 	}
 	
 	public static PropertiesLoader getInstance(String path) {
